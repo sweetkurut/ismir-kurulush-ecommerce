@@ -1,0 +1,64 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+@font-face {
+    font-family: "OpenSans-Regular";
+    src: url("../../../shared/assets/fonts/opensans/OpenSans-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "OpenSans-Medium";
+    src: url("../../../shared/assets/fonts/opensans/OpenSans-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: "OpenSans-SemiBold";
+    src: url("../../../shared/assets/fonts/opensans/OpenSans-SemiBold.ttf") format("truetype");
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "OpenSans-Bold";
+    src: url("../../../shared/assets/fonts/opensans/OpenSans-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+}
+
+:root {
+    /* Шрифты */
+    --font-opensans-r: "OpenSans-Regular";
+    --font-opensans-m: "OpenSans-Medium";
+    --font-opensans-sm: "OpenSans-SemiBold";
+    --font-muller-b: "OpenSans-Bold";
+    --font-number: "Roboto", serif;
+
+    /* Размер шрифта для заголовков (L - Large) */
+    --font-size-L: clamp(28px, 3vw, 64px);
+    --font-line-L: clamp(33px, 3vw, 68px);
+
+    /* Размер шрифта для названия карточек (M - Medium) */
+    --font-size-M: clamp(16px, 1vw, 20px);
+    --font-line-M: clamp(14px, 3vw, 29px);
+    --font-M: var(--font-size-M) / var(--font-line-M) var(--font-opensans-r);
+
+    /* Размер шрифта для описания (S - Small) */
+    --font-size-S: clamp(14px, 1vw, 18px);
+    --font-line-S: clamp(10px, 2vw, 28px);
+    --font-S: var(--font-size-S) / var(--font-line-S) var(--font-opensans-r);
+
+    /* Размеры */
+    --container-width: 85%;
+
+    /* Цвета */
+    --color-black: #0a0f1a;
+    --color-hover: #242a43;
+    --color-bg-secondary: #131b2a;
+    --color-white: #fff;
+    --color-secondary: #ea961c;
+    --color-desc: #acacac;
+    --color-card-bg: #252f46;
+    --color-dark-gray: #606060;
+}

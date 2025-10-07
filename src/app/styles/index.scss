@@ -1,0 +1,78 @@
+@use "reset";
+@use "variables/global";
+
+body {
+    color: var(--color-black);
+    font-family: var(--font-opensans-r);
+    // background: var(--color-bg-secondary);
+
+    &::-webkit-scrollbar {
+        width: 15px;
+        background: #424242;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #b9b9b9;
+        border-radius: 10px;
+    }
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content-page {
+    flex-grow: 1;
+}
+
+.container {
+    width: var(--container-width);
+    margin: 0 auto;
+
+    @media screen and (min-width: 1921px) {
+        max-width: 1400px;
+    }
+
+    @media screen and (max-width: 960px) {
+        width: 95%;
+    }
+}
+
+.title {
+    font: 30px var(--font-opensans-r);
+    color: var(--color-white);
+    position: relative;
+    padding-left: 10px;
+
+    &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        top: 0;
+        height: 100%;
+        width: 4px;
+        border-radius: 5px;
+        background-color: var(--color-secondary);
+    }
+
+    @media (max-width: 1600px) {
+        font-size: 20px;
+    }
+}
+
+.null {
+    font: 20px var(--font-opensans-r);
+    color: var(--color-desc);
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    font: 20px var(--font-opensans-r);
+    color: var(--color-white);
+}

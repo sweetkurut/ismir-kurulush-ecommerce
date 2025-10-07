@@ -1,0 +1,18 @@
+.wrapper {
+    & li {
+        font: 15px var(--font-montserrat-r) !important;
+        color: var(--color-desc);
+    }
+
+    & a {
+        font: var(--font-muller-r) !important;
+        color: var(--color-desc);
+    }
+
+    & li:last-child {
+        & p {
+            font: var(--font-muller-r) !important;
+            color: var(--color-secondary);
+        }
+    }
+}

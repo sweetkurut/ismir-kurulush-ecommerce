@@ -1,0 +1,27 @@
+.inputWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--color-white);
+    padding: 0 10px;
+    border-radius: 12px;
+
+    & .Input {
+        width: 100%;
+        padding: 20px 0;
+        font: 16px var(--font-muller-r);
+        color: #000;
+        background: transparent;
+
+        @media (max-width:1460px) {
+            padding: 5px 0;
+        }
+    }
+
+    & .iconWrapper {
+        right: 15px;
+        pointer-events: none;
+        width: 20px;
+        height: 20px;
+    }
+}

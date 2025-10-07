@@ -1,0 +1,175 @@
+.Header {
+    z-index: 999;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: var(--color-white);
+    // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    font-family: var(--font-opensans-r);
+    border-bottom: 1px solid var(--border-support);
+}
+
+.TopBar {
+    background-color: var(--color-bg-secondary);
+    font-size: 14px;
+    color: var(--text-gray);
+}
+
+.TopBarContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-support);
+
+    .info {
+        display: flex;
+        gap: 20px;
+    }
+
+    .contact a {
+        color: var(--color-black);
+        text-decoration: none;
+        font-weight: 600;
+    }
+}
+
+.MainBar {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border-support);
+}
+
+.MainBarContent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.logoLink {
+    text-decoration: none;
+    color: var(--color-black);
+}
+
+.logoText {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+
+    .logoIsmir {
+        color: red;
+    }
+}
+
+.searchContainer {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    max-width: 600px;
+    height: 40px;
+    background-color: var(--color-white);
+    border: 1px solid var(--border-support);
+    border-radius: 10px;
+    padding: 0 10px;
+}
+
+.searchIcon {
+    color: #6b7280;
+    font-size: 12px;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.searchInput {
+    flex-grow: 1;
+    height: 100%;
+    padding: 0;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #333;
+    font-family: var(--font-opensans-r);
+
+    &::placeholder {
+        color: #999;
+    }
+}
+
+.actionIcons {
+    display: flex;
+    gap: 15px;
+}
+
+.actionIconLink {
+    position: relative;
+    color: var(--color-black);
+    font-size: 24px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s ease;
+
+    &:hover {
+        color: red;
+    }
+}
+
+.badge {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: red;
+    color: var(--color-white);
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 50%;
+    padding: 2px 5px;
+    line-height: 1;
+    min-width: 18px;
+    text-align: center;
+    border: 1px solid var(--color-white);
+}
+
+.MenuBar {
+    background-color: var(--color-white);
+}
+
+.MenuContent {
+    padding: 15px 0 18px;
+}
+
+.navigationList {
+    display: flex;
+    gap: 40px;
+}
+
+.menuItem {
+    color: var(--color-black);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 5px 0;
+    position: relative;
+
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0%;
+        height: 2px;
+        background-color: red;
+        transition: width 0.3s ease;
+    }
+
+    &:hover {
+        color: red;
+    }
+
+    &__active {
+        color: red;
+        &::after {
+            width: 100%;
+        }
+    }
+}

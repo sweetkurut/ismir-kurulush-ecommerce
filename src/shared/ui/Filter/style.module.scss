@@ -1,0 +1,190 @@
+.filtersContainer {
+    width: 300px;
+    border: 1px solid var(--border-category);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    background-color: white;
+    padding: 20px 0;
+    font-family: var(--font-opensans-r);
+}
+
+.filtersHeader {
+    display: flex;
+    align-items: center;
+    padding: 0 20px 15px;
+    border-bottom: 1px solid var(--border-category);
+    margin-bottom: 20px;
+
+    .iconFilter {
+        font-size: 20px;
+        margin-right: 10px;
+        color: var(--color-orange-sum);
+        transform: rotate(90deg);
+    }
+
+    h2 {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0;
+        color: var(--color-black);
+    }
+}
+
+.filterSection {
+    padding: 0 20px;
+    margin-bottom: 25px;
+
+    h3 {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: var(--color-black);
+    }
+}
+
+// --- Price Slider Styling ---
+.priceValue {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-orange-sum);
+    margin-bottom: 15px;
+}
+
+.priceSliderContainer {
+    margin-bottom: 10px;
+}
+
+.priceRangeSlider {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    margin: 10px 0;
+    cursor: pointer;
+    background: var(--color-orange-sum);
+
+    // Thumb (handle) styling
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--color-orange-sum);
+        border: 2px solid white;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+        cursor: grab;
+    }
+
+    &::-moz-range-thumb {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--color-orange-sum);
+        border: 2px solid white;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+        cursor: grab;
+    }
+}
+
+.priceLabels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: var(--text-gray);
+    margin-top: 5px;
+}
+
+.categoryItem {
+    margin-bottom: 12px;
+}
+
+.customRadio {
+    display: block;
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 20px;
+    user-select: none;
+    color: var(--color-black);
+
+    input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .radioCheckmark {
+        position: absolute;
+        top: 2px;
+        left: 0;
+        height: 16px;
+        width: 16px;
+        background-color: white;
+        border: 1px solid var(--border-category);
+        border-radius: 50%;
+        transition: all 0.2s ease;
+    }
+
+    input:checked ~ .radioCheckmark {
+        border-color: var(--color-orange-sum);
+        border-width: 2px;
+    }
+
+    .radioCheckmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+        top: 3px;
+        left: 3px;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--color-orange-sum);
+    }
+
+    input:checked ~ .radioCheckmark:after {
+        display: block;
+    }
+}
+
+.actionButtons {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-top: 1px solid var(--border-category);
+    margin-top: 20px;
+
+    button {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .applyButton {
+        font-family: var(--font-opensans-m);
+        background-color: var(--color-orange-sum);
+        color: white;
+        border: none;
+        &:hover {
+            background-color: darken(#f15027, 8%);
+        }
+    }
+
+    .resetButton {
+        font-family: var(--font-opensans-m);
+        background-color: white;
+        color: var(--color-orange-sum);
+        border: 2px solid var(--color-orange-sum);
+        &:hover {
+            background-color: #fff7f5;
+        }
+    }
+}

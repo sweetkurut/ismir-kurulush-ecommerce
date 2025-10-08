@@ -1,0 +1,87 @@
+.wrapper {
+    padding: 80px 0;
+
+    .container {
+        max-width: var(--container-width);
+        margin: 0 auto;
+        padding: 0 15px;
+        text-align: center;
+    }
+}
+
+.title {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    margin-bottom: 30px;
+}
+
+.text_block {
+    max-width: 600px;
+    margin: 0 auto 50px auto;
+}
+
+.text {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-gray);
+
+    .company_name {
+        font-weight: 700;
+        color: var(--color-black);
+    }
+}
+
+.stats_grid {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+
+    @media (max-width: 992px) {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+}
+
+.stat_card {
+    flex: 1 1 200px;
+    max-width: 25%;
+    border: 1px solid var(--border-category);
+    border-radius: 8px;
+    padding: 30px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+    @media (max-width: 576px) {
+        max-width: 100%;
+    }
+}
+
+.icon_wrap {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+    border: 1px solid var(--color-primary);
+    border-radius: 50%;
+    background: #f970151a;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+}
+
+.stat_value {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--red);
+    margin-bottom: 5px;
+}
+
+.stat_desc {
+    font-size: 14px;
+    color: var(--text-gray);
+    line-height: 1.4;
+}

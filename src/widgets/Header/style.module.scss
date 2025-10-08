@@ -1,7 +1,7 @@
 .Header {
-    z-index: 999;
-    position: sticky;
-    top: 0;
+    // z-index: 999;
+    // position: sticky;
+    // top: 0;
     width: 100%;
     background-color: var(--color-white);
     // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -109,9 +109,9 @@
     align-items: center;
     transition: color 0.2s ease;
 
-    &:hover {
-        color: red;
-    }
+    // &:hover {
+    //     color: red;
+    // }
 }
 
 .badge {
@@ -145,29 +145,19 @@
 
 .menuItem {
     color: var(--color-black);
-    text-decoration: none;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 400;
     padding: 5px 0;
     position: relative;
-
-    &::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0%;
-        height: 2px;
-        background-color: red;
-        transition: width 0.3s ease;
-    }
+    color: inherit;
 
     &:hover {
-        color: red;
+        color: var(--color-black);
     }
 
     &__active {
-        color: red;
+        color: var(--color-black);
+        font-weight: 600;
         &::after {
             width: 100%;
         }

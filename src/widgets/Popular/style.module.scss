@@ -1,0 +1,52 @@
+.wrapper {
+    background: var(--color-bg-secondary);
+
+    .container {
+        max-width: var(--container-width);
+        margin: 0 auto;
+
+        .titles_btn {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 50px;
+            margin: 10px;
+
+            .title {
+                font-size: 24px;
+                color: var(--color-black);
+                font-weight: 400;
+            }
+
+            .btn_all {
+                border: 2px solid #f15027;
+                background: none;
+                padding: 10px;
+                border-radius: 8px;
+                font-size: 14px;
+                font-family: var(--font-opensans-sm);
+                color: var(--red);
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                transition: background-color 0.2s ease;
+
+                .icon {
+                    font-size: 14px;
+                }
+
+                &:hover {
+                    background-color: darken(#f14f2717, 4%);
+                }
+            }
+        }
+
+        .cards_grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+            gap: 25px;
+            padding: 10px;
+            padding-top: 32px;
+            padding-bottom: 50px;
+        }
+    }
+}

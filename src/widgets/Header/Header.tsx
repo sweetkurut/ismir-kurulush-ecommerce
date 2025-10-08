@@ -1,4 +1,3 @@
-// Header.tsx
 import { classNames } from "@/shared/lib/classNames/classNames";
 import s from "./style.module.scss";
 import { AppLink } from "@/shared/ui/AppLink/AppLink";
@@ -6,6 +5,8 @@ import { AppLink } from "@/shared/ui/AppLink/AppLink";
 import { FaSearch } from "react-icons/fa";
 import { CiHeart, CiUser } from "react-icons/ci";
 import { SlBasket } from "react-icons/sl";
+
+import logo from "@/shared/assets/images/logo.svg";
 
 interface HeaderProps {
     className?: string;
@@ -37,9 +38,7 @@ export const Header = ({ className }: HeaderProps) => {
             <div className={s.MainBar}>
                 <div className={classNames(s.MainBarContent, {}, ["container"])}>
                     <AppLink to={"/"} className={s.logoLink}>
-                        <h4 className={s.logoText}>
-                            <span className={s.logoIsmir}>ISMIR KURULUSH</span>
-                        </h4>
+                        <img src={logo} alt="logo" />
                     </AppLink>
 
                     <div className={s.searchContainer}>

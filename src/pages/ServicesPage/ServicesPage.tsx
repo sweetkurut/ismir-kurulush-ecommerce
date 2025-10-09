@@ -10,6 +10,7 @@ import icon6 from "@/shared/assets/icons/service6.svg";
 import icon7 from "@/shared/assets/icons/service7.svg";
 import icon8 from "@/shared/assets/icons/service8.svg";
 import icon9 from "@/shared/assets/icons/service9.svg";
+import { Consultation } from "@/widgets/Consultation/Consultation";
 
 const services = [
     {
@@ -81,6 +82,8 @@ export const ServicesPage = () => {
                     ))}
                 </div>
             </div>
+
+            <Consultation />
         </div>
     );
 };

@@ -1,5 +1,5 @@
+import { FiArrowRight } from "react-icons/fi";
 import s from "./style.module.scss";
-import arrowRight from "@/shared/assets/icons/arrow-right.svg";
 
 interface ServiceCardProps {
     icon: string;
@@ -18,7 +18,7 @@ export const ServiceCard = ({ icon, title, description, onClick }: ServiceCardPr
             <p className={s.desc}>{description}</p>
             <button className={s.btn}>
                 Подробнее
-                {/* <img src={arrowRight} alt="arrow" /> */}
+                <FiArrowRight className={s.arrow} />
             </button>
         </div>
     );

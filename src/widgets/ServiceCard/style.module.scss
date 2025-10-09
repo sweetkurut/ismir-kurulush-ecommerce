@@ -48,21 +48,21 @@
     .btn {
         display: inline-flex;
         align-items: center;
-        gap: 6px;
+        gap: 10px;
         font-weight: 600;
         color: #1b1b1b;
         background: none;
         border: none;
         cursor: pointer;
         transition: color 0.2s ease;
+        font-family: var(--font-opensans-r);
 
         &:hover {
             color: #f87017;
         }
 
-        img {
-            width: 16px;
-            height: 16px;
+        .arrow {
+            font-size: 15px;
         }
     }
 }

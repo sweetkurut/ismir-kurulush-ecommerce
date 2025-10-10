@@ -1,6 +1,7 @@
 import { BasketPage } from "@/pages/BasketPage/BasketPage";
 import { CatalogPage } from "@/pages/CatalogPage/CatalogPage";
 import { DetailCatalogPage } from "@/pages/DetailCatalogPage/DetailCatalogPage";
+import { DetailService } from "@/pages/DetailService/DetailService";
 import { FeedBackPage } from "@/pages/FeedBackPage/FeedBackPage";
 import { HomePage } from "@/pages/HomePage/HomePage";
 import { LoginPage } from "@/pages/LoginPage/LoginPage";
@@ -14,6 +15,7 @@ export enum AppRoutes {
     MAIN = "main",
     CATALOG = "catalog",
     CATALOG_DETAIL = "catalog_detail",
+    SERVICE_DETAIL = "service_detail",
     BASKET = "basket",
     NOT_FOUND = "not_found",
     FEEDBACK = "feedback",
@@ -27,6 +29,7 @@ export const RoutePath: Record<AppRoutes, string> = {
     [AppRoutes.MAIN]: "/",
     [AppRoutes.CATALOG]: "/catalog",
     [AppRoutes.CATALOG_DETAIL]: "/catalog/:id",
+    [AppRoutes.SERVICE_DETAIL]: "/service/:id",
     [AppRoutes.BASKET]: "/basket",
     [AppRoutes.FEEDBACK]: "/feedback",
     [AppRoutes.LOGIN]: "/login",
@@ -48,6 +51,10 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
     [AppRoutes.CATALOG_DETAIL]: {
         path: RoutePath.catalog_detail,
         element: <DetailCatalogPage />,
+    },
+    [AppRoutes.SERVICE_DETAIL]: {
+        path: RoutePath.service_detail,
+        element: <DetailService />,
     },
     [AppRoutes.BASKET]: {
         path: RoutePath.basket,

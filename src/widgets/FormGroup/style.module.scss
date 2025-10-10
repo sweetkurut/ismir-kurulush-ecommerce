@@ -1,0 +1,250 @@
+$color-black: var(--color-black);
+$color-orange-sum: var(--color-orange-sum);
+$border-category: var(--border-category);
+$color-text-desc: var(--color-text-desc); // #737373
+$font-opensans-r: var(--font-opensans-r);
+$border-support: var(--border-support); // #e5e7eb
+
+.feedback_form_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 1024px;
+    margin: 0 auto;
+    margin-top: 40px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid var(--border-support);
+        border-radius: 8px;
+        padding: 25px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+        .icon_wrap {
+            background: #f970151a;
+            // padding: 14px;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 14px;
+        }
+
+        .card_desc {
+            text-align: center;
+
+            .card_title {
+                font-size: 16px;
+                margin-bottom: 14px;
+                color: var(--color-black);
+            }
+
+            .card_text {
+                font-size: 14px;
+                color: #6b7280;
+            }
+        }
+    }
+}
+
+.form_block {
+    background-color: var(--color-white);
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid $border-support; /* Тонкая рамка вокруг формы */
+
+    .form_title {
+        font-size: 24px;
+        font-weight: 600;
+        color: $color-black;
+        padding-bottom: 20px;
+        border-bottom: 1px solid $border-category;
+        margin-bottom: 25px;
+    }
+}
+
+.feedback_form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+
+    .full_width {
+        grid-column: 1 / -1;
+    }
+
+    .form_group {
+        display: flex;
+        flex-direction: column;
+
+        .form_label {
+            font-size: 14px;
+            color: $color-black;
+            font-weight: 500;
+            margin-bottom: 8px;
+
+            span {
+                color: $color-orange-sum; // Звездочка required
+            }
+        }
+    }
+
+    .form_input,
+    .form_textarea,
+    select.form_input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid $border-support;
+        border-radius: 6px;
+        font-size: 16px;
+        font-family: $font-opensans-r;
+        color: $color-black;
+        transition: border-color 0.2s;
+
+        &::placeholder {
+            color: $color-text-desc;
+        }
+
+        &:focus {
+            outline: none;
+            border-color: $color-orange-sum;
+            box-shadow: 0 0 0 2px rgba($color-orange-sum, 0.2);
+        }
+    }
+
+    .form_textarea {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    /* Кастомизация Select для стрелки вниз */
+    select.form_input {
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%2D%22292.4%22%3E%3Cpath%20fill%3D%22%23{$color-text-desc}%22%20d%3D%22M287%20197.8%20146.2%2057%205.4%20197.8z%22%2F%3E%3C%2Fsvg%3E");
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 10px auto;
+        padding-right: 35px;
+        color: $color-text-desc; /* Текст "Выберите тип заявки" серый */
+
+        &:not(:placeholder-shown) {
+            color: $color-black;
+        }
+    }
+
+    .action_area {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        margin-top: 10px;
+    }
+
+    .privacy_checkbox {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        color: $color-text-desc;
+        cursor: pointer;
+
+        input[type="checkbox"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 1px solid $border-support;
+            border-radius: 4px;
+            margin-right: 10px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+
+            &:checked {
+                background-color: $color-orange-sum;
+                border-color: $color-orange-sum;
+            }
+
+            &:checked::after {
+                content: "✓";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: white;
+                font-size: 14px;
+            }
+        }
+    }
+
+    .submit_button {
+        width: 100%;
+        margin-top: 24px;
+        padding: 14px 25px;
+        background-color: $color-orange-sum;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        font-family: var(--font-opensans-m);
+
+        &:hover {
+            background-color: darken(#f15027, 8%);
+        }
+    }
+}
+
+.after_send_block {
+    background-color: #e5e7eb;
+    border-radius: 0;
+    padding: 30px;
+    // margin-top: 20px;
+    border-top: 1px solid $border-category;
+    border-bottom: 1px solid $border-category;
+    border-radius: 12px;
+    margin-bottom: 40px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+    .after_send_title {
+        font-size: 18px;
+        font-weight: 600;
+        color: $color-black;
+        margin-bottom: 15px;
+    }
+
+    .after_send_list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            font-size: 15px;
+            color: $color-text-desc;
+            line-height: 1.6;
+            padding-left: 25px;
+            position: relative;
+
+            &:before {
+                content: "✓";
+                position: absolute;
+                left: 0;
+                color: $color-orange-sum;
+                font-weight: 900;
+                font-size: 16px;
+            }
+        }
+    }
+}

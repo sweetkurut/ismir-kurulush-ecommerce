@@ -1,6 +1,7 @@
 import { FiArrowRight } from "react-icons/fi";
 import { Card } from "../Cards/Cards";
 import s from "./style.module.scss";
+import { useNavigate } from "react-router-dom";
 
 const products = [
     {
@@ -34,12 +35,18 @@ const products = [
 ];
 
 export const Popular = () => {
+    const nav = useNavigate();
+
+    const handleNav = () => {
+        nav("/catalog");
+    };
+
     return (
         <div className={s.wrapper}>
             <div className={s.container}>
                 <div className={s.titles_btn}>
                     <h2 className={s.title}>Полулярные товары</h2>
-                    <button className={s.btn_all}>
+                    <button className={s.btn_all} onClick={handleNav}>
                         Смотреть все <FiArrowRight className={s.icon} />
                     </button>
                 </div>

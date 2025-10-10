@@ -3,6 +3,7 @@ import placeholderImage from "@/shared/assets/images/placeholderimage.svg"; // Ğ
 // import heartIcon from "@/shared/assets/icons/heart.svg";
 import { FaRegHeart } from "react-icons/fa";
 import { LuShoppingCart } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 
 type CardProps = {
     product: {
@@ -15,8 +16,14 @@ type CardProps = {
 };
 
 export const Card = ({ product }: CardProps) => {
+    const nav = useNavigate();
+
+    const handleNav = () => {
+        nav("/catalog/:id");
+    };
+
     return (
-        <div className={s.card}>
+        <div className={s.card} onClick={handleNav}>
             <button className={s.favorite_btn}>
                 <FaRegHeart />
             </button>

@@ -35,15 +35,12 @@ export const CategoryCards = () => {
                 <h2 className={s.title}>Категории товаров</h2>
 
                 <div className={s.cards}>
-                    {/* 2. Use the map() method to render the cards */}
                     {cardData.map((card) => (
                         <div key={card.id} className={s.card}>
                             <div className={s.card_img_wrap}>
-                                {/* Use the data from the current object in the array */}
                                 <img src={card.icon} alt={card.alt} />
                             </div>
                             <div className={s.card_desc}>
-                                {/* Use the data from the current object in the array */}
                                 <h3 className={s.card_title}>{card.title}</h3>
                             </div>
                         </div>

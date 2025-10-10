@@ -3,6 +3,7 @@ import s from "./style.module.scss";
 import { TiArrowLeft } from "react-icons/ti";
 import { FiShoppingCart } from "react-icons/fi";
 import { FaRegHeart } from "react-icons/fa";
+import { Card } from "@/widgets/Cards/Cards";
 
 // Упрощенные данные для контента
 const productData = {
@@ -22,6 +23,37 @@ const productData = {
         { label: "Страна-производитель", value: "Россия" },
     ],
 };
+
+const products = [
+    {
+        id: 1,
+        category: "Производство сетки MAK",
+        title: "Сетка MAK 4 на 4",
+        price: 3000,
+        image: "https://placehold.co/400x400/eaeaea/eaeaea",
+    },
+    {
+        id: 2,
+        category: "Арматура",
+        title: "Анкерная шайба АШХ-3 (18)",
+        price: 200,
+        image: "https://placehold.co/400x400/eaeaea/eaeaea",
+    },
+    {
+        id: 3,
+        category: "Водопровод и канализация",
+        title: "Американка муфта 20х1/2",
+        price: 150,
+        image: "https://placehold.co/400x400/eaeaea/eaeaea",
+    },
+    {
+        id: 4,
+        category: "Лакокрасочные материалы",
+        title: "Краска водоэмульсионная белая",
+        price: 3000,
+        image: "https://placehold.co/400x400/eaeaea/eaeaea",
+    },
+];
 
 export const DetailCatalogPage = () => {
     const [activeTab, setActiveTab] = useState("description");
@@ -129,6 +161,14 @@ export const DetailCatalogPage = () => {
                             <span>Гарантия качества</span>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div className={s.same_tovar}>
+                <h2 className={s.title_cards}>Похожие товары</h2>
+                <div className={s.cards_grid}>
+                    {products.map((product) => (
+                        <Card key={product.id} product={product} />
+                    ))}
                 </div>
             </div>
         </div>

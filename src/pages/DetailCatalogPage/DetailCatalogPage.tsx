@@ -4,6 +4,7 @@ import { TiArrowLeft } from "react-icons/ti";
 import { FiShoppingCart } from "react-icons/fi";
 import { FaRegHeart } from "react-icons/fa";
 import { Card } from "@/widgets/Cards/Cards";
+import { useNavigate } from "react-router-dom";
 
 // Упрощенные данные для контента
 const productData = {
@@ -58,6 +59,11 @@ const products = [
 export const DetailCatalogPage = () => {
     const [activeTab, setActiveTab] = useState("description");
     const [quantity, setQuantity] = useState(1);
+    const nav = useNavigate();
+
+    const handleBack = () => {
+        nav("/catalog");
+    };
 
     const handleQuantityChange = (event) => {
         const value = parseInt(event.target.value);
@@ -72,7 +78,7 @@ export const DetailCatalogPage = () => {
     return (
         <div className={s.page}>
             <div className={s.container}>
-                <a href="#" className={s.backLink}>
+                <a href="#" className={s.backLink} onClick={handleBack}>
                     <TiArrowLeft />
                     Вернуться к каталогу
                 </a>

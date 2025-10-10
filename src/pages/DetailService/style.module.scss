@@ -1,0 +1,220 @@
+.banner {
+    background: linear-gradient(90deg, rgba(248, 112, 23, 0.15) 0%, #eaeaea 50%, #2c313a4d 100%);
+    padding: 80px 20px;
+    text-align: center;
+
+    .main_title {
+        font-size: 55px;
+        color: var(--color-black);
+        margin-bottom: 10px;
+
+        .main_desc {
+            color: var(--text-gray);
+            font-size: 18px;
+        }
+    }
+}
+
+.wrapper {
+    background-color: var(--color-white);
+    padding: 50px 0;
+}
+
+.container {
+    max-width: var(--container-width);
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.mainContent {
+    flex-basis: 65%;
+    max-width: 65%;
+}
+
+.title {
+    font-size: 32px;
+    font-family: var(--font-muller-b);
+    color: var(--color-black);
+    margin-bottom: 30px;
+}
+
+.section {
+    border: 1px solid var(--border-support);
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.sectionTitle {
+    font-size: var(--font-size-M);
+    font-family: var(--font-opensans-sm);
+    color: var(--color-black);
+    margin-bottom: 15px;
+}
+
+.descriptionText {
+    font: var(--font-S);
+    color: var(--color-black);
+    line-height: 1.6;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.listItem {
+    font: var(--font-S);
+    color: var(--color-black);
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.processList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.processItem {
+    font: var(--font-S);
+    color: var(--color-black);
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.processStep {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-btn);
+    color: var(--color-white);
+    border-radius: 50%;
+    font-family: var(--font-number);
+    font-size: 14px;
+    margin-right: 10px;
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.sidebar {
+    flex-basis: 35%;
+    max-width: 35%;
+}
+
+.consultationForm {
+    background-color: var(--color-white);
+    border: 1px solid var(--border-support);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.costBlock {
+    margin-bottom: 25px;
+}
+
+.costItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: var(--color-black);
+    font-family: var(--font-opensans-r);
+}
+
+.costItemIcon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-btn);
+    border-radius: 12px;
+    margin-right: 10px;
+    font-family: var(--font-opensans-sm);
+    background: #f150271a;
+    padding: 10px;
+}
+
+.costItem .value {
+    font-family: var(--font-opensans-sm);
+    color: var(--color-black);
+}
+
+.formGroup {
+    margin-bottom: 15px;
+}
+
+.formLabel {
+    display: block;
+    font-size: 14px;
+    font-family: var(--font-opensans-sm);
+    color: var(--color-black);
+    margin-bottom: 5px;
+}
+
+.formInput,
+.formTextarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-support);
+    border-radius: 12px;
+    font-size: 16px;
+    font-family: var(--font-opensans-r);
+    color: var(--color-black);
+    box-sizing: border-box;
+}
+
+.formTextarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.placeholder {
+    color: var(--text-gray);
+}
+
+.checkboxLabel {
+    display: flex;
+    align-items: flex-start;
+    font-size: 14px;
+    color: var(--color-text-desc);
+    margin-top: 15px;
+    margin-bottom: 25px;
+}
+
+.checkboxInput {
+    margin-right: 10px;
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+.submitButton {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--color-btn);
+    color: var(--color-white);
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-family: var(--font-opensans-sm);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submitButton:hover {
+    background-color: darken(#f15027, 5%);
+}

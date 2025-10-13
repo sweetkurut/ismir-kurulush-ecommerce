@@ -1,0 +1,100 @@
+.basketItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--color-white);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.021);
+    border: 1px solid var(--border-support);
+    border-radius: 12px;
+    padding: 15px 20px;
+    min-height: 100px;
+}
+
+.itemImage {
+    width: 96px;
+    height: 96px;
+    background-color: var(--color-card-bg);
+    border-radius: 8px;
+    flex-shrink: 0;
+    margin-right: 20px;
+}
+
+.itemContent {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.itemName {
+    font-size: 16px;
+    font-family: var(--font-opensans-r);
+    color: var(--color-black);
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.quantityControl {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-support);
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.021);
+    overflow: hidden;
+}
+
+.qtyButton {
+    background: transparent;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 20px;
+    color: var(--color-black);
+    // line-height: 1;
+    font-weight: 700;
+    transition: background-color 0.1s;
+}
+
+.qtyInput {
+    width: 50px;
+    height: 44px;
+    text-align: center;
+    border: none;
+    font-weight: 700;
+    outline: none;
+    font-size: 18px;
+    font-family: var(--font-number);
+    color: var(--color-black);
+    background: transparent;
+}
+
+.qtyDisplay {
+    padding: 0;
+    width: 30px;
+    text-align: center;
+    font-size: 16px;
+    font-family: var(--font-number);
+    line-height: 35px;
+    border-left: 1px solid var(--border-support);
+    border-right: 1px solid var(--border-support);
+}
+
+.itemPrice {
+    font-size: 18px;
+    font-family: var(--font-opensans-b);
+    color: var(--red);
+    margin-left: 10px;
+    font-weight: 700;
+}
+
+.icon_delete {
+    cursor: pointer;
+    font-size: 20px;
+    color: var(--red);
+}

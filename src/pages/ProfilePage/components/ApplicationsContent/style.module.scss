@@ -1,0 +1,74 @@
+.tabContentApplications {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px;
+}
+
+.applicationHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.applicationHeader h3 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.newApplicationBtn {
+    padding: 8px 15px;
+    background: var(--color-btn);
+    color: var(--color-white);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background 0.2s;
+    font-family: var(--font-opensans-b);
+}
+
+.applicationCard {
+    border: 1px solid var(--border-support);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: var(--color-white);
+}
+
+.appDetails h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.appDetails p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-text-desc);
+}
+
+.appStatusTag {
+    flex-shrink: 0;
+}
+
+.appStatus {
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.statusPending {
+    background: #fef3c7; /* Светло-желтый */
+    color: #b45309; /* Темно-оранжевый */
+}
+
+.statusCompleted {
+    background: #d1fae5; /* Светло-зеленый */
+    color: #065f46; /* Темно-зеленый */
+}

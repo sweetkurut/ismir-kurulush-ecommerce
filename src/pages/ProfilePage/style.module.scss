@@ -22,6 +22,19 @@
                         align-items: center;
                         gap: 12px;
                         margin-bottom: 40px;
+                        position: relative;
+
+                        &::after {
+                            content: "";
+                            position: absolute;
+                            top: 65px;
+                            left: 0;
+                            right: 0;
+                            // bottom: 10px;
+                            height: 1px;
+                            width: 100%;
+                            background: #e5e7eb;
+                        }
 
                         .avatar {
                             .icon_wrap {
@@ -38,9 +51,62 @@
                                 }
                             }
                         }
+
+                        .userInfo {
+                            .userName {
+                                color: var(--color-black);
+                                font-size: 15px;
+                                margin-bottom: 5px;
+                            }
+
+                            .userEmail {
+                                color: #6b7280;
+                                font-size: 13.2px;
+                                font-weight: 400;
+                            }
+                        }
+                    }
+
+                    .profile_navs {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 20px;
+                        margin-bottom: 24px;
+
+                        .profile_nav {
+                            display: flex;
+                            align-items: center;
+                            gap: 12px;
+
+                            .nav_link {
+                                color: var(--color-black);
+                                font-weight: 400;
+                                font-size: 16px;
+                            }
+                        }
+                    }
+
+                    .btn {
+                        padding: 10px 30px;
+                        background: transparent;
+                        width: 100%;
+                        border: 2px solid var(--color-btn);
+                        border-radius: 8px;
+                        font-family: var(--font-opensans-sm);
+                        font-size: 14px;
+                        color: var(--red);
+                        transition: 0.2s all;
+
+                        &:hover {
+                            background: #f970151a;
+                        }
                     }
                 }
             }
+        }
+
+        .mainContent {
+            width: 100%;
         }
 
         .tabs {

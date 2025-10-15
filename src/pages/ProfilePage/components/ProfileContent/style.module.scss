@@ -1,0 +1,49 @@
+.wrapper {
+    border: 1px solid var(--border-support);
+    padding: 24px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+}
+
+.tabContent h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.formGroup {
+    margin-bottom: 20px;
+}
+
+.formGroup label {
+    display: block;
+    font-size: 14px;
+    color: var(--color-text-desc);
+    margin-bottom: 5px;
+}
+
+.formGroup input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-support);
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: var(--font-opensans-r);
+}
+
+.saveButton {
+    padding: 10px 20px;
+    background: var(--color-btn);
+    color: var(--color-white);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background 0.2s;
+    font-family: var(--font-opensans-b);
+}
+
+.saveButton:hover {
+    background: #e04a25; /* Чуть темнее */
+}

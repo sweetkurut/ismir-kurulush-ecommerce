@@ -1,0 +1,96 @@
+.wrapper {
+    margin-bottom: 20px;
+}
+
+.tabContentOrders {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+
+.orderCard {
+    border: 1px solid var(--border-support);
+    border-radius: 8px;
+    padding: 20px;
+    background: var(--color-white);
+    position: relative;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+}
+
+.orderHeader {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--color-black);
+    display: flex;
+    align-items: center;
+    // flex-direction: column;
+    gap: 15px;
+}
+
+.orderTitle {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.wrap_title {
+    display: flex;
+    flex-direction: column;
+}
+
+.orderDate {
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 5px;
+    color: var(--color-text-desc);
+}
+
+.orderStatus {
+    padding: 4px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: auto;
+}
+
+.statusDelivered {
+    background: #f15027;
+    color: #ffffff;
+}
+
+.statusProcessing {
+    background: #2c313a;
+    color: #fff;
+}
+
+.orderItemsCount {
+    font-size: 14px;
+    color: var(--color-text-desc);
+    margin-bottom: 10px;
+}
+
+.orderItemsList {
+    // list-style: disc;
+    padding-left: 20px;
+    margin-bottom: 15px;
+}
+
+.orderItemsList li {
+    font-size: 14px;
+    list-style: disc;
+    line-height: 1.5;
+    color: var(--color-text-desc);
+}
+
+.orderTotal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 40px;
+    color: var(--color-btn);
+}

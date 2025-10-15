@@ -1,0 +1,15 @@
+.cards_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    gap: 25px;
+    padding: 10px 0 50px;
+}
+
+.tabContentFavorites {
+    border: 1px solid var(--border-support);
+    padding: 24px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    height: 700px;
+    overflow: scroll;
+}

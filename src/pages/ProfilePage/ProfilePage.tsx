@@ -3,7 +3,7 @@ import s from "./style.module.scss";
 import { FaRegHeart, FaRegUser } from "react-icons/fa";
 import { BsBox } from "react-icons/bs";
 import { GrDocumentText } from "react-icons/gr";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ProfileContent } from "./components/ProfileContent/ProfileContent";
 import { OrdersContent } from "./components/OrdersContent/OrdersContent";
 import { FavoritesContent } from "./components/Favorites/FavoritesContent";
@@ -27,7 +27,11 @@ const renderTabContent = (activeTab) => {
 export const ProfilePage = () => {
     const [activeTab, setActiveTab] = useState("profile");
 
-    const isNavLinkActive = (tabName) => (activeTab === tabName ? s.activeNavLink : "");
+    const nav = useNavigate();
+
+    const handleNav = () => {
+        nav("/login");
+    };
 
     return (
         <div className={s.wrapper}>
@@ -75,7 +79,9 @@ export const ProfilePage = () => {
                             </div>
 
                             <div className={s.profile_btn}>
-                                <button className={s.btn}>Выйти</button>
+                                <button className={s.btn} onClick={handleNav}>
+                                    Войти
+                                </button>
                             </div>
                         </div>
                     </div>

@@ -1,0 +1,92 @@
+.wrapper {
+    background: linear-gradient(90deg, rgba(248, 112, 23, 0.15) 0%, #eaeaea 50%, #2c313a4d 100%);
+    .container {
+        max-width: var(--container-width);
+        margin: 0 auto;
+        padding: 80px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .icon_wrap {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f150271a;
+            border-radius: 50%;
+            width: 64px;
+            height: 64px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 55px;
+            color: var(--color-black);
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .sub_title {
+            text-align: center;
+            color: #7d7280;
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 28px;
+        }
+    }
+}
+
+.container {
+    max-width: 590px;
+    padding-top: 30px;
+    margin: 0 auto;
+    .authCard {
+        .tabs {
+        }
+    }
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 25px;
+    background: var(--color-bg-secondary);
+    // justify-content: space-evenly;
+    // align-items: center;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.tab {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    color: var(--color-black);
+    font-family: var(--font-opensans-sm);
+    margin-bottom: -1px;
+    transition: color 0.2s;
+    text-align: center;
+    width: 100%;
+    margin: 7px;
+    border-radius: 8px;
+}
+
+.tab.active {
+    border-bottom-color: var(--color-btn);
+    color: var(--color-black);
+    background: var(--color-white);
+}
+
+.tab:hover:not(.active) {
+    color: var(--color-text-desc);
+}
+
+.tabContent {
+    font: var(--font-S);
+    color: var(--color-black);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    line-height: 1.6;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--border-support);
+    min-height: 150px;
+}

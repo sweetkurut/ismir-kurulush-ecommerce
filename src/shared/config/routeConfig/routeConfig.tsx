@@ -4,11 +4,10 @@ import { DetailCatalogPage } from "@/pages/DetailCatalogPage/DetailCatalogPage";
 import { DetailService } from "@/pages/DetailService/DetailService";
 import { FeedBackPage } from "@/pages/FeedBackPage/FeedBackPage";
 import { HomePage } from "@/pages/HomePage/HomePage";
-import { LoginPage } from "@/pages/LoginPage/LoginPage";
 import { NotFoundPage } from "@/pages/NotFoundPage/NotFoundPage";
 import { ProfilePage } from "@/pages/ProfilePage/ProfilePage";
 import { ServicesPage } from "@/pages/ServicesPage/ServicesPage";
-import { SignupPage } from "@/pages/SignupPage/SignupPage";
+import AuthFormContainer from "@/widgets/AuthFormContainer/AuthFormContainer";
 import type { RouteProps } from "react-router-dom";
 
 export enum AppRoutes {
@@ -34,6 +33,7 @@ export const RoutePath: Record<AppRoutes, string> = {
     [AppRoutes.FEEDBACK]: "/feedback",
     [AppRoutes.LOGIN]: "/login",
     [AppRoutes.SIGNUP]: "/signup",
+
     [AppRoutes.PROFILE]: "/profile",
     [AppRoutes.SERVICE]: "/service",
     [AppRoutes.NOT_FOUND]: "*",
@@ -64,14 +64,8 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
         path: RoutePath.feedback,
         element: <FeedBackPage />,
     },
-    [AppRoutes.LOGIN]: {
-        path: RoutePath.login,
-        element: <LoginPage />,
-    },
-    [AppRoutes.SIGNUP]: {
-        path: RoutePath.signup,
-        element: <SignupPage />,
-    },
+    [AppRoutes.LOGIN]: { path: RoutePath.login, element: <AuthFormContainer /> },
+    [AppRoutes.SIGNUP]: { path: RoutePath.signup, element: <AuthFormContainer /> },
     [AppRoutes.PROFILE]: {
         path: RoutePath.profile,
         element: <ProfilePage />,

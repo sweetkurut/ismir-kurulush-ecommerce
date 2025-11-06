@@ -38,11 +38,7 @@ export const LoginPage = ({ activeTab, onTabChange }: LoginPageProps) => {
                         </div>
                     </div>
 
-                    <div className={s.formContent}>
-                        {/* <h2 className={s.title}>{isLogin ? "Вход в аккаунт" : "Создать аккаунт"}</h2> */}
-
-                        {isLogin ? <LoginForm /> : <RegisterForm />}
-                    </div>
+                    <div className={s.formContent}>{isLogin ? <LoginForm /> : <RegisterForm />}</div>
                 </div>
             </div>
         </div>

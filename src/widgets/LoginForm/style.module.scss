@@ -7,6 +7,16 @@
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.075), 0 2px 4px -2px rgba(0, 0, 0, 0);
 }
 
+.backButton {
+    background: transparent;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-family: var(--font-opensans-m);
+}
+
 .title {
     color: var(--color-black);
     font-size: 24px;
@@ -74,6 +84,13 @@
     font-size: 16px;
     box-sizing: border-box;
     font-family: var(--font-opensans-r);
+}
+
+.forgotPassword {
+    background: transparent;
+    font-family: var(--font-opensans-sm);
+    margin-top: 14px;
+    color: var(--color-btn);
 }
 
 .submitButton {

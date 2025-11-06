@@ -8,8 +8,19 @@ import { About } from "@/widgets/About/About";
 import { Popular } from "@/widgets/Popular/Popular";
 import { WhyUs } from "../WhyUs/WhyUs";
 import { Consultation } from "@/widgets/Consultation/Consultation";
+import { useNavigate } from "react-router-dom";
 
 export const HomePage = () => {
+    const nav = useNavigate();
+
+    const handleNav = () => {
+        nav("/feedback");
+    };
+
+    const goToCatalog = () => {
+        nav("/catalog");
+    };
+
     return (
         <>
             <div className={s.wrapper}>
@@ -22,10 +33,12 @@ export const HomePage = () => {
                         быстрая доставка, профессиональная консультация.
                     </p>
                     <div className={s.btns_wrap}>
-                        <button className={s.catalog_btn}>
+                        <button className={s.catalog_btn} onClick={goToCatalog}>
                             Каталог товаров <BsArrowRightShort className={s.arrow_icon} />
                         </button>
-                        <button className={s.feedback_btn}>Оставить заявку</button>
+                        <button className={s.feedback_btn} onClick={handleNav}>
+                            Оставить заявку
+                        </button>
                     </div>
                 </div>
             </div>

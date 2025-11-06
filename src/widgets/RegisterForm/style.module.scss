@@ -7,6 +7,16 @@
     margin-bottom: 100px;
 }
 
+.backButton {
+    background: transparent;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-family: var(--font-opensans-m);
+}
+
 .title {
     color: var(--color-black);
     font-size: 24px;
@@ -106,8 +116,8 @@
 
 .codeInputs {
     display: flex;
-    gap: 8px;
-    justify-content: space-between;
+    gap: 20px;
+    justify-content: center;
     margin-bottom: 30px;
     border-radius: 10px;
 }

@@ -1,9 +1,9 @@
 $color-black: var(--color-black);
 $color-orange-sum: var(--color-orange-sum);
 $border-category: var(--border-category);
-$color-text-desc: var(--color-text-desc); // #737373
+$color-text-desc: var(--color-text-desc);
 $font-opensans-r: var(--font-opensans-r);
-$border-support: var(--border-support); // #e5e7eb
+$border-support: var(--border-support);
 
 .feedback_form_wrapper {
     display: flex;
@@ -11,14 +11,13 @@ $border-support: var(--border-support); // #e5e7eb
     gap: 30px;
     max-width: 1024px;
     margin: 0 auto;
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 .cards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 30px;
-    margin-bottom: 40px;
 
     .card {
         display: flex;
@@ -63,8 +62,7 @@ $border-support: var(--border-support); // #e5e7eb
     border-radius: 8px;
     padding: 30px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    border: 1px solid $border-support; /* Тонкая рамка вокруг формы */
-
+    border: 1px solid $border-support;
     .form_title {
         font-size: 24px;
         font-weight: 600;
@@ -95,7 +93,7 @@ $border-support: var(--border-support); // #e5e7eb
             margin-bottom: 8px;
 
             span {
-                color: $color-orange-sum; // Звездочка required
+                color: $color-orange-sum;
             }
         }
     }
@@ -128,7 +126,6 @@ $border-support: var(--border-support); // #e5e7eb
         min-height: 120px;
     }
 
-    /* Кастомизация Select для стрелки вниз */
     select.form_input {
         appearance: none;
         background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%2D%22292.4%22%3E%3Cpath%20fill%3D%22%23{$color-text-desc}%22%20d%3D%22M287%20197.8%20146.2%2057%205.4%20197.8z%22%2F%3E%3C%2Fsvg%3E");
@@ -136,7 +133,7 @@ $border-support: var(--border-support); // #e5e7eb
         background-position: right 15px center;
         background-size: 10px auto;
         padding-right: 35px;
-        color: $color-text-desc; /* Текст "Выберите тип заявки" серый */
+        color: $color-text-desc;
 
         &:not(:placeholder-shown) {
             color: $color-black;

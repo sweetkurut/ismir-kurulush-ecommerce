@@ -83,20 +83,26 @@ export const ProfilePage = () => {
 
     if (!isAuthenticated) {
         return (
-            <div className={s.wrapper}>
-                <div className={s.container}>
+            <div className={s.auth}>
+                <div className={s.auth_container}>
                     <div className={s.unauthorized}>
                         <div className={s.unauthorizedContent}>
-                            <div className={s.unauthorizedIcon}>
-                                <FaRegUser />
+                            {/* <div className={s.icon_wrap}>
+                                <FaRegUser className={s.icon_auth} />
+                            </div> */}
+                            <div>
+                                <h3 className={s.unauthorizedTitle}>Требуется авторизация</h3>
                             </div>
-                            <h3 className={s.unauthorizedTitle}>Требуется авторизация</h3>
-                            <p className={s.unauthorizedText}>
-                                Для просмотра этой страницы необходимо войти в свой аккаунт
-                            </p>
-                            <button className={s.loginButton} onClick={handleLogin}>
-                                Войти в аккаунт
-                            </button>
+                            <div>
+                                <p className={s.unauthorizedText}>
+                                    Для просмотра этой страницы необходимо войти в свой аккаунт
+                                </p>
+                            </div>
+                            <div className={s.loginButton_wrap}>
+                                <button className={s.loginButton} onClick={handleLogin}>
+                                    Войти в аккаунт
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

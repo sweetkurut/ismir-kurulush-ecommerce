@@ -24,7 +24,7 @@ export const fetchGetProfile = createAsyncThunk<IProfile, void, { rejectValue: s
             }
             return res.data as IProfile;
         } catch (error) {
-            return rejectWithValue("Server Error");
+            return rejectWithValue(`Ошибка: ${error}`);
         }
     }
 );
@@ -38,7 +38,7 @@ export const fetchUpdateProfile = createAsyncThunk<IProfile, IProfileUpdate, { r
                 return rejectWithValue(`Ошибка сервера: ${res.status}`);
             }
             return res.data as IProfile;
-        } catch (error: any) {
+        } catch (error: unknown) {
             return rejectWithValue(`Ошибка: ${error}`);
         }
     }
@@ -55,7 +55,7 @@ export const fetchUpdateProfilePassword = createAsyncThunk<
             return rejectWithValue(`Ошибка сервера: ${res.status}`);
         }
         return res.data as void;
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error(error);
         return rejectWithValue(`Ошибка: ${error}`);
     }
@@ -70,7 +70,7 @@ export const fetchDeleteProfile = createAsyncThunk<void, void, { rejectValue: st
                 return rejectWithValue(`Ошибка сервера: ${res.status}`);
             }
             return res.data as void;
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error(error);
             return rejectWithValue(`Ошибка: ${error}`);
         }
@@ -103,7 +103,7 @@ export const fetchVerifyEmailUpdate = createAsyncThunk<IProfile, { code: string 
                 return rejectWithValue(`Ошибка сервера: ${res.status}`);
             }
             return res.data as IProfile;
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error(error);
             return rejectWithValue(`Ошибка: ${error}`);
         }
@@ -119,7 +119,7 @@ export const fetchResendEmailUpdateCode = createAsyncThunk<void, { email: string
                 return rejectWithValue(`Ошибка сервера: ${res.status}`);
             }
             return res.data as void;
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error(error);
             return rejectWithValue(`Ошибка: ${error}`);
         }
@@ -171,7 +171,7 @@ const AuthSlice = createSlice({
             state.loading = true;
             state.error = null;
         });
-        addCase(fetchVerifyEmailUpdate.fulfilled, (state, action) => {
+        addCase(fetchVerifyEmailUpdate.fulfilled, (state) => {
             state.loading = false;
         });
         addCase(fetchVerifyEmailUpdate.rejected, (state, action) => {

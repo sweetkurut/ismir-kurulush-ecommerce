@@ -18,6 +18,7 @@
     text-decoration: none;
     margin-bottom: 30px;
     font-size: 16px;
+    cursor: pointer;
 }
 
 .mainContent {
@@ -34,20 +35,26 @@
     gap: 15px;
 }
 
+.mainImage {
+    object-fit: cover;
+    width: 100%;
+    border: 1px solid var(--border-support);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
 .mainImagePlaceholder {
     width: 100%;
-    /* Отношение сторон 1:1, как в макете */
     height: 500px;
-    background-color: var(--color-card-bg);
-    border-radius: 8px; /* Добавим скругление */
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden; /* Для будущих изображений */
+    overflow: hidden;
 }
 
 .mainImagePlaceholder::before {
-    content: "Фото товара"; /* Более явная заглушка */
+    content: "Фото товара";
     color: var(--text-gray);
     font-size: 20px;
 }
@@ -55,6 +62,20 @@
 .thumbnails {
     display: flex;
     gap: 15px;
+}
+
+.thumbnail {
+    width: 210px;
+    height: 200px;
+    border-radius: 10px;
+    box-shadow: #000;
+    border: 1px solid var(--border-support);
+    transition: border-color 0.2s;
+    cursor: pointer;
+}
+
+.activeThumbnail {
+    border-color: #ff6633;
 }
 
 .thumbnailPlaceholder {
@@ -71,26 +92,25 @@
     border-color: var(--border-support);
 }
 
-/* --- Секция информации о продукте --- */
 .infoSection {
     flex-grow: 1;
-    padding-top: 10px; /* Выравнивание по верхнему краю блока с фото */
+    padding-top: 10px;
 }
 
 .badge {
     display: inline-block;
-    background-color: var(--color-text-btn-orange); /* Фон из макета - полупрозрачный серый */
+    background-color: var(--color-text-btn-orange);
     color: var(--color-white);
     padding: 6px 12px;
     font-size: 14px;
     font-weight: 500;
-    border-radius: 8px; /* Скругленные края */
+    border-radius: 8px;
     margin-bottom: 15px;
     font-family: var(--font-opensans-m);
 }
 
 .productTitle {
-    font-size: 38px; /* Большой заголовок */
+    font-size: 38px;
     font-family: var(--font-muller-b);
     color: var(--color-black);
     margin-bottom: 5px;
@@ -112,10 +132,10 @@
 }
 
 .currentPrice {
-    font-size: 44px; /* Самая большая цена */
+    font-size: 44px;
     font-family: var(--font-number);
     font-weight: 700;
-    color: var(--color-btn); /* Цвет оранжевый, как в макете */
+    color: var(--color-btn);
 }
 
 .oldPrice {
@@ -201,12 +221,11 @@
     color: var(--color-black);
 }
 
-/* --- Управление количеством и кнопка --- */
 .actionBlock {
     display: flex;
     align-items: center;
     gap: 15px;
-    margin-top: 30px; /* Отступ от контента вкладок */
+    margin-top: 30px;
     margin-bottom: 30px;
 }
 

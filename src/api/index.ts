@@ -55,4 +55,18 @@ export const storesApi = {
     deleteProfile() {
         return instance.delete(`/users/profile/`);
     },
+
+    // продукты, категории, бренды
+    getProducts() {
+        return instance.get(`/catalog/products/`);
+    },
+    getProductById(id: number) {
+        return instance.get(`/catalog/products/${id}/`);
+    },
+    getCategories() {
+        return instance.get(`/catalog/categories/`);
+    },
+    getBrands() {
+        return instance.get(`/catalog/brands/`);
+    },
 };

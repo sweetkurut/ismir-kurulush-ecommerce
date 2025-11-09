@@ -1,26 +1,30 @@
 import { Filter } from "@/shared/ui/Filter/Filter";
 import s from "./style.module.scss";
 import { Card } from "@/widgets/Cards/Cards";
-
-import { products } from "@/pages/CatalogPage/data";
 import { Pagination } from "@/shared/ui/Pagination/Pagination";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { fetchGetProducts } from "@/store/slices/productsSlice";
 
-const ITEMS_PER_PAGE = 4;
-const totalItems = products.length;
-const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+const ITEMS_PER_PAGE = 8;
 
 export const CatalogPage = () => {
+    const dispatch = useAppDispatch();
+    const { loading, error, products } = useAppSelector((state) => state.products);
     const [currentPage, setCurrentPage] = useState(1);
 
-    const handlePageChange = (event: React.MouseEvent<HTMLButtonElement> | null, page: number) => {
+    useEffect(() => {
+        dispatch(fetchGetProducts());
+    }, [dispatch]);
+
+    const handlePageChange = (_: unknown, page: number) => {
         setCurrentPage(page);
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
+    const totalPages = Math.ceil((products?.length ?? 0) / ITEMS_PER_PAGE);
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
-    const currentProducts = products.slice(startIndex, endIndex);
+    const currentProducts = products?.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
     return (
         <div className={s.wrapper}>
@@ -31,13 +35,19 @@ export const CatalogPage = () => {
 
                 <div className={s.catalog_wrap}>
                     <h2 className={s.title}>Каталог товаров</h2>
+
+                    {loading && <p>Загрузка...</p>}
+                    {error && <p>Ошибка загрузки</p>}
+                    {!loading && currentProducts?.length === 0 && <p>Нет товаров</p>}
+
                     <div className={s.cards_grid}>
-                        {currentProducts.map((product) => (
+                        {currentProducts?.map((product) => (
                             <Card key={product.id} product={product} />
                         ))}
                     </div>
                 </div>
             </div>
+
             <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} />
         </div>
     );

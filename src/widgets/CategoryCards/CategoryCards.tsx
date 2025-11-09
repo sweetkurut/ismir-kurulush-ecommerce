@@ -1,47 +1,36 @@
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import s from "./style.module.scss";
 import support from "@/shared/assets/icons/support.svg";
-
-const cardData = [
-    { id: 1, icon: support, title: "Арматура", alt: "Support Icon" },
-    { id: 2, icon: support, title: "Металлопрокат", alt: "Support Icon" },
-    {
-        id: 3,
-        icon: support,
-        title: `Пиломатериалы, ОСП, ДСП,
-Фанера`,
-        alt: "Support Icon",
-    },
-    { id: 4, icon: support, title: "Металлоконструкции", alt: "Support Icon" },
-    { id: 5, icon: support, title: "Производство сетки МАК", alt: "Support Icon" },
-    { id: 6, icon: support, title: "Заборная сетка", alt: "Support Icon" },
-    { id: 7, icon: support, title: "Гипсокартон и комплектующие", alt: "Support Icon" },
-    {
-        id: 8,
-        icon: support,
-        title: `Утеплитель и изоляцияа`,
-        alt: "Support Icon",
-    },
-    { id: 9, icon: support, title: "Сухие строительные смеси", alt: "Support Icon" },
-    { id: 10, icon: support, title: "Лакокрасочные материалы", alt: "Support Icon" },
-    { id: 9, icon: support, title: "Сухие строительные смеси", alt: "Support Icon" },
-    { id: 10, icon: support, title: "Лакокрасочные материалы", alt: "Support Icon" },
-    { id: 10, icon: support, title: "Лакокрасочные материалы", alt: "Support Icon" },
-];
+import { useEffect } from "react";
+import { fetchGetCategory } from "@/store/slices/categoriesSlice";
 
 export const CategoryCards = () => {
+    const dispatch = useAppDispatch();
+
+    const { loading, error, category } = useAppSelector((state) => state.category);
+
+    useEffect(() => {
+        dispatch(fetchGetCategory());
+    }, [dispatch]);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <div className={s.wrapper}>
             <div className={s.container}>
                 <h2 className={s.title}>Категории товаров</h2>
+                {category?.results?.length === 0 && <p>Нет категорий</p>}
 
                 <div className={s.cards}>
-                    {cardData.map((card) => (
+                    {category?.results.map((card) => (
                         <div key={card.id} className={s.card}>
                             <div className={s.card_img_wrap}>
-                                <img src={card.icon} alt={card.alt} />
+                                <img src={support} alt="Иконка" />
                             </div>
                             <div className={s.card_desc}>
-                                <h3 className={s.card_title}>{card.title}</h3>
+                                <h3 className={s.card_title}>{card.name}</h3>
                             </div>
                         </div>
                     ))}

@@ -2,11 +2,15 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import AuthSlice from "./slices/authSlice";
 import ProfilSlice from "./slices/profileSlice";
+import CategoriesSlice from "./slices/categoriesSlice";
+import ProductsSlice from "./slices/productsSlice";
 
 export const store = configureStore({
     reducer: {
         auth: AuthSlice,
         profile: ProfilSlice,
+        category: CategoriesSlice,
+        products: ProductsSlice,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

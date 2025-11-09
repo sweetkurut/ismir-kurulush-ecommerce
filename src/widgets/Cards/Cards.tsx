@@ -1,6 +1,4 @@
 import s from "./style.module.scss";
-import placeholderImage from "@/shared/assets/images/placeholderimage.svg"; // Условный путь к заглушке изображения
-// import heartIcon from "@/shared/assets/icons/heart.svg";
 import { FaRegHeart } from "react-icons/fa";
 import { LuShoppingCart } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
@@ -8,10 +6,12 @@ import { useNavigate } from "react-router-dom";
 type CardProps = {
     product: {
         id: number;
-        title: string;
-        price: number;
-        category: string;
-        image: string;
+        name: string;
+        price: string;
+        currency: string;
+        categories: { id: number; name: string; slug: string }[];
+        main_image: string;
+        in_stock: boolean;
     };
 };
 
@@ -19,7 +19,7 @@ export const Card = ({ product }: CardProps) => {
     const nav = useNavigate();
 
     const handleNav = () => {
-        nav("/catalog/:id");
+        nav(`/catalog/${product.id}`);
     };
 
     return (
@@ -29,16 +29,18 @@ export const Card = ({ product }: CardProps) => {
             </button>
 
             <div className={s.image_wrap}>
-                <img src={product.image || placeholderImage} alt={product.title} className={s.image} />
+                <img src={product.main_image} alt={product.name} className={s.image} />
             </div>
 
             <div className={s.content}>
-                <span className={s.category}>{product.category}</span>
-                <h3 className={s.title}>{product.title}</h3>
-                <p className={s.price}>{product.price.toLocaleString("ru-RU")} сом</p>
+                <span className={s.category}>{product.categories?.[0]?.name ?? "Без категории"}</span>
+                <h3 className={s.title}>{product.name}</h3>
+                <p className={s.price}>
+                    {parseFloat(product.price).toLocaleString("ru-RU")} {product.currency}
+                </p>
 
                 <button className={s.addToCart_btn}>
-                    <LuShoppingCart />В корзину
+                    <LuShoppingCart /> В корзину
                 </button>
             </div>
         </div>

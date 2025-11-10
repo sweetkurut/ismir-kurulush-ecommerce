@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type {
     ILoginData,
     IProfileUpdate,
@@ -8,6 +9,12 @@ import type {
     IVerifyCode,
 } from "@/store/types";
 import instance from "./axiosInstance";
+
+interface ProductQueryParams {
+    page?: number;
+    ordering?: string;
+    [key: string]: any;
+}
 
 export const storesApi = {
     login(data: ILoginData) {
@@ -57,8 +64,13 @@ export const storesApi = {
     },
 
     // продукты, категории, бренды
-    getProducts() {
-        return instance.get(`/catalog/products/`);
+    // getProducts() {
+    //     return instance.get(`/catalog/products/`);
+    // },
+    getProducts(params: ProductQueryParams) {
+        return instance.get(`/catalog/products/`, {
+            params: params, // ⬅️ Здесь происходит магия Axios!
+        });
     },
     getProductById(id: number) {
         return instance.get(`/catalog/products/${id}/`);
@@ -68,5 +80,9 @@ export const storesApi = {
     },
     getBrands() {
         return instance.get(`/catalog/brands/`);
+    },
+
+    getSortingOptions() {
+        return instance.get(`/catalog/sorting-options/`);
     },
 };

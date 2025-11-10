@@ -145,3 +145,22 @@ export interface ICategoryResponse {
     previous: string | null;
     results: ICategory[];
 }
+
+// для сортировки
+export interface SortOption {
+    name: string;
+    value: string;
+}
+
+export interface SortingOptionsMap {
+    lowest_price: SortOption;
+    highest_price: SortOption;
+    newest: SortOption;
+    oldest: SortOption;
+    most_popular: SortOption;
+    least_popular: SortOption;
+}
+
+export interface SortingResponse {
+    sorting_options: SortingOptionsMap;
+}

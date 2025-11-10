@@ -16,20 +16,43 @@ const initialState: InfoState = {
     product: null,
 };
 
-export const fetchGetProducts = createAsyncThunk<Products[], void, { rejectValue: string }>(
-    "products/fetchGetProducts",
-    async (_, { rejectWithValue }) => {
-        try {
-            const res = await storesApi.getProducts();
-            if (res.status !== 200) {
-                return rejectWithValue("Server Error");
-            }
-            return res.data as Products[];
-        } catch (error) {
-            return rejectWithValue(`Ошибка: ${error}`);
+interface ProductQueryParams {
+    page?: number;
+    ordering?: string;
+    [key: string]: any;
+}
+
+// export const fetchGetProducts = createAsyncThunk<Products[], void, { rejectValue: string }>(
+//     "products/fetchGetProducts",
+//     async (_, { rejectWithValue }) => {
+//         try {
+//             const res = await storesApi.getProducts();
+//             if (res.status !== 200) {
+//                 return rejectWithValue("Server Error");
+//             }
+//             return res.data as Products[];
+//         } catch (error) {
+//             return rejectWithValue(`Ошибка: ${error}`);
+//         }
+//     }
+// );
+
+export const fetchGetProducts = createAsyncThunk<
+    Products[],
+    ProductQueryParams, // ⬅️ Теперь ожидаем объект параметров
+    { rejectValue: string }
+>("products/fetchGetProducts", async (params, { rejectWithValue }) => {
+    try {
+        // ⬅️ Вызываем новый метод с параметрами
+        const res = await storesApi.getProducts(params);
+        if (res.status !== 200) {
+            return rejectWithValue("Server Error");
         }
+        return res.data as Products[];
+    } catch (error) {
+        return rejectWithValue(`Ошибка: ${error}`);
     }
-);
+});
 
 export const fetchGetDetailProducts = createAsyncThunk<ProductDetail, number, { rejectValue: string }>(
     "product/fetchGetDetailProducts",

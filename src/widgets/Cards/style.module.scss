@@ -95,12 +95,51 @@
     background-color: var(--color-btn);
     color: var(--color-white);
     font-size: 16px;
+    font-family: var(--font-opensans-m);
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    font-family: var(--font-opensans-m);
 
     &:hover {
         background-color: darken(#f15027, 10%);
     }
+}
+
+.stock_indicator,
+.stock_indicator_out {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 10;
+}
+
+.stock_indicator {
+    background-color: #4caf50;
+    color: white;
+}
+
+.stock_indicator_out {
+    background-color: #f44336;
+    color: white;
+}
+
+.addToCart_btn_disabled {
+    background-color: #ccc;
+    color: var(--color-black);
+    font-size: 16px;
+    font-family: var(--font-opensans-m);
+    font-weight: 500;
+    cursor: not-allowed;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }

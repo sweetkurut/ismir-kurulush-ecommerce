@@ -1,42 +1,96 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Filter } from "@/shared/ui/Filter/Filter";
 import s from "./style.module.scss";
 import { Card } from "@/widgets/Cards/Cards";
 import { Pagination } from "@/shared/ui/Pagination/Pagination";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchGetProducts } from "@/store/slices/productsSlice";
 import { CustomSelect } from "@/components/Select/Select";
+import { fetchGetSorting } from "@/store/slices/sortingSlice";
 
 const ITEMS_PER_PAGE = 8;
 
-const sortOptions = [
-    { value: "popularity", label: "По популярности" },
-    { value: "price_asc", label: "По цене (возрастание)" },
-    { value: "price_desc", label: "По цене (убывание)" },
-    { value: "name_asc", label: "По названию (А-Я)" },
-];
+interface ProductQueryParams {
+    page?: number;
+    ordering?: string;
+    [key: string]: any;
+}
 
 export const CatalogPage = () => {
     const dispatch = useAppDispatch();
-    const { loading, error, products } = useAppSelector((state) => state.products);
-    const [currentPage, setCurrentPage] = useState(1);
 
-    const [selectedSort, setSelectedSort] = useState(sortOptions[0].value);
+    const { loading, error, products } = useAppSelector((state) => state.products);
+    const { sorting } = useAppSelector((state) => state.sorting);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [selectedSort, setSelectedSort] = useState("");
+
+    const sortOptions = useMemo(() => {
+        const optionsMap = sorting?.sorting_options;
+        if (!optionsMap) {
+            return [];
+        }
+        return Object.values(optionsMap).map((option) => ({
+            label: option.name,
+            value: option.value,
+        }));
+    }, [sorting]);
+
+    const getCombinedParams = useCallback(
+        (page = 1): ProductQueryParams => {
+            const params: ProductQueryParams = {
+                page,
+            };
+            if (selectedSort) {
+                params.ordering = selectedSort;
+            }
+            return params;
+        },
+        [selectedSort]
+    );
+
+    const loadProducts = useCallback(
+        (params: ProductQueryParams) => {
+            dispatch(fetchGetProducts(params));
+        },
+        [dispatch]
+    );
 
     useEffect(() => {
-        dispatch(fetchGetProducts());
+        dispatch(fetchGetSorting());
     }, [dispatch]);
+
+    useEffect(() => {
+        if (sortOptions.length > 0 && selectedSort === "") {
+            const defaultSortValue = sortOptions[0].value;
+            setSelectedSort(defaultSortValue);
+        }
+    }, [sortOptions, selectedSort]);
+
+    useEffect(() => {
+        if (selectedSort) {
+            loadProducts(getCombinedParams(1));
+        }
+    }, [selectedSort, loadProducts, getCombinedParams]);
+
+    const handleSortChange = (value: string) => {
+        let correctedValue = value;
+
+        if (
+            value === sorting?.sorting_options?.highest_price?.value &&
+            sorting?.sorting_options?.highest_price?.name === "Самая высокая цена"
+        ) {
+            correctedValue = "-price";
+        }
+
+        setSelectedSort(correctedValue);
+    };
 
     const handlePageChange = (_: unknown, page: number) => {
         setCurrentPage(page);
         window.scrollTo({ top: 0, behavior: "smooth" });
-    };
-
-    const handleSortChange = (value: string) => {
-        setSelectedSort(value);
-        console.log("Выбрана сортировка:", value);
-        // Здесь вы можете вызвать Redux-экшен или обновить состояние для перезагрузки товаров
-        // dispatch(fetchGetProducts({ ...activeFilters, sort_by: value }));
+        loadProducts(getCombinedParams(page));
     };
 
     const totalPages = Math.ceil((products?.length ?? 0) / ITEMS_PER_PAGE);
@@ -54,16 +108,20 @@ export const CatalogPage = () => {
                     <div className={s.select_title_wrap}>
                         <div>
                             <h2 className={s.title}>Каталог товаров</h2>
-                            <span className={s.found_tovar}>{`Найдено ${products?.length} товаров`}</span>
+                            <span className={s.found_tovar}>{`Найдено ${
+                                products?.length ?? 0
+                            } товаров`}</span>
                         </div>
 
                         <div>
-                            <CustomSelect
-                                options={sortOptions}
-                                defaultValue={selectedSort}
-                                placeholder="Выберите сортировку"
-                                onSelect={handleSortChange}
-                            />
+                            {sortOptions.length > 0 && selectedSort && (
+                                <CustomSelect
+                                    options={sortOptions}
+                                    defaultValue={selectedSort}
+                                    placeholder="Выберите сортировку"
+                                    onSelect={handleSortChange}
+                                />
+                            )}
                         </div>
                     </div>
 

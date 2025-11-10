@@ -17,14 +17,30 @@ type CardProps = {
 
 export const Card = ({ product }: CardProps) => {
     const nav = useNavigate();
+    const isInStock = product.in_stock;
 
     const handleNav = () => {
         nav(`/catalog/${product.id}`);
     };
 
+    const cartButtonText = isInStock ? "В корзину" : "Нет в наличии";
+    const cartButtonDisabled = !isInStock;
+    const cartButtonClass = isInStock ? s.addToCart_btn : s.addToCart_btn_disabled;
+
+    const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
+        if (!isInStock) return;
+
+        console.log(`Добавить товар ${product.id} в корзину`);
+    };
+
     return (
         <div className={s.card} onClick={handleNav}>
-            <button className={s.favorite_btn}>
+            <div className={isInStock ? s.stock_indicator : s.stock_indicator_out}>
+                {isInStock ? "В наличии" : "Нет в наличии"}
+            </div>
+
+            <button className={s.favorite_btn} onClick={(e) => e.stopPropagation()}>
                 <FaRegHeart />
             </button>
 
@@ -39,8 +55,8 @@ export const Card = ({ product }: CardProps) => {
                     {parseFloat(product.price).toLocaleString("ru-RU")} {product.currency}
                 </p>
 
-                <button className={s.addToCart_btn}>
-                    <LuShoppingCart /> В корзину
+                <button className={cartButtonClass} onClick={handleAddToCart} disabled={cartButtonDisabled}>
+                    <LuShoppingCart /> {cartButtonText}
                 </button>
             </div>
         </div>

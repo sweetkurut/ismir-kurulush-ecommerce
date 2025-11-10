@@ -4,6 +4,7 @@ import AuthSlice from "./slices/authSlice";
 import ProfilSlice from "./slices/profileSlice";
 import CategoriesSlice from "./slices/categoriesSlice";
 import ProductsSlice from "./slices/productsSlice";
+import SortingSlice from "./slices/sortingSlice";
 
 export const store = configureStore({
     reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
         profile: ProfilSlice,
         category: CategoriesSlice,
         products: ProductsSlice,
+        sorting: SortingSlice,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

@@ -8,9 +8,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchGetDetailProducts } from "@/store/slices/productsSlice";
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-
 export const DetailCatalogPage = () => {
     const [activeTab, setActiveTab] = useState("description");
     const [quantity, setQuantity] = useState(1);
@@ -21,7 +18,7 @@ export const DetailCatalogPage = () => {
     const { id } = useParams();
     const dispatch = useAppDispatch();
     const { loading, product } = useAppSelector((state) => state.products);
-    const mainImage = product?.images?.[0]?.image;
+    // const mainImage = product?.images?.[0]?.image;
 
     useEffect(() => {
         if (id) dispatch(fetchGetDetailProducts(Number(id)));

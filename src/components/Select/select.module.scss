@@ -1,0 +1,84 @@
+.customSelect {
+    position: relative;
+    width: 200px;
+    font-family: var(--font-opensans-r);
+    font-size: 14px;
+    color: var(--color-black);
+    user-select: none;
+}
+
+.selectHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border: 1px solid var(--border-support);
+    border-radius: 10px;
+    background-color: var(--color-white);
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.selectedText {
+    flex-grow: 1;
+    margin-right: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: var(--font-opensans-r);
+}
+
+.arrowIcon {
+    transition: transform 0.3s ease;
+    color: var(--color-text-desc);
+    font-size: 16px;
+}
+
+.arrowUp {
+    transform: rotate(-180deg);
+}
+
+.optionsList {
+    position: absolute;
+    top: calc(100% - -2px);
+    left: 0;
+    right: 0;
+    background-color: var(--color-white);
+    border: 1px solid var(--border-support);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 200px;
+    overflow-y: auto;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 100;
+}
+
+.optionItem {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-family: var(--font-opensans-r);
+
+    &:hover {
+        background-color: #f6f6f6;
+    }
+
+    &.selected {
+        background-color: var(--border-support);
+        font-weight: bold;
+        // color: var(--color-btn);
+    }
+}
+
+.customSelect.open {
+    .selectHeader {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-color: var(--color-btn); // Выделяем границу акцентным цветом при открытии
+    }
+}

@@ -16,8 +16,19 @@
             display: flex;
             flex-direction: column;
 
+            .select_title_wrap {
+                display: flex;
+                justify-content: space-between;
+            }
+
             .title {
-                margin-bottom: 16px;
+                margin-bottom: 5px;
+            }
+
+            .found_tovar {
+                margin-bottom: 30px;
+                font-size: 15px;
+                color: #6b7280;
             }
 
             .cards_grid {

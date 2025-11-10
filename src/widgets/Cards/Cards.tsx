@@ -1,7 +1,10 @@
+import { fetchAddFavorites, fetchFavorites } from "@/store/slices/favoritesSlice";
 import s from "./style.module.scss";
-import { FaRegHeart } from "react-icons/fa";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { LuShoppingCart } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useEffect } from "react";
 
 type CardProps = {
     product: {
@@ -18,20 +21,51 @@ type CardProps = {
 export const Card = ({ product }: CardProps) => {
     const nav = useNavigate();
     const isInStock = product.in_stock;
+    const cartButtonText = isInStock ? "В корзину" : "Нет в наличии";
+    const cartButtonDisabled = !isInStock;
+    const cartButtonClass = isInStock ? s.addToCart_btn : s.addToCart_btn_disabled;
+
+    const dispatch = useAppDispatch();
+    const { favorites } = useAppSelector((state) => state.favorites);
+
+    const favoriteProductIds = favorites?.results ? favorites.results.map((item) => item.product.id) : [];
+
+    const isFavorite = favoriteProductIds.includes(product.id);
+
+    useEffect(() => {
+        if (!favorites) {
+            dispatch(fetchFavorites());
+        }
+    }, [dispatch, favorites]);
 
     const handleNav = () => {
         nav(`/catalog/${product.id}`);
     };
 
-    const cartButtonText = isInStock ? "В корзину" : "Нет в наличии";
-    const cartButtonDisabled = !isInStock;
-    const cartButtonClass = isInStock ? s.addToCart_btn : s.addToCart_btn_disabled;
-
     const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
+
         if (!isInStock) return;
 
         console.log(`Добавить товар ${product.id} в корзину`);
+    };
+
+    const handleToggleFavorite = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
+
+        if (!product?.id) return;
+
+        try {
+            await dispatch(fetchAddFavorites(product.id));
+
+            if (isFavorite) {
+                console.log(`Товар ${product.id} удаляется (POST-toggle).`);
+            } else {
+                console.log(`Товар ${product.id} добавляется (POST-toggle).`);
+            }
+        } catch (error) {
+            console.error("Ошибка при работе с избранным (toggle):", error);
+        }
     };
 
     return (
@@ -40,8 +74,8 @@ export const Card = ({ product }: CardProps) => {
                 {isInStock ? "В наличии" : "Нет в наличии"}
             </div>
 
-            <button className={s.favorite_btn} onClick={(e) => e.stopPropagation()}>
-                <FaRegHeart />
+            <button className={s.favorite_btn} onClick={handleToggleFavorite}>
+                {isFavorite ? <FaHeart color="red" /> : <FaRegHeart />}
             </button>
 
             <div className={s.image_wrap}>

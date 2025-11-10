@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type {
+    IFavorites,
     ILoginData,
     IProfileUpdate,
     IProfileUpdatePassword,
@@ -84,5 +85,14 @@ export const storesApi = {
 
     getSortingOptions() {
         return instance.get(`/catalog/sorting-options/`);
+    },
+
+    // избранные
+    getFavorites(): Promise<IFavorites[]> {
+        return instance.get<IFavorites[]>(`favourites`).then((res) => res.data);
+    },
+
+    addFavorite(id: number) {
+        return instance.post(`favourites/toggle/${id}/`);
     },
 };

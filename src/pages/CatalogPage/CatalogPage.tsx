@@ -77,11 +77,16 @@ export const CatalogPage = () => {
     const handleSortChange = (value: string) => {
         let correctedValue = value;
 
+        console.log("1. Исходный ключ (value) из Redux:", value);
+
         if (
             value === sorting?.sorting_options?.highest_price?.value &&
             sorting?.sorting_options?.highest_price?.name === "Самая высокая цена"
         ) {
             correctedValue = "-price";
+            console.log("2. Обнаружена ошибка API, ключ ИСПРАВЛЕН на:", correctedValue);
+        } else {
+            console.log("2. Ключ не требовал исправления. Отправляем:", correctedValue);
         }
 
         setSelectedSort(correctedValue);

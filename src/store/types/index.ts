@@ -164,3 +164,28 @@ export interface SortingOptionsMap {
 export interface SortingResponse {
     sorting_options: SortingOptionsMap;
 }
+
+// избранные
+
+export interface IFavorites {
+    count: number;
+    next: string | null;
+    previous: string | null;
+    results: {
+        id: number;
+        created_at: string;
+        product: {
+            id: number;
+            name: string;
+            slug: string;
+            price: string;
+            currency: string;
+            main_image: string;
+            in_stock: boolean;
+            popularity_score: string;
+            created_at: string;
+            brand: Brand;
+            categories: Category[];
+        };
+    }[];
+}

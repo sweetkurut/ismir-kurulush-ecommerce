@@ -189,3 +189,29 @@ export interface IFavorites {
         };
     }[];
 }
+
+// заявки/заказы
+
+export interface IOrderRequestResponse {
+    name: string;
+    phone: string;
+    comment: string;
+}
+
+export interface IOrderRequest {
+    id: number;
+    name: string;
+    phone: string;
+    comment: string;
+    created_at: string;
+    updated_at: string;
+    is_processed: boolean;
+}
+
+// Добавьте интерфейс для пагинированного ответа
+export interface IOrderRequestList {
+    count: number;
+    next: string | null;
+    previous: string | null;
+    results: IOrderRequest[];
+}

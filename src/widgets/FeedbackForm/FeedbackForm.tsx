@@ -4,48 +4,69 @@ import s from "./style.module.scss";
 import phone from "@/shared/assets/icons/phone.svg";
 import mail from "@/shared/assets/icons/mail.svg";
 import message from "@/shared/assets/icons/messageicon.svg";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { fetchCreateOrdersReq } from "@/store/slices/orderRequestSlice";
+import { FormGroup } from "@/components/FormGroup/FormGroup";
 
-const FormGroup = ({
-    label,
-    type = "text",
-    placeholder,
-    required = false,
-    isSelect = false,
-    options = [],
-}) => (
-    <div className={s.form_group}>
-        <label className={s.form_label}>
-            {label} {required && <span>*</span>}
-        </label>
-        {isSelect ? (
-            <select className={s.form_input} defaultValue="">
-                <option value="" disabled>
-                    Выберите тип заявкив
-                </option>
-                {options.map((option) => (
-                    <option key={option} value={option}>
-                        {option}
-                    </option>
-                ))}
-            </select>
-        ) : type === "textarea" ? (
-            <textarea className={s.form_textarea} placeholder={placeholder} rows={4}></textarea>
-        ) : (
-            <input className={s.form_input} type={type} placeholder={placeholder} required={required} />
-        )}
-    </div>
-);
+interface FormData {
+    name: string;
+    phone: string;
+    comment: string;
+}
 
 export const FeedbackForm = () => {
     const [agreed, setAgreed] = useState(false);
+    const [formData, setFormData] = useState<FormData>({
+        name: "",
+        phone: "",
+        comment: "",
+    });
 
-    const handleSubmit = (e) => {
+    const dispatch = useAppDispatch();
+    const { loading, error } = useAppSelector((state) => state.orderRequest);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
+
         if (!agreed) {
             alert("Пожалуйста, согласитесь на обработку персональных данных.");
             return;
         }
-        console.log("Form submitted");
+
+        if (!formData.name.trim() || !formData.phone.trim() || !formData.comment.trim()) {
+            alert("Пожалуйста, заполните все обязательные поля.");
+            return;
+        }
+
+        try {
+            await dispatch(
+                fetchCreateOrdersReq({
+                    name: formData.name.trim(),
+                    phone: formData.phone.trim(),
+                    comment: formData.comment.trim(),
+                })
+            ).unwrap();
+
+            alert("Заявка успешно отправлена!");
+
+            setFormData({
+                name: "",
+                phone: "",
+                comment: "",
+            });
+            setAgreed(false);
+        } catch (error) {
+            console.error("Ошибка при отправке заявки:", error);
+            alert("Произошла ошибка при отправке заявки. Пожалуйста, попробуйте еще раз.");
+        }
     };
 
     return (
@@ -83,12 +104,36 @@ export const FeedbackForm = () => {
             <div className={s.form_block}>
                 <h3 className={s.form_title}>Форма заявки</h3>
 
-                <form className={s.feedback_form} onSubmit={handleSubmit}>
-                    <FormGroup label="Имя" placeholder="Введите ваше имя" required />
-                    <FormGroup label="Телефон" placeholder="+996 XXX XX-XX-XX" required />
+                {error && <div className={s.error_message}>Ошибка: {error}</div>}
 
-                    <div className={s.full_width}>
-                        <FormGroup label="Email" placeholder="your@email.com" type="email" />
+                <form className={s.feedback_form} onSubmit={handleSubmit}>
+                    <FormGroup
+                        label="Имя"
+                        placeholder="Введите ваше имя"
+                        required
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                    />
+
+                    <FormGroup
+                        label="Телефон"
+                        placeholder="+996 XXX XX-XX-XX"
+                        required
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                    />
+
+                    {/* <div className={s.full_width}>
+                        <FormGroup 
+                            label="Email" 
+                            placeholder="your@email.com" 
+                            type="email" 
+                            name="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
+                        />
                     </div>
 
                     <div className={s.full_width}>
@@ -97,8 +142,10 @@ export const FeedbackForm = () => {
                             isSelect
                             required
                             options={["Консультация", "Запрос цены", "Техническая поддержка"]}
+                            name="requestType"
+                            onChange={handleInputChange}
                         />
-                    </div>
+                    </div> */}
 
                     <div className={s.full_width}>
                         <FormGroup
@@ -106,10 +153,13 @@ export const FeedbackForm = () => {
                             placeholder="Опишите детали вашей заявки..."
                             type="textarea"
                             required
+                            name="comment"
+                            value={formData.comment}
+                            onChange={handleInputChange}
                         />
                     </div>
 
-                    <div className={classNames(s.full_width, s.action_area)}>
+                    <div className={classNames(s.full_width)}>
                         <label className={s.privacy_checkbox}>
                             <input
                                 type="checkbox"
@@ -119,8 +169,8 @@ export const FeedbackForm = () => {
                             Я согласен на обработку персональных данных
                         </label>
 
-                        <button className={s.submit_button} type="submit">
-                            Отправить заявку
+                        <button className={s.submit_button} type="submit" disabled={loading}>
+                            {loading ? "Отправка..." : "Отправить заявку"}
                         </button>
                     </div>
                 </form>

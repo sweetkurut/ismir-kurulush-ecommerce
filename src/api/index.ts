@@ -2,6 +2,7 @@
 import type {
     IFavorites,
     ILoginData,
+    IOrderRequestResponse,
     IProfileUpdate,
     IProfileUpdatePassword,
     IResetPassword,
@@ -94,5 +95,17 @@ export const storesApi = {
 
     addFavorite(id: number) {
         return instance.post(`favourites/toggle/${id}/`);
+    },
+
+    // заказы/заявки
+
+    // create
+    addReqOrder(data: IOrderRequestResponse) {
+        return instance.post(`/order/order-request/`, data);
+    },
+
+    // get
+    getReqOrder() {
+        return instance.get(`/order/order-requests-by-user/`);
     },
 };

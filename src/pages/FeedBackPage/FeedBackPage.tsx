@@ -1,4 +1,4 @@
-import { FeedbackForm } from "@/widgets/FormGroup/FormGroup";
+import { FeedbackForm } from "@/widgets/FeedbackForm/FeedbackForm";
 import s from "./style.module.scss";
 import icon from "@/shared/assets/icons/messageicon.svg";
 

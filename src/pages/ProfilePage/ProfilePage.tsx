@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { logout } from "@/store/slices/authSlice";
 import { fetchGetProfile, clearProfileError, fetchDeleteProfile } from "@/store/slices/profileSlice";
-import { FaExclamationTriangle, FaRegUser, FaTrashAlt, FaSignOutAlt } from "react-icons/fa";
+import { FaExclamationTriangle, FaRegUser, FaTrashAlt } from "react-icons/fa";
 import { BsBox } from "react-icons/bs";
 import { FaRegHeart } from "react-icons/fa";
 import { GrDocumentText } from "react-icons/gr";
@@ -13,21 +13,9 @@ import { OrdersContent } from "./components/OrdersContent/OrdersContent";
 import { FavoritesContent } from "./components/Favorites/FavoritesContent";
 import { ApplicationsContent } from "./components/ApplicationsContent/ApplicationsContent";
 import { Modal } from "@/components/Modal/Modal";
+import { fetchGetOrdersReq } from "@/store/slices/orderRequestSlice";
+import type { IOrderRequest, IOrderRequestList } from "@/store/types";
 
-const renderTabContent = (activeTab: string) => {
-    switch (activeTab) {
-        case "profile":
-            return <ProfileContent />;
-        case "orders":
-            return <OrdersContent />;
-        case "favorites":
-            return <FavoritesContent />;
-        case "applications":
-            return <ApplicationsContent />;
-        default:
-            return <ProfileContent />;
-    }
-};
 
 export const ProfilePage = () => {
     const [activeTab, setActiveTab] = useState("profile");
@@ -40,6 +28,30 @@ export const ProfilePage = () => {
 
     const { profile, loading, error } = useAppSelector((state) => state.profile);
     const { login, isAuthenticated } = useAppSelector((state) => state.auth);
+
+     const {orders_req} = useAppSelector((state) => state.orderRequest)
+
+     const renderTabContent = (activeTab: string, orders_req: IOrderRequest[] | null) => {
+    switch (activeTab) {
+        case "profile":
+            return <ProfileContent />;
+        case "orders":
+            return <OrdersContent />;
+        case "favorites":
+            return <FavoritesContent />;
+        case "applications":
+            return <ApplicationsContent orders_req={orders_req}  />;
+        default:
+            return <ProfileContent />;
+    }
+};
+
+
+      console.log(orders_req, 'заказы');
+     
+         useEffect(() => {
+             dispatch(fetchGetOrdersReq())
+         },[])
 
     useEffect(() => {
         dispatch(clearProfileError());
@@ -265,7 +277,7 @@ export const ProfilePage = () => {
                                     <button onClick={handleRetry}>Обновить</button>
                                 </div>
                             )}
-                            {renderTabContent(activeTab)}
+                            {renderTabContent(activeTab, orders_req)}
                         </div>
                     </div>
                 </div>

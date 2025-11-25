@@ -2,6 +2,7 @@
 import type {
     IFavorites,
     ILoginData,
+    IOrderRequestList,
     IOrderRequestResponse,
     IProfileUpdate,
     IProfileUpdatePassword,
@@ -101,11 +102,11 @@ export const storesApi = {
 
     // create
     addReqOrder(data: IOrderRequestResponse) {
-        return instance.post(`/order/order-request/`, data);
+        return instance.post(`order/order-request/`, data);
     },
 
-    // get
-    getReqOrder() {
-        return instance.get(`/order/order-requests-by-user/`);
-    },
+ getReqOrder() {
+    return instance.get<IOrderRequestList[]>(`order/order-requests-by-user/`);
+},
+
 };

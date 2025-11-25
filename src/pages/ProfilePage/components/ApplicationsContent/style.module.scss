@@ -56,19 +56,20 @@
     flex-shrink: 0;
 }
 
-.appStatus {
-    padding: 6px 12px;
+.orderStatus {
+    padding: 4px 10px;
     border-radius: 5px;
     font-size: 12px;
     font-weight: 600;
+    margin-left: auto;
 }
 
-.statusPending {
-    background: #fef3c7; /* Светло-желтый */
-    color: #b45309; /* Темно-оранжевый */
+.statusDelivered {
+    background: #f15027;
+    color: #ffffff;
 }
 
-.statusCompleted {
-    background: #d1fae5; /* Светло-зеленый */
-    color: #065f46; /* Темно-зеленый */
+.statusProcessing {
+    background: #2c313a;
+    color: #fff;
 }

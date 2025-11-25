@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type { IOrderRequestList, IOrderRequestResponse } from "../types";
+import type { IOrderRequest, IOrderRequestList, IOrderRequestResponse } from "../types";
 import { storesApi } from "@/api";
 import { handleApiError } from "@/utils/validation";
 
@@ -16,17 +16,35 @@ const initialState: InfoState = {
     orders_req: null,
 };
 
-export const fetchGetOrdersReq = createAsyncThunk<IOrderRequestList[], void, { rejectValue: string }>(
-    "orders_req/fetchFavorites",
-    async (_, { rejectWithValue }) => {
-        try {
-            const data = await storesApi.getReqOrder();
-            return data;
-        } catch (error: any) {
-            return rejectWithValue(`Ошибка: ${error}`);
-        }
+// export const fetchGetOrdersReq = createAsyncThunk<
+//     IOrderRequestList[],
+//     void,
+//     { rejectValue: string }
+// >(
+//     "orders_req/fetchGetOrdersReq",
+//     async (_, { rejectWithValue }) => {
+//         try {
+//             const response = await storesApi.getReqOrder();
+//             return response.data;  
+//         } catch (error: any) {
+//             return rejectWithValue(`Ошибка: ${error}`);
+//         }
+//     }
+// );
+
+export const fetchGetOrdersReq = createAsyncThunk<IOrderRequest[], void, { rejectValue: string }>(
+  "orders_req/fetchOrders",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await storesApi.getReqOrder();
+      return response.data; // это уже массив
+    } catch (error: any) {
+      return rejectWithValue(`Ошибка: ${error}`);
     }
+  }
 );
+
+
 
 export const fetchCreateOrdersReq = createAsyncThunk(
     "orders_req/fetchCreateOrdersReq",

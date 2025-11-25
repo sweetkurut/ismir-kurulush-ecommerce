@@ -39,7 +39,7 @@ interface ProductQueryParams {
 
 export const fetchGetProducts = createAsyncThunk<
     Products[],
-    ProductQueryParams, // ⬅️ Теперь ожидаем объект параметров
+    ProductQueryParams, 
     { rejectValue: string }
 >("products/fetchGetProducts", async (params, { rejectWithValue }) => {
     try {

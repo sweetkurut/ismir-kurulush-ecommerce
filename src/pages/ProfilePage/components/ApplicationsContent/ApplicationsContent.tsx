@@ -1,38 +1,67 @@
-import s from "./style.module.scss";
 
-export const ApplicationsContent = () => {
+import type { IOrderRequest } from "@/store/types";
+import s from "./style.module.scss";
+import { useNavigate } from "react-router-dom";
+
+
+interface OrdersContentProps {
+    orders_req: IOrderRequest[] | null;
+}
+
+export const ApplicationsContent = ({ orders_req }: OrdersContentProps) => {
+     const orders = orders_req ?? [];
+     const nav = useNavigate()
+
+
+     const handleNav = () => {
+        nav('/feedback')
+     }
+
+    
+
+
     return (
         <div className={s.tabContentApplications}>
-            <div className={s.applicationHeader}>
+            <div className={s.applicationHeader} >
                 <h3>Мои заявки на услуги или консультации</h3>
-                <button className={s.newApplicationBtn}>+ Создать новую заявку</button>
+                <button className={s.newApplicationBtn} onClick={handleNav}>+ Создать новую заявку</button>
             </div>
 
-            <div className={s.applicationCard}>
+             {orders.length ? (
+                    orders.map(order => (
+                       <div className={s.applicationCard}>
                 <div className={s.appDetails}>
-                    <h4>Заявка #APP-003</h4>
-                    <p className={s.appType}>Тип: Консультация по монтажу</p>
-                    <p className={s.appDate}>Дата создания: 01 октября 2025</p>
-                    <p className={s.appDescription}>
-                        Требуется помощь в расчете материалов для системы отопления.
-                    </p>
+                    <h4>Заявка #{order.id}</h4>
+                    {/* <p className={s.appType}>Тип: Запрос на замер</p> */}
+                    <p className={s.appDate}>Дата создания: {new Date(order.created_at).toLocaleDateString()}</p>
+                    <p className={s.appDescription}>{order.name}</p>
+                    <p className={s.appDescription}>{order.comment}</p>
+                    <p className={s.appDescription}>{order.phone}</p>
                 </div>
                 <div className={s.appStatusTag}>
-                    <span className={`${s.appStatus} ${s.statusPending}`}>На рассмотрении</span>
+                   <span className={`${s.orderStatus} ${order.is_processed ? s.statusDelivered : s.statusProcessing}`}>
+                                    {order.is_processed ? "Доставлен" : "В обработке"}
+                                </span>
                 </div>
             </div>
+                    ))
+                ) : (
+                    <p>Заявки не найдены</p>
+                )}
 
-            <div className={s.applicationCard}>
+            {/* <div className={s.applicationCard}>
                 <div className={s.appDetails}>
-                    <h4>Заявка #APP-002</h4>
+                    <h4>Заявка #{order.id}</h4>
                     <p className={s.appType}>Тип: Запрос на замер</p>
-                    <p className={s.appDate}>Дата создания: 18 сентября 2025</p>
-                    <p className={s.appDescription}>Замер помещения для установки сантехники.</p>
+                    <p className={s.appDate}>Дата создания: {new Date(order.created_at).toLocaleDateString()}</p>
+                    <p className={s.appDescription}>{order.comment}</p>
                 </div>
                 <div className={s.appStatusTag}>
-                    <span className={`${s.appStatus} ${s.statusCompleted}`}>Выполнена</span>
+                   <span className={`${s.orderStatus} ${order.is_processed ? s.statusDelivered : s.statusProcessing}`}>
+                                    {order.is_processed ? "Доставлен" : "В обработке"}
+                                </span>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 };

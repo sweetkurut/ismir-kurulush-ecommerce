@@ -7,6 +7,7 @@ import { CiHeart, CiUser } from "react-icons/ci";
 import { SlBasket } from "react-icons/sl";
 
 import logo from "@/shared/assets/images/logo.svg";
+import { useAppSelector } from "@/store/hooks";
 
 interface HeaderProps {
     className?: string;
@@ -21,6 +22,10 @@ const navItems = [
 ];
 
 export const Header = ({ className }: HeaderProps) => {
+
+    const { cart } = useAppSelector((state) => state.cart);
+    const totalItemsInCart = cart?.items.length ?? 0;
+
     return (
         <header className={classNames(s.Header, {}, [className])}>
             <div className={s.TopBar}>
@@ -53,7 +58,11 @@ export const Header = ({ className }: HeaderProps) => {
                         </AppLink>
                         <AppLink to="/basket" className={s.actionIconLink}>
                             <SlBasket />
-                            <span className={s.badge}>0</span>
+                        {totalItemsInCart > 0 && (
+                        <span className={s.badge}>
+                            {totalItemsInCart > 99 ? "99+" : totalItemsInCart}
+                        </span>
+                        )}
                         </AppLink>
                         <AppLink to="/profile" className={s.actionIconLink}>
                             <CiUser />

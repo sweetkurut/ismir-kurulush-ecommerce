@@ -7,6 +7,7 @@ import ProductsSlice from "./slices/productsSlice";
 import SortingSlice from "./slices/sortingSlice";
 import Favorites from "./slices/favoritesSlice";
 import OrderRequestSlice from "./slices/orderRequestSlice";
+import CartSlice from './slices/cartSlice'
 
 export const store = configureStore({
     reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
         sorting: SortingSlice,
         favorites: Favorites,
         orderRequest: OrderRequestSlice,
+        cart: CartSlice,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

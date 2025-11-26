@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type {
+    AddToCartRequest,
+    // AddCart,
+    AddToCartResponse,
     IFavorites,
     ILoginData,
     IOrderRequestList,
@@ -10,6 +13,8 @@ import type {
     ISetPassword,
     ISignUpEmail,
     IVerifyCode,
+    RemoveCartItemRequest,
+    UpdateCartItemRequest,
 } from "@/store/types";
 import instance from "./axiosInstance";
 
@@ -108,5 +113,24 @@ export const storesApi = {
  getReqOrder() {
     return instance.get<IOrderRequestList[]>(`order/order-requests-by-user/`);
 },
+
+// корзина
+    getCartsList() {
+        return instance.get('order/cart')
+    },
+
+addToCart(data: AddToCartRequest) {
+    return instance.post(`order/cart/add_item/`, data); // ← слеш в конце тоже добавил, как у тебя везде
+},
+
+// обновить кол-во товара корзины
+
+   
+
+updateCartItem: (data: UpdateCartItemRequest) => 
+  instance.patch("order/cart/update_item/", data), // или PUT — как у тебя
+
+removeCartItem: (data: RemoveCartItemRequest) => 
+  instance.post("order/cart/remove_item/", data),
 
 };

@@ -215,3 +215,78 @@ export interface IOrderRequestList {
     previous: string | null;
     results: IOrderRequest[];
 }
+
+
+// корзина
+
+
+
+export interface Product {
+  id: number;
+  name: string;
+  slug: string;
+  brand: Brand;
+  categories: Category[];
+  price: string;                    // приходит как строка "1950.00"
+  currency: string;                 // "сом"
+  main_image: string;
+  in_stock: boolean;
+  popularity_score: string;         // тоже строка в твоём JSON
+  created_at: string;               // ISO дата
+}
+
+export interface CartItem {
+  id: number;
+  product: Product;
+  quantity: number;
+  total_price: string;
+}
+
+export interface Cart {
+  id: number;
+  user: number;
+  session_id: number | null;
+  items: CartItem[];
+  total_amount: string;
+}
+
+export interface AddToCartRequest {
+  product: number;
+  quantity: number;
+}
+
+// 2. Интерфейс ответа (на основе твоего JSON из прошлого сообщения)
+export interface AddToCartResponse {
+  id: number;
+  user: number;
+  session_id: number | null;
+  items: Array<{
+    id: number;
+    product: {
+      id: number;
+      name: string;
+      slug: string;
+      brand: { id: number; name: string; slug: string };
+      categories: Array<{ id: number; name: string; slug: string }>;
+      price: string;
+      currency: string;
+      main_image: string;
+      in_stock: boolean;
+      popularity_score: string;
+      created_at: string;
+    };
+    quantity: number;
+    total_price: string;
+  }>;
+  total_amount: string;
+}
+
+
+export interface UpdateCartItemRequest {
+  item_id: number;
+  quantity: number; // новое количество (1, 2, 3...)
+}
+
+export interface RemoveCartItemRequest {
+  item_id: number;
+}

@@ -3,6 +3,56 @@
     padding: 30px 0 60px;
 }
 
+
+.auth {
+    background: linear-gradient(90deg, rgba(248, 112, 23, 0.15) 0%, #eaeaea 50%, #2c313a4d 100%);
+    margin-bottom: 50px;
+    .auth_container {
+        max-width: var(--container-width);
+        margin: 0 auto;
+        padding: 80px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        // justify-content: center;
+
+        .unauthorizedTitle {
+            text-align: center;
+            font-size: 55px;
+            color: var(--color-black);
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .unauthorizedText {
+            text-align: center;
+            color: #7d7280;
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 28px;
+        }
+
+        .loginButton_wrap {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+
+            .loginButton {
+                background: transparent;
+                padding: 10px 30px;
+                border: 1px solid var(--border-support);
+                background: var(--color-btn);
+                border-radius: 10px;
+                font-size: 15px;
+                font-family: var(--font-opensans-r);
+                font-weight: 500;
+                color: #fff;
+            }
+        }
+    }
+}
+
 .container {
     max-width: var(--container-width);
     width: 90%;

@@ -5,12 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useEffect } from "react";
 import { fetchGetProducts } from "@/store/slices/productsSlice";
+import { SkeletonCard } from "@/components/SkeletonCard/SkeletonCard";
 
 export const Popular = () => {
     const nav = useNavigate();
 
     const dispatch = useAppDispatch();
-    const { loading, error, products } = useAppSelector((state) => state.products);
+    const { loading,  products } = useAppSelector((state) => state.products);
 
     useEffect(() => {
         dispatch(fetchGetProducts());
@@ -29,10 +30,13 @@ export const Popular = () => {
                         Смотреть все <FiArrowRight className={s.icon} />
                     </button>
                 </div>
+
                 <div className={s.cards_grid}>
-                    {products?.map((product) => (
-                        <Card key={product.id} product={product} />
-                    ))}
+                    {loading
+                        ? [...Array(6)].map((_, i) => <SkeletonCard key={i} />)
+                        : products?.map((product) => (
+                              <Card key={product.id} product={product} />
+                          ))}
                 </div>
             </div>
         </div>

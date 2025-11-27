@@ -9,6 +9,8 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchGetDetailProducts } from "@/store/slices/productsSlice";
 import { fetchAddFavorites } from "@/store/slices/favoritesSlice";
 import { fetchAddToCart, updateCartItem } from "@/store/slices/cartSlice";
+import { SkeletonDetail } from "@/components/SkeletonDetail/SkeletonDetail";
+import { SkeletonSimilarCard } from "@/components/SkeletonSimilarCard/SkeletonSimilarCard";
 
 export const DetailCatalogPage = () => {
   const { id } = useParams();
@@ -64,7 +66,7 @@ export const DetailCatalogPage = () => {
     await dispatch(fetchAddFavorites(product.id));
   };
 
-  if (loading) return <div className={s.loader}>Загрузка...</div>;
+  if (loading) return <SkeletonDetail />;
   if (!product) return <div className={s.notFound}>Товар не найден</div>;
 
   return (
@@ -174,16 +176,29 @@ export const DetailCatalogPage = () => {
       </div>
 
       {/* Похожие товары */}
-      {product.similar?.length > 0 && (
-        <div className={s.same_tovar}>
-          <h2 className={s.title_cards}>Похожие товары</h2>
-          <div className={s.cards_grid}>
-            {product.similar.map((item) => (
-              <Card key={item.id} product={item} />
-            ))}
-          </div>
-        </div>
-      )}
+     {loading ? (
+  <div className={s.same_tovar}>
+    <h2 className={s.title_cards}>Похожие товары</h2>
+
+    <div className={s.cards_grid}>
+      {[1,2,3,4].map((i) => (
+        <SkeletonSimilarCard key={i} />
+      ))}
+    </div>
+  </div>
+) : (
+  product.similar?.length > 0 && (
+    <div className={s.same_tovar}>
+      <h2 className={s.title_cards}>Похожие товары</h2>
+      <div className={s.cards_grid}>
+        {product.similar.map((item) => (
+          <Card key={item.id} product={item} />
+        ))}
+      </div>
+    </div>
+  )
+)}
+
     </div>
   );
 };

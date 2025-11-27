@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchGetProducts } from "@/store/slices/productsSlice";
 import { CustomSelect } from "@/components/Select/Select";
 import { fetchGetSorting } from "@/store/slices/sortingSlice";
+import { SkeletonCard } from "@/components/SkeletonCard/SkeletonCard";
 
 const ITEMS_PER_PAGE = 8;
 
@@ -77,7 +78,6 @@ export const CatalogPage = () => {
     const handleSortChange = (value: string) => {
         let correctedValue = value;
 
-        console.log("1. Исходный ключ (value) из Redux:", value);
 
         if (
             value === sorting?.sorting_options?.highest_price?.value &&
@@ -104,6 +104,7 @@ export const CatalogPage = () => {
 
     return (
         <div className={s.wrapper}>
+             {/* <Loader /> */}
             <div className={s.container}>
                 <div className={s.filter_wrap}>
                     <Filter />
@@ -113,9 +114,9 @@ export const CatalogPage = () => {
                     <div className={s.select_title_wrap}>
                         <div>
                             <h2 className={s.title}>Каталог товаров</h2>
-                            <span className={s.found_tovar}>{`Найдено ${
+                            {/* <span className={s.found_tovar}>{`Найдено ${
                                 products?.length ?? 0
-                            } товаров`}</span>
+                            } товаров`}</span> */}
                         </div>
 
                         <div>
@@ -130,15 +131,26 @@ export const CatalogPage = () => {
                         </div>
                     </div>
 
-                    {loading && <p>Загрузка...</p>}
+                            {loading && (
+                        <div className={s.cards_grid}>
+                            {Array.from({ length: 8 }).map((_, i) => (
+                                <SkeletonCard key={i} />
+                            ))}
+                        </div>
+                    )}
+
                     {error && <p>Ошибка загрузки</p>}
+
                     {!loading && currentProducts?.length === 0 && <p>Нет товаров</p>}
 
-                    <div className={s.cards_grid}>
-                        {currentProducts?.map((product) => (
-                            <Card key={product.id} product={product} />
-                        ))}
-                    </div>
+        {/* Если загрузки нет — показываем карточки */}
+                    {!loading && (
+                        <div className={s.cards_grid}>
+                            {currentProducts?.map((product) => (
+                                <Card key={product.id} product={product} />
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -146,3 +158,5 @@ export const CatalogPage = () => {
         </div>
     );
 };
+
+

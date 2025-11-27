@@ -6,6 +6,8 @@ import s from "./style.module.scss";
 import { GiCheckMark } from "react-icons/gi";
 import { Link, NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { SkeletonBasketItem } from "@/components/SkeletonBasketItem/SkeletonBasketItem";
+import { SkeletonSummary } from "@/components/SkeletonSummary/SkeletonSummary";
 
 
 
@@ -15,10 +17,11 @@ const BasketLoadingState = memo(() => (
     <div className={s.container}>
       <h1 className={s.title}>Корзина</h1>
       <div className={s.skeletonList}>
-        {[...Array(4)].map((_, i) => (
-          <div key={i} className={s.skeletonItem} />
-        ))}
-      </div>
+  {[...Array(4)].map((_, i) => (
+    <SkeletonBasketItem key={i} />
+  ))}
+</div>
+
     </div>
   </div>
 ));
@@ -91,11 +94,10 @@ export const BasketPage = memo(() => {
         <h1 className={s.title}>Корзина ({itemsCount})</h1>
 
         <div className={s.basketLayout}>
-          {/* Список товаров — самый тяжёлый блок */}
           <div className={s.itemsList}>
             {cart.items.map((cartItem) => (
               <BasketItemCard
-                key={cartItem.id} // критично!
+                key={cartItem.id} 
                 cartItem={cartItem}
                 // isUpdating={addLoading}
               />
@@ -104,6 +106,7 @@ export const BasketPage = memo(() => {
 
           {/* Итоги — лёгкий блок */}
           <div className={s.summaryBlock}>
+            {/* <SkeletonSummary /> */}
             <div className={s.summaryTitle}>Итого</div>
 
             <div className={s.totalTable}>

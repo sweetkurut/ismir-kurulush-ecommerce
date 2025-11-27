@@ -14,7 +14,9 @@ import { FavoritesContent } from "./components/Favorites/FavoritesContent";
 import { ApplicationsContent } from "./components/ApplicationsContent/ApplicationsContent";
 import { Modal } from "@/components/Modal/Modal";
 import { fetchGetOrdersReq } from "@/store/slices/orderRequestSlice";
-import type { IOrderRequest, IOrderRequestList } from "@/store/types";
+import type { IOrderRequest } from "@/store/types";
+import { Loader } from "@/components/Loader/Loader";
+import { SkeletonProfile } from "@/components/SkeletonProfile/SkeletonProfile";
 
 
 export const ProfilePage = () => {
@@ -47,7 +49,6 @@ export const ProfilePage = () => {
 };
 
 
-      console.log(orders_req, 'заказы');
      
          useEffect(() => {
              dispatch(fetchGetOrdersReq())
@@ -99,9 +100,6 @@ export const ProfilePage = () => {
                 <div className={s.auth_container}>
                     <div className={s.unauthorized}>
                         <div className={s.unauthorizedContent}>
-                            {/* <div className={s.icon_wrap}>
-                                <FaRegUser className={s.icon_auth} />
-                            </div> */}
                             <div>
                                 <h3 className={s.unauthorizedTitle}>Требуется авторизация</h3>
                             </div>
@@ -122,18 +120,23 @@ export const ProfilePage = () => {
         );
     }
 
+    // if (loading && !profile) {
+    //     return (
+    //         <div className={s.wrapper}>
+    //             <div className={s.container}>
+    //                 <div className={s.loading}>
+    //                     <SkeletonProfile />
+    //                     {/* <h2>загрузка</h2> */}
+                        
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     );
+    // }
+
     if (loading && !profile) {
-        return (
-            <div className={s.wrapper}>
-                <div className={s.container}>
-                    <div className={s.loading}>
-                        <div className={s.spinner}></div>
-                        Загрузка профиля...
-                    </div>
-                </div>
-            </div>
-        );
-    }
+    return <SkeletonProfile />;
+}
 
     if (error && !profile) {
         return (

@@ -27,7 +27,7 @@ export const Header = ({ className }: HeaderProps) => {
 
     useEffect(() => {
         let lastScrollY = 0;
-        const threshold = 80; // сколько пикселей проскроллить, чтобы скрыть
+        const threshold = 90; 
 
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
@@ -62,7 +62,6 @@ export const Header = ({ className }: HeaderProps) => {
                 </div>
             </div>
 
-            {/* MainBar */}
             <div className={s.MainBar}>
                 <div className={classNames(s.MainBarContent, {}, ["container"])}>
                     <div className={s.burger_logo_wrap}>
@@ -70,7 +69,7 @@ export const Header = ({ className }: HeaderProps) => {
                             <MobileMenu />
                         </div>
                         <AppLink to="/" className={s.logoLink}>
-                            <img src={logo} alt="ISMIR KURULUSH" />
+                            <img src={logo} alt="ISMIR KURULUSH" className={s.logo_img}/>
                         </AppLink>
                     </div>
 

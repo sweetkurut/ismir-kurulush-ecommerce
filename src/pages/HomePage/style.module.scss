@@ -53,19 +53,15 @@
             line-height: 28px;
             margin-bottom: 60px;
 
-
-
             @media (max-width: 768px) {
                 font-size: 18px;
                 line-height: 22px;
-                // margin-bottom: 30px;
                 max-width: 350px;
                 margin: 0 auto;
             }
             @media (max-width: 490px) {
                 font-size: 16px;
                 line-height: 22px;
-                // margin-bottom: 30px;
                 max-width: 350px;
                 margin: 0 auto;
             }
@@ -75,8 +71,6 @@
             display: flex;
             align-items: center;
             gap: 25px;
-
-         
 
             @media (max-width: 490px) {
                 flex-direction: column;
@@ -98,7 +92,6 @@
                 gap: 5px;
                 align-items: center;
                 background: var(--color-btn);
-                // background: none;
                 color: var(--color-white);
                 border-radius: 8px;
 
@@ -106,11 +99,8 @@
                     font-size: 20px;
                 }
 
-
                 @media (max-width: 768px) {
-                    // width: 0%;
                     max-width: 300px;
-                    // margin: 0 auto;
                     text-align: center;
                     display: flex;
                     gap: 5px;
@@ -137,7 +127,6 @@
 
 
                 @media (max-width: 768px) {
-                    // width: 50%;
                     max-width: 300px;
                 }
             }
@@ -165,7 +154,6 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        // gap: 10px;
 
 
          @media (max-width: 1024px) {
@@ -175,21 +163,7 @@
                 justify-content: center;
             }
 
-            // @media (max-width: 768px) {
-            //     display: flex;
-            //     flex-wrap: wrap;
-            //     align-items: center;
-            //     justify-content: center;
-            // }
-
-            // @media (max-width: 480px) {
-            //     grid-template-columns: 1fr 1fr; 
-            //     gap: 8px;
-            // }
-
-            // @media (max-width: 360px) {
-            //     grid-template-columns: 1fr 1fr;
-            // }
+           
 
         .card {
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);

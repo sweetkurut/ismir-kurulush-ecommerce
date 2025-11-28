@@ -1,21 +1,17 @@
 .Header {
     position: fixed;
     top: 0;
-    // left: 0;
-    // right: 0;
     z-index: 1000;
     width: 100%;
     background-color: var(--color-white);
     font-family: var(--font-opensans-r);
     border-bottom: 1px solid var(--border-support);
-
     transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
     transform: translateY(0);
 
     &.hidden {
         transform: translateY(-100%);
     }
-
 
     &::before {
         content: "";
@@ -29,18 +25,12 @@
         z-index: -1;
         pointer-events: none;
     }
-   
-
-    
 }
 
 .TopBar {
     background-color: var(--color-bg-secondary);
     font-size: 14px;
     color: var(--text-gray);
-    // max-width: 100%;
-
-    
 
     .TopBarContent {
     display: flex;
@@ -69,19 +59,14 @@
 
 
 .MainBar {
-   
     padding: 20px 0;
     border-bottom: 1px solid var(--border-support);
-    
 
      .burger_logo_wrap {
         display: flex;
         align-items: center;
         gap: 10px;
     }
-
-
-    
 }
 
 .MainBarContent {
@@ -123,7 +108,6 @@
     border-radius: 10px;
     padding: 0 10px;
 
-
      @media (max-width: 960px) {
         display: none;
     }
@@ -155,7 +139,6 @@
     display: flex;
     gap: 15px;
 
-
     @media (max-width: 500px) {
         gap: 0;
     }
@@ -169,10 +152,6 @@
     display: flex;
     align-items: center;
     transition: color 0.2s ease;
-
-    // &:hover {
-    //     color: red;
-    // }
 }
 
 .badge {
@@ -193,8 +172,6 @@
 
 .MenuBar {
     background-color: var(--color-white);
-
-   
 
      @media (max-width: 960px) {
         display: none;

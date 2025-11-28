@@ -33,15 +33,14 @@ export const Header = ({ className }: HeaderProps) => {
             const currentScrollY = window.scrollY;
 
             if (currentScrollY > threshold && currentScrollY > lastScrollY) {
-                setIsHidden(true);  // скролл вниз → скрываем
+                setIsHidden(true);  
             } else if (currentScrollY < lastScrollY) {
-                setIsHidden(false); // скролл вверх → показываем
+                setIsHidden(false); 
             }
 
             lastScrollY = currentScrollY;
         };
 
-        // passive: true — для плавности скролла
         window.addEventListener("scroll", handleScroll, { passive: true });
 
         return () => window.removeEventListener("scroll", handleScroll);
@@ -98,7 +97,6 @@ export const Header = ({ className }: HeaderProps) => {
                 </div>
             </div>
 
-            {/* MenuBar — нижнее меню */}
             <nav className={s.MenuBar}>
                 <div className={classNames(s.MenuContent, {}, ["container"])}>
                     <ul className={s.navigationList}>

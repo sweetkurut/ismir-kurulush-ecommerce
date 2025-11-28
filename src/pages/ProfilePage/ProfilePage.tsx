@@ -15,7 +15,6 @@ import { ApplicationsContent } from "./components/ApplicationsContent/Applicatio
 import { Modal } from "@/components/Modal/Modal";
 import { fetchGetOrdersReq } from "@/store/slices/orderRequestSlice";
 import type { IOrderRequest } from "@/store/types";
-import { Loader } from "@/components/Loader/Loader";
 import { SkeletonProfile } from "@/components/SkeletonProfile/SkeletonProfile";
 
 

@@ -1,21 +1,31 @@
 .Header {
-    // z-index: 999;
-    // position: sticky;
-    // top: 0;
+    position: sticky;
+    z-index: 999;
+    top: 0;
     width: 100%;
     background-color: var(--color-white);
     // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     font-family: var(--font-opensans-r);
     border-bottom: 1px solid var(--border-support);
+
+    transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(0);
+
+    &.hidden {
+        transform: translateY(-100%);
+    }
+   
 }
 
 .TopBar {
     background-color: var(--color-bg-secondary);
     font-size: 14px;
     color: var(--text-gray);
-}
+    // max-width: 100%;
 
-.TopBarContent {
+    
+
+    .TopBarContent {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -32,11 +42,29 @@
         text-decoration: none;
         font-weight: 600;
     }
+
+     @media (max-width: 960px) {
+        display: none;
+    }
+}
 }
 
+
+
 .MainBar {
+   
     padding: 20px 0;
     border-bottom: 1px solid var(--border-support);
+    
+
+     .burger_logo_wrap {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+
+    
 }
 
 .MainBarContent {
@@ -71,6 +99,11 @@
     border: 1px solid var(--border-support);
     border-radius: 10px;
     padding: 0 10px;
+
+
+     @media (max-width: 960px) {
+        display: none;
+    }
 }
 
 .searchIcon {
@@ -132,6 +165,12 @@
 
 .MenuBar {
     background-color: var(--color-white);
+
+   
+
+     @media (max-width: 960px) {
+        display: none;
+    }
 }
 
 .MenuContent {
@@ -162,4 +201,18 @@
             width: 100%;
         }
     }
+}
+
+.mobileOnly {
+  display: none;
+
+  @media (max-width: 960px) {
+    display: block;
+  }
+}
+
+.actionIcons {
+  @media (max-width: 960px) {
+    gap: 20px;
+  }
 }

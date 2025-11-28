@@ -26,18 +26,27 @@
     line-height: 28px;
 }
 
+
+
 .cards_grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 32px;
     padding: 10px;
 
-    @media (max-width: 992px) {
+     @media (max-width: 1024px) {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    @media (max-width: 600px) {
-        grid-template-columns: 1fr;
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr 1fr;  
+        gap: 10px;
+    }
+
+    @media (max-width: 480px) {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        padding: 0 10px;
     }
 }
 
@@ -52,11 +61,19 @@
     border-radius: 8px;
     transition: 0.2s all;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+     width: 100%; 
 
     // &:hover {
     //     transform: scale(1.03);
     //     background: #f8f8f8;
     // }
+
+
+     @media (max-width: 480px) {
+       
+        padding: 10px;
+    }
+    
 }
 
 .icon_wrap {
@@ -81,11 +98,23 @@
     font-weight: 400;
     font-family: var(--font-opensans-r);
     margin: 0 0 10px;
+
+    @media (max-width: 480px) {
+        font-size: 16px;
+        padding: 10px;
+        padding-top: 0px;
+        margin-bottom: 0;
+    }
 }
 
 .card_desc {
     font-size: 14px;
     line-height: 1.6;
     color: var(--color-text-desc);
-    width: 400px;
+    width: 100%;
+
+     @media (max-width: 480px) {
+        font-size: 13px;
+        padding: 10px;
+    }
 }

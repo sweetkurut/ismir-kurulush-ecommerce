@@ -1,13 +1,13 @@
 import { classNames } from "@/shared/lib/classNames/classNames";
 import s from "./style.module.scss";
 import { AppLink } from "@/shared/ui/AppLink/AppLink";
-
 import { FaSearch } from "react-icons/fa";
 import { CiHeart, CiUser } from "react-icons/ci";
 import { SlBasket } from "react-icons/sl";
-
 import logo from "@/shared/assets/images/logo.svg";
 import { useAppSelector } from "@/store/hooks";
+import { MobileMenu } from "../MobileMenu/MobileMenu";
+import { useEffect, useState } from "react";
 
 interface HeaderProps {
     className?: string;
@@ -17,17 +17,39 @@ const navItems = [
     { title: "Главная", to: "/" },
     { title: "Каталог", to: "/catalog" },
     { title: "Услуги", to: "/service" },
-    // { title: "Контакты", to: "/feedback" },
     { title: "Оставить заявку", to: "/feedback" },
 ];
 
 export const Header = ({ className }: HeaderProps) => {
-
+    const [isHidden, setIsHidden] = useState(false);
     const { cart } = useAppSelector((state) => state.cart);
     const totalItemsInCart = cart?.items.length ?? 0;
 
+    useEffect(() => {
+        let lastScrollY = 0;
+        const threshold = 80; // сколько пикселей проскроллить, чтобы скрыть
+
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY > threshold && currentScrollY > lastScrollY) {
+                setIsHidden(true);  // скролл вниз → скрываем
+            } else if (currentScrollY < lastScrollY) {
+                setIsHidden(false); // скролл вверх → показываем
+            }
+
+            lastScrollY = currentScrollY;
+        };
+
+        // passive: true — для плавности скролла
+        window.addEventListener("scroll", handleScroll, { passive: true });
+
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
     return (
-        <header className={classNames(s.Header, {}, [className])}>
+        <header className={classNames(s.Header, { [s.hidden]: isHidden }, [className])}>
+            {/* TopBar */}
             <div className={s.TopBar}>
                 <div className={classNames(s.TopBarContent, {}, ["container"])}>
                     <div className={s.info}>
@@ -40,11 +62,17 @@ export const Header = ({ className }: HeaderProps) => {
                 </div>
             </div>
 
+            {/* MainBar */}
             <div className={s.MainBar}>
                 <div className={classNames(s.MainBarContent, {}, ["container"])}>
-                    <AppLink to={"/"} className={s.logoLink}>
-                        <img src={logo} alt="logo" />
-                    </AppLink>
+                    <div className={s.burger_logo_wrap}>
+                        <div className={s.mobileOnly}>
+                            <MobileMenu />
+                        </div>
+                        <AppLink to="/" className={s.logoLink}>
+                            <img src={logo} alt="ISMIR KURULUSH" />
+                        </AppLink>
+                    </div>
 
                     <div className={s.searchContainer}>
                         <FaSearch className={s.searchIcon} />
@@ -58,11 +86,11 @@ export const Header = ({ className }: HeaderProps) => {
                         </AppLink>
                         <AppLink to="/basket" className={s.actionIconLink}>
                             <SlBasket />
-                        {totalItemsInCart > 0 && (
-                        <span className={s.badge}>
-                            {totalItemsInCart > 99 ? "99+" : totalItemsInCart}
-                        </span>
-                        )}
+                            {totalItemsInCart > 0 && (
+                                <span className={s.badge}>
+                                    {totalItemsInCart > 99 ? "99+" : totalItemsInCart}
+                                </span>
+                            )}
                         </AppLink>
                         <AppLink to="/profile" className={s.actionIconLink}>
                             <CiUser />
@@ -71,6 +99,7 @@ export const Header = ({ className }: HeaderProps) => {
                 </div>
             </div>
 
+            {/* MenuBar — нижнее меню */}
             <nav className={s.MenuBar}>
                 <div className={classNames(s.MenuContent, {}, ["container"])}>
                     <ul className={s.navigationList}>

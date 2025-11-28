@@ -1,5 +1,4 @@
 import s from "./style.module.scss";
-// Условные пути к SVG-иконкам. Замените их на фактические пути.
 import qualityIcon from "@/shared/assets/icons/check.svg";
 import deliveryIcon from "@/shared/assets/icons/card_icon1.svg";
 import individualIcon from "@/shared/assets/icons/individual.svg";
@@ -7,7 +6,6 @@ import warrantyIcon from "@/shared/assets/icons/garanty.svg";
 import priceIcon from "@/shared/assets/icons/abouticon3.svg";
 import supportIcon from "@/shared/assets/icons/support.svg";
 
-// Данные для карточек преимуществ
 const reasonsData = [
     {
         id: 1,

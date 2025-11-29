@@ -2,14 +2,33 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
     gap: 25px;
-    padding: 10px 0 50px;
+    padding: 10px;
+    padding-top: 32px;
+    padding-bottom: 50px;
+
+    @media (max-width: 1024px) {
+        padding: 15px;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+
+    @media (max-width: 768px) {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 12px;
+    }
+
+    @media (max-width: 480px) {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    @media (max-width: 360px) {
+        grid-template-columns: 1fr 1fr;
+    }
 }
 
 .tabContentFavorites {
-    border: 1px solid var(--border-support);
-    padding: 24px;
     margin-bottom: 20px;
     border-radius: 12px;
-    height: 700px;
+    height: 600px;
     overflow: scroll;
 }

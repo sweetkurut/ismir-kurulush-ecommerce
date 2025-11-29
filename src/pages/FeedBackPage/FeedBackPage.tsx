@@ -1,8 +1,12 @@
 import { FeedbackForm } from "@/widgets/FeedbackForm/FeedbackForm";
 import s from "./style.module.scss";
 import icon from "@/shared/assets/icons/messageicon.svg";
+import { useLocation } from "react-router-dom";
 
 export const FeedBackPage = () => {
+    const location = useLocation();
+    const cartId = location.state?.cartId ?? null;
+
     return (
         <div className={s.main_wrapper}>
             <div className={s.wrapper}>
@@ -18,7 +22,7 @@ export const FeedBackPage = () => {
                 </div>
             </div>
             <div className={s.content}>
-                <FeedbackForm />
+                <FeedbackForm cartId={cartId} />
             </div>
         </div>
     );

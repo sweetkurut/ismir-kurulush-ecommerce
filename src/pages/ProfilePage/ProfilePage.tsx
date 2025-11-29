@@ -48,7 +48,7 @@ export const ProfilePage = () => {
 
     useEffect(() => {
         dispatch(fetchGetOrdersReq());
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         dispatch(clearProfileError());

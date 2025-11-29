@@ -1,35 +1,49 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { classNames } from "@/shared/lib/classNames/classNames";
 import s from "./style.module.scss";
 import phone from "@/shared/assets/icons/phone.svg";
 import mail from "@/shared/assets/icons/mail.svg";
 import message from "@/shared/assets/icons/messageicon.svg";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { fetchCreateOrdersReq } from "@/store/slices/orderRequestSlice";
+import { fetchCreateOrdersReq, fetchTypeReq } from "@/store/slices/orderRequestSlice";
 import { FormGroup } from "@/components/FormGroup/FormGroup";
+import { toast } from "react-toastify";
 
 interface FormData {
     name: string;
     phone: string;
     comment: string;
+    email: string;
+    request_type?: string;
+    cart: number | null;
 }
 
-export const FeedbackForm = () => {
+export const FeedbackForm = ({ cartId }: { cartId: number | null }) => {
+    const dispatch = useAppDispatch();
+    const { loading, error, type_req } = useAppSelector((state) => state.orderRequest);
+
     const [agreed, setAgreed] = useState(false);
     const [formData, setFormData] = useState<FormData>({
         name: "",
         phone: "",
         comment: "",
+        email: "",
+        request_type: "",
+        cart: cartId,
     });
 
-    const dispatch = useAppDispatch();
-    const { loading, error } = useAppSelector((state) => state.orderRequest);
+    useEffect(() => {
+        dispatch(fetchTypeReq());
+    }, [dispatch]);
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleInputChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    ) => {
         const { name, value } = e.target;
+
         setFormData((prev) => ({
             ...prev,
-            [name]: value,
+            [name]: name === "request_type" ? Number(value) : value,
         }));
     };
 
@@ -37,12 +51,12 @@ export const FeedbackForm = () => {
         e.preventDefault();
 
         if (!agreed) {
-            alert("Пожалуйста, согласитесь на обработку персональных данных.");
+            toast.warn("Пожалуйста, согласитесь на обработку персональных данных.");
             return;
         }
 
         if (!formData.name.trim() || !formData.phone.trim() || !formData.comment.trim()) {
-            alert("Пожалуйста, заполните все обязательные поля.");
+            toast.error("Пожалуйста, заполните все обязательные поля.");
             return;
         }
 
@@ -52,20 +66,27 @@ export const FeedbackForm = () => {
                     name: formData.name.trim(),
                     phone: formData.phone.trim(),
                     comment: formData.comment.trim(),
+                    email: formData.email.trim(),
+                    request_type: formData.request_type,
+                    cart: cartId,
                 })
             ).unwrap();
 
-            alert("Заявка успешно отправлена!");
+            toast.success("Заявка успешно отправлена!");
 
             setFormData({
                 name: "",
                 phone: "",
                 comment: "",
+                email: "",
+                request_type: "",
+                cart: cartId,
             });
+
             setAgreed(false);
         } catch (error) {
             console.error("Ошибка при отправке заявки:", error);
-            alert("Произошла ошибка при отправке заявки. Пожалуйста, попробуйте еще раз.");
+            toast.error("Произошла ошибка при отправке заявки. Пожалуйста, попробуйте ещё раз.");
         }
     };
 
@@ -125,11 +146,11 @@ export const FeedbackForm = () => {
                         onChange={handleInputChange}
                     />
 
-                    {/* <div className={s.full_width}>
-                        <FormGroup 
-                            label="Email" 
-                            placeholder="your@email.com" 
-                            type="email" 
+                    <div className={s.full_width}>
+                        <FormGroup
+                            label="Email"
+                            placeholder="your@email.com"
+                            type="email"
                             name="email"
                             value={formData.email}
                             onChange={handleInputChange}
@@ -140,12 +161,18 @@ export const FeedbackForm = () => {
                         <FormGroup
                             label="Тип заявки"
                             isSelect
-                            required
-                            options={["Консультация", "Запрос цены", "Техническая поддержка"]}
-                            name="requestType"
+                            // required
+                            name="request_type"
+                            value={formData.request_type}
+                            options={
+                                type_req?.map((item) => ({
+                                    label: item.name,
+                                    value: item.id,
+                                })) ?? []
+                            }
                             onChange={handleInputChange}
                         />
-                    </div> */}
+                    </div>
 
                     <div className={s.full_width}>
                         <FormGroup

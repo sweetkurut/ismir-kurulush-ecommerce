@@ -28,7 +28,7 @@ export const FavouritePage = () => {
 
     useEffect(() => {
         dispatch(fetchFavorites());
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         setCurrentPage(1);

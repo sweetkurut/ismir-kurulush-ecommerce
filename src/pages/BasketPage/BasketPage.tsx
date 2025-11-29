@@ -4,10 +4,9 @@ import { fetchGetCart } from "@/store/slices/cartSlice";
 import { BasketItemCard } from "@/widgets/BasketItemCard/BasketItemCard";
 import s from "./style.module.scss";
 import { GiCheckMark } from "react-icons/gi";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { SkeletonBasketItem } from "@/components/SkeletonBasketItem/SkeletonBasketItem";
-import { SkeletonSummary } from "@/components/SkeletonSummary/SkeletonSummary";
 
 // Маленькие компоненты-состояния (чтобы не рендерилось всё заново)
 const BasketLoadingState = memo(() => (
@@ -59,8 +58,17 @@ const BasketEmptyState = memo(() => (
 ));
 
 export const BasketPage = memo(() => {
+    const nav = useNavigate();
     const dispatch = useAppDispatch();
     const { cart, loading, addLoading, error } = useAppSelector((state) => state.cart);
+    const subtotal = Number(cart.total_amount);
+    const delivery = 200;
+    const total = subtotal + delivery;
+    const itemsCount = cart.items.length;
+
+    const goToOrder = () => {
+        nav("/feedback", { state: { cartId: cart?.id } });
+    };
 
     useEffect(() => {
         if (!cart && !loading && !error) {
@@ -79,11 +87,6 @@ export const BasketPage = memo(() => {
     if (!cart || cart.items.length === 0) {
         return <BasketEmptyState />;
     }
-
-    const subtotal = Number(cart.total_amount);
-    const delivery = 200;
-    const total = subtotal + delivery;
-    const itemsCount = cart.items.length;
 
     return (
         <div className={s.wrapper}>
@@ -122,7 +125,12 @@ export const BasketPage = memo(() => {
                             <span className={s.sum}>{total.toLocaleString()} сом</span>
                         </div>
 
-                        <Link to="/checkout" className={`${s.actionButton} ${s.checkoutButton}`}>
+                        <Link
+                            to="/feedback"
+                            state={{ cartId: cart.id }}
+                            className={`${s.actionButton} ${s.checkoutButton}`}
+                            // onClick={goToOrder}
+                        >
                             Оформить заказ
                         </Link>
 

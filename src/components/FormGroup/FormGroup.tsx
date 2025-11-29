@@ -1,5 +1,9 @@
-import s from './style.module.scss'
+import s from "./style.module.scss";
 
+interface SelectOption {
+    label: string;
+    value: string | number;
+}
 
 export const FormGroup = ({
     label,
@@ -17,8 +21,8 @@ export const FormGroup = ({
     placeholder?: string;
     required?: boolean;
     isSelect?: boolean;
-    options?: string[];
-    value?: string;
+    options?: SelectOption[];
+    value?: string | number;
     onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
     name?: string;
 }) => (
@@ -26,20 +30,22 @@ export const FormGroup = ({
         <label className={s.form_label}>
             {label} {required && <span>*</span>}
         </label>
+
         {isSelect ? (
             <select
                 className={s.form_input}
-                defaultValue=""
                 name={name}
+                value={value ?? ""}
                 onChange={onChange}
                 required={required}
             >
                 <option value="" disabled>
                     Выберите тип заявки
                 </option>
+
                 {options.map((option) => (
-                    <option key={option} value={option}>
-                        {option}
+                    <option key={option.value} value={option.value}>
+                        {option.label}
                     </option>
                 ))}
             </select>
@@ -52,7 +58,7 @@ export const FormGroup = ({
                 value={value}
                 onChange={onChange}
                 required={required}
-            ></textarea>
+            />
         ) : (
             <input
                 className={s.form_input}

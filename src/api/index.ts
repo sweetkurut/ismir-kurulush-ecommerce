@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type {
     AddToCartRequest,
-    // AddCart,
-    AddToCartResponse,
     IFavorites,
     ILoginData,
     IOrderRequestList,
     IOrderRequestResponse,
+    IOrderRequestTypes,
     IProfileUpdate,
     IProfileUpdatePassword,
     IResetPassword,
@@ -77,7 +76,7 @@ export const storesApi = {
     // },
     getProducts(params: ProductQueryParams) {
         return instance.get(`/catalog/products/`, {
-            params: params, // ⬅️ Здесь происходит магия Axios!
+            params: params,
         });
     },
     getProductById(id: number) {
@@ -103,39 +102,35 @@ export const storesApi = {
         return instance.get<IFavorites>(`favourites`).then((res) => res.data);
     },
 
-
     addFavorite(id: number) {
         return instance.post(`favourites/toggle/${id}/`);
     },
 
     // заказы/заявки
-
     // create
     addReqOrder(data: IOrderRequestResponse) {
         return instance.post(`order/order-request/`, data);
     },
 
- getReqOrder() {
-    return instance.get<IOrderRequestList[]>(`order/order-requests-by-user/`);
-},
-
-// корзина
-    getCartsList() {
-        return instance.get('order/cart')
+    getReqOrder() {
+        return instance.get<IOrderRequestList[]>(`order/order-requests-by-user/`);
     },
 
-addToCart(data: AddToCartRequest) {
-    return instance.post(`order/cart/add_item/`, data); // ← слеш в конце тоже добавил, как у тебя везде
-},
+    // тип заявки
+    getTypeReqOrder() {
+        return instance.get<IOrderRequestTypes[]>(`order/order-request-types-selector/`);
+    },
 
-// обновить кол-во товара корзины
+    // корзина
+    getCartsList() {
+        return instance.get("order/cart");
+    },
 
-   
+    addToCart(data: AddToCartRequest) {
+        return instance.post(`order/cart/add_item/`, data);
+    },
 
-updateCartItem: (data: UpdateCartItemRequest) => 
-  instance.patch("order/cart/update_item/", data), // или PUT — как у тебя
+    updateCartItem: (data: UpdateCartItemRequest) => instance.patch("order/cart/update_item/", data),
 
-removeCartItem: (data: RemoveCartItemRequest) => 
-  instance.post("order/cart/remove_item/", data),
-
+    removeCartItem: (data: RemoveCartItemRequest) => instance.post("order/cart/remove_item/", data),
 };

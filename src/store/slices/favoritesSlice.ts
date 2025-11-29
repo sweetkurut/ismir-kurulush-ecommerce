@@ -5,7 +5,7 @@ import type { IFavorites } from "../types";
 type InfoState = {
     loading: boolean;
     error: null | string;
-    favorites: IFavorites[] | null;
+    favorites: IFavorites | null;
 };
 
 const initialState: InfoState = {
@@ -14,19 +14,20 @@ const initialState: InfoState = {
     favorites: null,
 };
 
-export const fetchFavorites = createAsyncThunk<IFavorites[], void, { rejectValue: string }>(
+export const fetchFavorites = createAsyncThunk<IFavorites, void, { rejectValue: string }>(
     "favorites/fetchFavorites",
     async (_, { rejectWithValue }) => {
         try {
             const data = await storesApi.getFavorites();
-            return data;
+            return data; 
         } catch (error: any) {
             return rejectWithValue(`Ошибка: ${error}`);
         }
     }
 );
 
-export const fetchAddFavorites = createAsyncThunk<IFavorites[], number, { rejectValue: string }>(
+
+export const fetchAddFavorites = createAsyncThunk<IFavorites, number, { rejectValue: string }>(
     "favorites/fetchAddFavorites",
     async (id, { rejectWithValue }) => {
         try {

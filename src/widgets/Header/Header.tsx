@@ -23,7 +23,12 @@ const navItems = [
 export const Header = ({ className }: HeaderProps) => {
     const [isHidden, setIsHidden] = useState(false);
     const { cart } = useAppSelector((state) => state.cart);
+    const {favorites} = useAppSelector((state) => state.favorites)
+    const totalFavorites = favorites?.results.length ?? 0
     const totalItemsInCart = cart?.items.length ?? 0;
+
+
+
 
     useEffect(() => {
         let lastScrollY = 0;
@@ -80,7 +85,11 @@ export const Header = ({ className }: HeaderProps) => {
                     <div className={s.actionIcons}>
                         <AppLink to="/favorites" className={s.actionIconLink}>
                             <CiHeart />
-                            <span className={s.badge}>10</span>
+                             {totalFavorites > 0 && (
+                                <span className={s.badge}>
+                                    {totalFavorites > 99 ? "99+" : totalFavorites}
+                                </span>
+                            )}
                         </AppLink>
                         <AppLink to="/basket" className={s.actionIconLink}>
                             <SlBasket />

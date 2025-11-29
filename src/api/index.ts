@@ -95,9 +95,14 @@ export const storesApi = {
     },
 
     // избранные
-    getFavorites(): Promise<IFavorites[]> {
-        return instance.get<IFavorites[]>(`favourites`).then((res) => res.data);
+    // getFavorites(): Promise<IFavorites[]> {
+    //     return instance.get<IFavorites[]>(`favourites`).then((res) => res.data);
+    // },
+
+    getFavorites(): Promise<IFavorites> {
+        return instance.get<IFavorites>(`favourites`).then((res) => res.data);
     },
+
 
     addFavorite(id: number) {
         return instance.post(`favourites/toggle/${id}/`);

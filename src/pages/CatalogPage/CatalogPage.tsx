@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Filter } from "@/shared/ui/Filter/Filter";
+import { Filter, type FilterParams } from "@/shared/ui/Filter/Filter";
 import s from "./style.module.scss";
 import { Card } from "@/widgets/Cards/Cards";
 import { Pagination } from "@/shared/ui/Pagination/Pagination";
@@ -20,12 +20,11 @@ interface ProductQueryParams {
 
 export const CatalogPage = () => {
     const dispatch = useAppDispatch();
-
     const { loading, error, products } = useAppSelector((state) => state.products);
     const { sorting } = useAppSelector((state) => state.sorting);
-
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedSort, setSelectedSort] = useState("");
+    const [activeFilters, setActiveFilters] = useState<FilterParams>({});
 
     const sortOptions = useMemo(() => {
         const optionsMap = sorting?.sorting_options;
@@ -43,20 +42,47 @@ export const CatalogPage = () => {
             const params: ProductQueryParams = {
                 page,
             };
+
             if (selectedSort) {
                 params.ordering = selectedSort;
             }
+
+            if (activeFilters.category) {
+                params.category = activeFilters.category;
+            }
+
+            if (activeFilters.brand) {
+                params.brand = activeFilters.brand;
+            }
+
+            if (activeFilters.min_price !== undefined) {
+                params.min_price = activeFilters.min_price;
+            }
+
+            if (activeFilters.max_price !== undefined) {
+                params.max_price = activeFilters.max_price;
+            }
+
+            console.log("📦 Формируем параметры запроса:", params);
             return params;
         },
-        [selectedSort]
+        [selectedSort, activeFilters]
     );
 
     const loadProducts = useCallback(
         (params: ProductQueryParams) => {
+            console.log("🚀 Отправляем запрос с параметрами:", params);
             dispatch(fetchGetProducts(params));
         },
         [dispatch]
     );
+
+    // Обработчик изменения фильтров
+    const handleFilterChange = (filters: FilterParams) => {
+        console.log("🎯 Получены новые фильтры:", filters);
+        setActiveFilters(filters);
+        setCurrentPage(1); // Сбрасываем на первую страницу
+    };
 
     useEffect(() => {
         dispatch(fetchGetSorting());
@@ -69,11 +95,16 @@ export const CatalogPage = () => {
         }
     }, [sortOptions, selectedSort]);
 
+    // Загрузка товаров при изменении фильтров или сортировки
     useEffect(() => {
-        if (selectedSort) {
-            loadProducts(getCombinedParams(1));
-        }
-    }, [selectedSort, loadProducts, getCombinedParams]);
+        console.log("🔄 useEffect: загружаем товары", {
+            selectedSort,
+            activeFilters,
+            hasFilters: Object.keys(activeFilters).length > 0,
+        });
+
+        loadProducts(getCombinedParams(1));
+    }, [selectedSort, activeFilters, loadProducts, getCombinedParams]);
 
     const handleSortChange = (value: string) => {
         let correctedValue = value;
@@ -103,16 +134,26 @@ export const CatalogPage = () => {
 
     return (
         <div className={s.wrapper}>
-            {/* <Loader /> */}
             <div className={s.container}>
                 <div className={s.filter_wrap}>
-                    <Filter />
+                    <Filter onFilterChange={handleFilterChange} />
                 </div>
 
                 <div className={s.catalog_wrap}>
                     <div className={s.select_title_wrap}>
                         <div>
                             <h2 className={s.title}>Каталог товаров</h2>
+                            {/* Отображение активных фильтров с названиями */}
+                            {/* {(activeFilters.category || activeFilters.brand || activeFilters.max_price) && (
+                                <div className={s.activeFilters}>
+                                    Активные фильтры:
+                                    {activeFilters.category &&
+                                        ` Категория: ${getCategoryName(activeFilters.category)},`}
+                                    {activeFilters.brand && ` Бренд: ${getBrandName(activeFilters.brand)},`}
+                                    {activeFilters.min_price && ` Цена от ${activeFilters.min_price}`}
+                                    {activeFilters.max_price && ` до ${activeFilters.max_price}`}
+                                </div>
+                            )} */}
                         </div>
 
                         <div>

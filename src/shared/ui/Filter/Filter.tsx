@@ -1,15 +1,43 @@
 import { useState, useEffect, useRef } from "react";
 import s from "./style.module.scss";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { fetchGetCategory } from "@/store/slices/categoriesSlice";
+import { fetchGetBrand } from "@/store/slices/brandSlice";
 
-export const Filter = () => {
+interface FilterProps {
+    onFilterChange: (filters: FilterParams) => void;
+}
+
+export interface FilterParams {
+    category?: string; // slug категории
+    brand?: number; // id бренда
+    min_price?: number;
+    max_price?: number;
+}
+
+export const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
+    const dispatch = useAppDispatch();
+    const { category } = useAppSelector((state) => state.category);
+    const { brand } = useAppSelector((state) => state.brand);
+
+    // Состояния фильтров
+    const [priceRange, setPriceRange] = useState(100);
+    const [selectedCategory, setSelectedCategory] = useState<string>("");
+    const [selectedBrand, setSelectedBrand] = useState<number | "">("");
+
     const minPrice = 0;
     const maxPrice = 1000;
 
-    const [priceRange, setPriceRange] = useState(100);
-    const [selectedCategory, setSelectedCategory] = useState("Гипсокартон и комплектующие");
-    const sliderRef = useRef(null);
+    const sliderRef = useRef<HTMLInputElement>(null);
 
-    const updateSliderTrack = (value) => {
+    // Загрузка категорий и брендов
+    useEffect(() => {
+        dispatch(fetchGetCategory());
+        dispatch(fetchGetBrand());
+    }, [dispatch]);
+
+    // Обновление слайдера
+    const updateSliderTrack = (value: number) => {
         const percentage = ((value - minPrice) / (maxPrice - minPrice)) * 100;
         if (sliderRef.current) {
             sliderRef.current.style.background = `linear-gradient(to right, ${s.primaryOrange} 0%, ${s.primaryOrange} ${percentage}%, ${s.borderGray} ${percentage}%, ${s.borderGray} 100%)`;
@@ -20,28 +48,44 @@ export const Filter = () => {
         updateSliderTrack(priceRange);
     }, [priceRange]);
 
-    const handlePriceChange = (event) => {
+    const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPriceRange(Number(event.target.value));
     };
 
-    const categories = [
-        "Арматура",
-        "Металлопрокат",
-        "Пиломатериалы, ОСП, ДСП, Фанера",
-        "Металлоконструкции",
-        "Производство сетки МАК",
-        "Заборная сетка",
-        "Гипсокартон и комплектующие",
-        "Утеплитель и изоляция",
-        "Сухие строительные смеси",
-        "Лакокрасочные материалы",
-        "Инструменты",
-        "Водопровод и канализация",
-        "Крепежи",
-    ];
+    const handleCategoryChange = (categoryId: string) => {
+        setSelectedCategory(categoryId);
+    };
 
-    const handleCategoryChange = (event) => {
-        setSelectedCategory(event.target.value);
+    const handleBrandChange = (brandId: number) => {
+        setSelectedBrand(brandId);
+    };
+
+    // Применение фильтров
+    const handleApplyFilters = () => {
+        const filters: FilterParams = {
+            min_price: minPrice,
+            max_price: priceRange,
+        };
+
+        if (selectedCategory) {
+            filters.category = selectedCategory;
+        }
+
+        if (selectedBrand) {
+            filters.brand = selectedBrand;
+        }
+
+        console.log("Применяемые фильтры:", filters);
+        onFilterChange(filters);
+    };
+
+    // Сброс фильтров
+    const handleResetFilters = () => {
+        setPriceRange(100);
+        setSelectedCategory("");
+        setSelectedBrand("");
+
+        onFilterChange({});
     };
 
     return (
@@ -52,6 +96,7 @@ export const Filter = () => {
                     <h2>Фильтры</h2>
                 </div>
 
+                {/* Фильтр по цене */}
                 <div className={s.filterSection}>
                     <h3>Цена (сом)</h3>
                     <div className={s.priceValue}>{priceRange} сом</div>
@@ -72,30 +117,58 @@ export const Filter = () => {
                     </div>
                 </div>
 
+                {/* Фильтр по категориям - используем slug */}
                 <div className={s.filterSection}>
                     <h3>Категории</h3>
                     <form>
-                        {categories.map((category) => (
-                            <div className={s.categoryItem} key={category}>
+                        {category?.map((cat) => (
+                            <div className={s.categoryItem} key={cat.id}>
                                 <label className={s.customRadio}>
                                     <input
                                         type="radio"
                                         name="category"
-                                        value={category}
-                                        checked={selectedCategory === category}
-                                        onChange={handleCategoryChange}
+                                        value={cat.slug}
+                                        checked={selectedCategory === cat.slug}
+                                        onChange={() => handleCategoryChange(cat.slug)}
                                     />
                                     <span className={s.radioCheckmark}></span>
-                                    {category}
+                                    {cat.name}
                                 </label>
                             </div>
                         ))}
                     </form>
                 </div>
 
+                {/* Фильтр по брендам - используем id */}
+                <div className={s.filterSection}>
+                    <h3>Бренды</h3>
+                    <form>
+                        {brand?.map((br) => (
+                            <div className={s.categoryItem} key={br.id}>
+                                <label className={s.customRadio}>
+                                    <input
+                                        type="radio"
+                                        name="brand"
+                                        value={br.id}
+                                        checked={selectedBrand === br.id}
+                                        onChange={() => handleBrandChange(br.id)}
+                                    />
+                                    <span className={s.radioCheckmark}></span>
+                                    {br.name}
+                                </label>
+                            </div>
+                        ))}
+                    </form>
+                </div>
+
+                {/* Кнопки действий */}
                 <div className={s.actionButtons}>
-                    <button className={s.applyButton}>Применить</button>
-                    <button className={s.resetButton}>Сбросить</button>
+                    <button className={s.applyButton} onClick={handleApplyFilters}>
+                        Применить
+                    </button>
+                    <button className={s.resetButton} onClick={handleResetFilters}>
+                        Сбросить
+                    </button>
                 </div>
             </div>
         </div>

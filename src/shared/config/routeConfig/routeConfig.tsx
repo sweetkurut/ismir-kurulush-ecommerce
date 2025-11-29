@@ -2,6 +2,7 @@ import { BasketPage } from "@/pages/BasketPage/BasketPage";
 import { CatalogPage } from "@/pages/CatalogPage/CatalogPage";
 import { DetailCatalogPage } from "@/pages/DetailCatalogPage/DetailCatalogPage";
 import { DetailService } from "@/pages/DetailService/DetailService";
+import { FavouritePage } from "@/pages/FavouritePage/FavouritePage";
 import { FeedBackPage } from "@/pages/FeedBackPage/FeedBackPage";
 import { HomePage } from "@/pages/HomePage/HomePage";
 import { NotFoundPage } from "@/pages/NotFoundPage/NotFoundPage";
@@ -22,6 +23,7 @@ export enum AppRoutes {
     SIGNUP = "signup",
     PROFILE = "profile",
     SERVICE = "service",
+    FAVOURITE = 'favourite',
 }
 
 export const RoutePath: Record<AppRoutes, string> = {
@@ -36,6 +38,9 @@ export const RoutePath: Record<AppRoutes, string> = {
 
     [AppRoutes.PROFILE]: "/profile",
     [AppRoutes.SERVICE]: "/service",
+
+    [AppRoutes.FAVOURITE]: '/favorites',
+
     [AppRoutes.NOT_FOUND]: "*",
 };
 
@@ -79,4 +84,9 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
         path: RoutePath.not_found,
         element: <NotFoundPage />,
     },
+
+    [AppRoutes.FAVOURITE]: {
+        path: RoutePath.favourite,
+        element: <FavouritePage/>
+    }
 };

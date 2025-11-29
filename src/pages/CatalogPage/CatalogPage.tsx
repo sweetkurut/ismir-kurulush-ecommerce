@@ -114,9 +114,6 @@ export const CatalogPage = () => {
                     <div className={s.select_title_wrap}>
                         <div>
                             <h2 className={s.title}>Каталог товаров</h2>
-                            {/* <span className={s.found_tovar}>{`Найдено ${
-                                products?.length ?? 0
-                            } товаров`}</span> */}
                         </div>
 
                         <div>
@@ -143,7 +140,6 @@ export const CatalogPage = () => {
 
                     {!loading && currentProducts?.length === 0 && <p>Нет товаров</p>}
 
-        {/* Если загрузки нет — показываем карточки */}
                     {!loading && (
                         <div className={s.cards_grid}>
                             {currentProducts?.map((product) => (

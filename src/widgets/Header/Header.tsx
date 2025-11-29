@@ -78,7 +78,7 @@ export const Header = ({ className }: HeaderProps) => {
                     </div>
 
                     <div className={s.actionIcons}>
-                        <AppLink to="/wishlist" className={s.actionIconLink}>
+                        <AppLink to="/favorites" className={s.actionIconLink}>
                             <CiHeart />
                             <span className={s.badge}>10</span>
                         </AppLink>

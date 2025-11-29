@@ -17,7 +17,6 @@ import { fetchGetOrdersReq } from "@/store/slices/orderRequestSlice";
 import type { IOrderRequest } from "@/store/types";
 import { SkeletonProfile } from "@/components/SkeletonProfile/SkeletonProfile";
 
-
 export const ProfilePage = () => {
     const [activeTab, setActiveTab] = useState("profile");
     const dispatch = useAppDispatch();
@@ -30,28 +29,26 @@ export const ProfilePage = () => {
     const { profile, loading, error } = useAppSelector((state) => state.profile);
     const { login, isAuthenticated } = useAppSelector((state) => state.auth);
 
-     const {orders_req} = useAppSelector((state) => state.orderRequest)
+    const { orders_req } = useAppSelector((state) => state.orderRequest);
 
-     const renderTabContent = (activeTab: string, orders_req: IOrderRequest[] | null) => {
-    switch (activeTab) {
-        case "profile":
-            return <ProfileContent />;
-        case "orders":
-            return <OrdersContent />;
-        case "favorites":
-            return <FavoritesContent />;
-        case "applications":
-            return <ApplicationsContent orders_req={orders_req}  />;
-        default:
-            return <ProfileContent />;
-    }
-};
+    const renderTabContent = (activeTab: string, orders_req: IOrderRequest[] | null) => {
+        switch (activeTab) {
+            case "profile":
+                return <ProfileContent />;
+            case "orders":
+                return <OrdersContent />;
+            case "favorites":
+                return <FavoritesContent />;
+            case "applications":
+                return <ApplicationsContent orders_req={orders_req} />;
+            default:
+                return <ProfileContent />;
+        }
+    };
 
-
-     
-         useEffect(() => {
-             dispatch(fetchGetOrdersReq())
-         },[])
+    useEffect(() => {
+        dispatch(fetchGetOrdersReq());
+    }, []);
 
     useEffect(() => {
         dispatch(clearProfileError());
@@ -126,7 +123,7 @@ export const ProfilePage = () => {
     //                 <div className={s.loading}>
     //                     <SkeletonProfile />
     //                     {/* <h2>загрузка</h2> */}
-                        
+
     //                 </div>
     //             </div>
     //         </div>
@@ -134,8 +131,8 @@ export const ProfilePage = () => {
     // }
 
     if (loading && !profile) {
-    return <SkeletonProfile />;
-}
+        return <SkeletonProfile />;
+    }
 
     if (error && !profile) {
         return (

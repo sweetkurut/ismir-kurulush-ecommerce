@@ -5,11 +5,9 @@ export const SkeletonProfile = () => {
         <div className={s.wrapper}>
             <div className={s.container}>
                 <div className={s.content}>
-
                     {/* Левая панель */}
                     <div className={s.profileSection}>
                         <div className={s.profile}>
-
                             {/* Аватар + имя */}
                             <div className={s.profileHeader}>
                                 <div className={s.avatar}>
@@ -57,7 +55,6 @@ export const SkeletonProfile = () => {
                             <div className={s.skeletonBlock}></div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

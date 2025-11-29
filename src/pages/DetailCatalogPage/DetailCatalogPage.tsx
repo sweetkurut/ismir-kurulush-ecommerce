@@ -13,192 +13,190 @@ import { SkeletonDetail } from "@/components/SkeletonDetail/SkeletonDetail";
 import { SkeletonSimilarCard } from "@/components/SkeletonSimilarCard/SkeletonSimilarCard";
 
 export const DetailCatalogPage = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
-  const { loading, product } = useAppSelector((state) => state.products);
-  const { cart, addLoading } = useAppSelector((state) => state.cart);
-  const favorites = useAppSelector((state) => state.favorites.favorites?.results || []);
+    const { loading, product } = useAppSelector((state) => state.products);
+    const { cart, addLoading } = useAppSelector((state) => state.cart);
+    const favorites = useAppSelector((state) => state.favorites.favorites?.results || []);
 
-  // Текущий товар в корзине
-  const cartItem = cart?.items.find((item) => item.product.id === product?.id);
-  const quantityInCart = cartItem?.quantity || 0;
+    // Текущий товар в корзине
+    const cartItem = cart?.items.find((item) => item.product.id === product?.id);
+    const quantityInCart = cartItem?.quantity || 0;
 
-  // В избранном?
-  const isFavorite = product
-    ? favorites.some((item: any) => item.product?.id === product.id || item.id === product.id)
-    : false;
+    // В избранном?
+    const isFavorite = product
+        ? favorites.some((item: any) => item.product?.id === product.id || item.id === product.id)
+        : false;
 
-  useEffect(() => {
-    if (id) dispatch(fetchGetDetailProducts(Number(id)));
-  }, [id, dispatch]);
+    useEffect(() => {
+        if (id) dispatch(fetchGetDetailProducts(Number(id)));
+    }, [id, dispatch]);
 
-  const handleBack = () => navigate("/catalog");
+    const handleBack = () => navigate("/catalog");
 
-  // +1 в корзине
-  const handleIncrease = async () => {
-    if (!product) return;
+    // +1 в корзине
+    const handleIncrease = async () => {
+        if (!product) return;
 
-    if (quantityInCart === 0) {
-      await dispatch(fetchAddToCart({ product: product.id, quantity: 1 }));
-    } else {
-      await dispatch(updateCartItem({ item_id: cartItem!.id, quantity: quantityInCart + 1 }));
-    }
-  };
+        if (quantityInCart === 0) {
+            await dispatch(fetchAddToCart({ product: product.id, quantity: 1 }));
+        } else {
+            await dispatch(updateCartItem({ item_id: cartItem!.id, quantity: quantityInCart + 1 }));
+        }
+    };
 
-  // -1 в корзине
-  const handleDecrease = async () => {
-    if (!product || quantityInCart <= 1) return;
+    // -1 в корзине
+    const handleDecrease = async () => {
+        if (!product || quantityInCart <= 1) return;
 
-    await dispatch(updateCartItem({ item_id: cartItem!.id, quantity: quantityInCart - 1 }));
-  };
+        await dispatch(updateCartItem({ item_id: cartItem!.id, quantity: quantityInCart - 1 }));
+    };
 
-  // Добавить в корзину (только если ещё нет)
-  const handleAddToCart = async () => {
-    if (!product || quantityInCart > 0) return;
-    await dispatch(fetchAddToCart({ product: product.id, quantity: 1 }));
-  };
+    // Добавить в корзину (только если ещё нет)
+    const handleAddToCart = async () => {
+        if (!product || quantityInCart > 0) return;
+        await dispatch(fetchAddToCart({ product: product.id, quantity: 1 }));
+    };
 
-  // Переключить избранное
-  const handleToggleFavorite = async () => {
-    if (!product) return;
-    await dispatch(fetchAddFavorites(product.id));
-  };
+    // Переключить избранное
+    const handleToggleFavorite = async () => {
+        if (!product) return;
+        await dispatch(fetchAddFavorites(product.id));
+    };
 
-  if (loading) return <SkeletonDetail />;
-  if (!product) return <div className={s.notFound}>Товар не найден</div>;
+    if (loading) return <SkeletonDetail />;
+    if (!product) return <div className={s.notFound}>Товар не найден</div>;
 
-  return (
-    <div className={s.page}>
-      <div className={s.container}>
-        <span className={s.backLink} onClick={handleBack}>
-          <TiArrowLeft /> Вернуться к каталогу
-        </span>
+    return (
+        <div className={s.page}>
+            <div className={s.container}>
+                <span className={s.backLink} onClick={handleBack}>
+                    <TiArrowLeft /> Вернуться к каталогу
+                </span>
 
-        <div className={s.mainContent}>
-          {/* Галерея */}
-          <div className={s.imageSection}>
-            <img
-              src={product.images?.[0]?.image || product.main_image}
-              alt={product.name}
-              className={s.mainImage}
-            />
-            <div className={s.thumbnails}>
-              {product.images?.map((img) => (
-                <img
-                  key={img.id}
-                  src={img.image}
-                  alt=""
-                  className={s.thumbnail}
-                  onClick={() => {}}
-                />
-              ))}
+                <div className={s.mainContent}>
+                    {/* Галерея */}
+                    <div className={s.imageSection}>
+                        <img
+                            src={product.images?.[0]?.image || product.main_image}
+                            alt={product.name}
+                            className={s.mainImage}
+                        />
+                        <div className={s.thumbnails}>
+                            {product.images?.map((img) => (
+                                <img
+                                    key={img.id}
+                                    src={img.image}
+                                    alt=""
+                                    className={s.thumbnail}
+                                    onClick={() => {}}
+                                />
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Информация */}
+                    <div className={s.infoSection}>
+                        <div className={product.quantity > 0 ? s.badge : s.badge_out}>
+                            {product.quantity > 0 ? "В наличии" : "Нет в наличии"}
+                        </div>
+
+                        <h1 className={s.productTitle}>{product.name}</h1>
+
+                        <div className={s.priceBlock}>
+                            <span className={s.currentPrice}>
+                                {parseFloat(product.price).toLocaleString()} {product.currency}
+                            </span>
+                        </div>
+
+                        {/* Блок действий */}
+                        <div className={s.actionBlock}>
+                            {/* Количество */}
+                            <div className={s.quantityControl}>
+                                <button
+                                    className={s.qtyButton}
+                                    onClick={handleDecrease}
+                                    disabled={addLoading || quantityInCart <= 1}
+                                >
+                                    −
+                                </button>
+                                <input disabled className={s.qtyInput} value={quantityInCart} readOnly />
+                                <button
+                                    className={s.qtyButton}
+                                    onClick={handleIncrease}
+                                    disabled={addLoading}
+                                >
+                                    +
+                                </button>
+                            </div>
+
+                            {/* Кнопка в корзину */}
+                            {quantityInCart === 0 ? (
+                                <button
+                                    className={s.addButton}
+                                    onClick={handleAddToCart}
+                                    disabled={addLoading}
+                                >
+                                    <FiShoppingCart />
+                                    {addLoading ? "Добавляем..." : "Добавить в корзину"}
+                                </button>
+                            ) : (
+                                <button
+                                    className={s.addButton}
+                                    onClick={() => navigate("/basket")}
+                                    // style={{ backgroundColor: "#28a745" }}
+                                >
+                                    <FiShoppingCart />В корзине: {quantityInCart} шт.
+                                </button>
+                            )}
+
+                            <button
+                                className={s.heartButton}
+                                onClick={handleToggleFavorite}
+                                title={isFavorite ? "Убрать из избранного" : "Добавить в избранное"}
+                                disabled={addLoading} // если есть
+                            >
+                                {isFavorite ? (
+                                    <FaHeart className={s.btn_heart_active} />
+                                ) : (
+                                    <FaRegHeart className={s.btn_heart} />
+                                )}
+                            </button>
+                        </div>
+
+                        <div className={s.deliveryInfo}>
+                            <span>Доставка по Кыргызстану — 1–2 дня</span>
+                            <span>Гарантия качества</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
 
-          {/* Информация */}
-          <div className={s.infoSection}>
-            <div className={product.quantity > 0 ? s.badge : s.badge_out}>
-              {product.quantity > 0 ? "В наличии" : "Нет в наличии"}
-            </div>
+            {/* Похожие товары */}
+            {loading ? (
+                <div className={s.same_tovar}>
+                    <h2 className={s.title_cards}>Похожие товары</h2>
 
-            <h1 className={s.productTitle}>{product.name}</h1>
-
-            <div className={s.priceBlock}>
-              <span className={s.currentPrice}>
-                {parseFloat(product.price).toLocaleString()} {product.currency}
-              </span>
-            </div>
-
-            {/* Блок действий */}
-            <div className={s.actionBlock}>
-              {/* Количество */}
-              <div className={s.quantityControl}>
-                <button
-                  className={s.qtyButton}
-                  onClick={handleDecrease}
-                  disabled={addLoading || quantityInCart <= 1}
-                >
-                  −
-                </button>
-                <input disabled className={s.qtyInput} value={quantityInCart} readOnly />
-                <button
-                  className={s.qtyButton}
-                  onClick={handleIncrease}
-                  disabled={addLoading}
-                >
-                  +
-                </button>
-              </div>
-
-              {/* Кнопка в корзину */}
-              {quantityInCart === 0 ? (
-                <button
-                  className={s.addButton}
-                  onClick={handleAddToCart}
-                  disabled={addLoading}
-                >
-                  <FiShoppingCart />
-                  {addLoading ? "Добавляем..." : "Добавить в корзину"}
-                </button>
-              ) : (
-                <button
-                  className={s.addButton}
-                  onClick={() => navigate("/basket")}
-                  // style={{ backgroundColor: "#28a745" }}
-                >
-                  <FiShoppingCart />
-                  В корзине: {quantityInCart} шт.
-                </button>
-              )}
-
-             <button
-                className={s.heartButton}
-                onClick={handleToggleFavorite}
-                title={isFavorite ? "Убрать из избранного" : "Добавить в избранное"}
-                disabled={addLoading} // если есть
-              >
-                {isFavorite ? (
-                  <FaHeart className={s.btn_heart_active} />
-                ) : (
-                  <FaRegHeart className={s.btn_heart} />
-                )}
-              </button>
-            </div>
-
-            <div className={s.deliveryInfo}>
-              <span>Доставка по Кыргызстану — 1–2 дня</span>
-              <span>Гарантия качества</span>
-            </div>
-          </div>
+                    <div className={s.cards_grid}>
+                        {[1, 2, 3, 4].map((i) => (
+                            <SkeletonSimilarCard key={i} />
+                        ))}
+                    </div>
+                </div>
+            ) : (
+                product.similar?.length > 0 && (
+                    <div className={s.same_tovar}>
+                        <h2 className={s.title_cards}>Похожие товары</h2>
+                        <div className={s.cards_grid}>
+                            {product.similar.map((item) => (
+                                <Card key={item.id} product={item} />
+                            ))}
+                        </div>
+                    </div>
+                )
+            )}
         </div>
-      </div>
-
-      {/* Похожие товары */}
-     {loading ? (
-  <div className={s.same_tovar}>
-    <h2 className={s.title_cards}>Похожие товары</h2>
-
-    <div className={s.cards_grid}>
-      {[1,2,3,4].map((i) => (
-        <SkeletonSimilarCard key={i} />
-      ))}
-    </div>
-  </div>
-) : (
-  product.similar?.length > 0 && (
-    <div className={s.same_tovar}>
-      <h2 className={s.title_cards}>Похожие товары</h2>
-      <div className={s.cards_grid}>
-        {product.similar.map((item) => (
-          <Card key={item.id} product={item} />
-        ))}
-      </div>
-    </div>
-  )
-)}
-
-    </div>
-  );
+    );
 };

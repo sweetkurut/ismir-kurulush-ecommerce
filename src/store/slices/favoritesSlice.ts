@@ -19,13 +19,12 @@ export const fetchFavorites = createAsyncThunk<IFavorites, void, { rejectValue: 
     async (_, { rejectWithValue }) => {
         try {
             const data = await storesApi.getFavorites();
-            return data; 
+            return data;
         } catch (error: any) {
             return rejectWithValue(`Ошибка: ${error}`);
         }
     }
 );
-
 
 export const fetchAddFavorites = createAsyncThunk<IFavorites, number, { rejectValue: string }>(
     "favorites/fetchAddFavorites",

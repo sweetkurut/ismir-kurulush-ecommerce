@@ -78,7 +78,6 @@ export const CatalogPage = () => {
     const handleSortChange = (value: string) => {
         let correctedValue = value;
 
-
         if (
             value === sorting?.sorting_options?.highest_price?.value &&
             sorting?.sorting_options?.highest_price?.name === "Самая высокая цена"
@@ -104,7 +103,7 @@ export const CatalogPage = () => {
 
     return (
         <div className={s.wrapper}>
-             {/* <Loader /> */}
+            {/* <Loader /> */}
             <div className={s.container}>
                 <div className={s.filter_wrap}>
                     <Filter />
@@ -128,7 +127,7 @@ export const CatalogPage = () => {
                         </div>
                     </div>
 
-                            {loading && (
+                    {loading && (
                         <div className={s.cards_grid}>
                             {Array.from({ length: 8 }).map((_, i) => (
                                 <SkeletonCard key={i} />
@@ -154,5 +153,3 @@ export const CatalogPage = () => {
         </div>
     );
 };
-
-

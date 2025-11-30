@@ -28,8 +28,8 @@
 .cards_grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
-    padding: 10px;
+    gap: 10px;
+    padding: 14px;
 
     @media (max-width: 1024px) {
         grid-template-columns: repeat(2, 1fr);

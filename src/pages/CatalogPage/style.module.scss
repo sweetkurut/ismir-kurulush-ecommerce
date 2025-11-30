@@ -1,42 +1,131 @@
 .wrapper {
-    .container {
-        max-width: var(--container-width);
-        margin: 0 auto;
-        margin-top: 30px;
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 16px;
+    display: flex;
+    gap: 40px;
+}
+
+// Десктоп: фильтр слева
+.filter_desktop {
+    flex: 0 0 300px;
+    margin-top: 20px;
+}
+
+.catalog_wrap {
+    flex: 1;
+    .header {
         display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin: 20px 0;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #eee;
+
+        .title {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0;
+        }
+        .found {
+            color: #666;
+            font-size: 14px;
+        }
+    }
+}
+
+.cards_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    padding-bottom: 40px;
+}
+
+// Мобильная кнопка "Фильтры" — как на скриншоте
+.mobile_filter_btn {
+    display: none;
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    background: white;
+    padding: 16px;
+    border-bottom: 1px solid #eee;
+    font-size: 18px;
+    font-weight: 600;
+    align-items: center;
+    gap: 8px;
+
+    .filter_icon {
+        font-size: 20px;
+        color: var(--color-orange-sum);
+        transform: rotate(90deg);
+    }
+}
+
+// Мобильный фильтр — выезжает слева (использует твои стили!)
+.overlay {
+    display: none;
+}
+
+.filter_mobile {
+    display: none;
+}
+
+// Адаптив
+@media (max-width: 1024px) {
+    .filter_desktop {
+        display: none;
+    }
+    .mobile_filter_btn {
+        display: flex;
+    }
+
+    .overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 998;
+    }
+
+    .filter_mobile {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 300px;
+        max-width: 85vw;
+        height: 100%;
+        background: white;
+        z-index: 999;
+        overflow-y: auto;
+        box-shadow: 8px 0 20px rgba(0, 0, 0, 0.15);
+        animation: slideInLeft 0.3s ease-out;
+        display: block; // теперь показываем твой Filter
+    }
+
+    .cards_grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+}
+
+@media (max-width: 640px) {
+    .cards_grid {
+        grid-template-columns: 1fr;
+    }
+    .header {
+        flex-direction: column;
         align-items: flex-start;
-        gap: 20px;
+    }
+}
 
-        .filter_wrap {
-            flex: 0 0 250px;
-        }
-
-        .catalog_wrap {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-
-            .select_title_wrap {
-                display: flex;
-                justify-content: space-between;
-            }
-
-            .title {
-                margin-bottom: 5px;
-            }
-
-            .found_tovar {
-                margin-bottom: 30px;
-                font-size: 15px;
-                color: #6b7280;
-            }
-
-            .cards_grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
-                gap: 25px;
-                padding: 10px 0 50px;
-            }
-        }
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
     }
 }

@@ -2,6 +2,12 @@ import s from "./style.module.scss";
 import check from "@/shared/assets/icons/checkicon.svg";
 import dollar from "@/shared/assets/icons/dollar.svg";
 import time from "@/shared/assets/icons/time.svg";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { fetchCreateOrdersReq } from "@/store/slices/orderRequestSlice";
+import { fetchGetServiceDetail } from "@/store/slices/serviceSlice";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const serviceData = {
     title: "Резка металла на заказ",
@@ -29,35 +35,82 @@ const serviceData = {
     ],
 };
 
-const consultationData = {
-    cost: "от 15 сом/м.п.",
-    deadline: "от 1 рабочего дня",
-};
-
 export const DetailService = () => {
+    const { id } = useParams();
+
+    console.log("Service ID:", id);
+    const dispatch = useAppDispatch();
+    const { detail, loading } = useAppSelector((s) => s.service);
+
+    const [form, setForm] = useState({
+        name: "",
+        phone: "",
+        email: "",
+        comment: "",
+        agree: false,
+        request_type: "service",
+    });
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (!form.agree) {
+            toast.warn("Подтвердите согласие.");
+            return;
+        }
+
+        const body = {
+            name: form.name,
+            request_type: "Услуга",
+            email: form.email,
+            phone: form.phone,
+            comment: form.comment,
+            cart: null,
+            service: Number(id),
+        };
+
+        try {
+            await dispatch(fetchCreateOrdersReq(body));
+            toast.success("Заявка отправлена!");
+            setForm({
+                name: "",
+                phone: "",
+                email: "",
+                comment: "",
+                agree: false,
+                request_type: "Услуга",
+            });
+        } catch (e) {
+            toast.error("Ошибка при отправке");
+        }
+    };
+
+    useEffect(() => {
+        if (id) dispatch(fetchGetServiceDetail(Number(id)));
+    }, [id, dispatch]);
+
     return (
         <>
             <div className={s.banner}>
-                <h2 className={s.main_title}>Лазерная и плазменная резка металла</h2>
-                <p className={s.main_desc}>
-                    Высокоточная резка металла с использованием современного оборудования
-                </p>
+                <h2 className={s.main_title}>{detail?.name}</h2>
+                <p className={s.main_desc}>{detail?.description}</p>
             </div>
+
             <div className={s.wrapper}>
                 <div className={s.container}>
                     <div className={s.mainContent}>
                         <div className={s.section}>
                             <h2 className={s.sectionTitle}>Описание</h2>
-                            <p className={s.descriptionText}>{serviceData.description}</p>
+                            <p className={s.descriptionText}>{detail?.description}</p>
                         </div>
 
                         <div className={s.section}>
                             <h2 className={s.sectionTitle}>Возможности</h2>
                             <ul className={s.list}>
-                                {serviceData.possibilities.map((item, index) => (
-                                    <li key={index} className={s.listItem}>
-                                        <img src={check} alt="Check Icon" className={s.checkIcon} />
-                                        {item}
+                                {detail?.possibilities.map((item) => (
+                                    <li key={item.id} className={s.listItem}>
+                                        <img src={check} className={s.checkIcon} />
+                                        {item.name}
                                     </li>
                                 ))}
                             </ul>
@@ -66,10 +119,10 @@ export const DetailService = () => {
                         <div className={s.section}>
                             <h2 className={s.sectionTitle}>Преимущества</h2>
                             <ul className={s.list}>
-                                {serviceData.advantages.map((item, index) => (
-                                    <li key={index} className={s.listItem}>
-                                        <img src={check} alt="Check Icon" className={s.checkIcon} />
-                                        {item}
+                                {detail?.advantages.map((item) => (
+                                    <li key={item.id} className={s.listItem}>
+                                        <img src={check} className={s.checkIcon} />
+                                        {item.name}
                                     </li>
                                 ))}
                             </ul>
@@ -78,10 +131,10 @@ export const DetailService = () => {
                         <div className={s.section}>
                             <h2 className={s.sectionTitle}>Процесс работы</h2>
                             <ul className={s.processList}>
-                                {serviceData.process.map((item, index) => (
-                                    <li key={index} className={s.processItem}>
-                                        <span className={s.processStep}>{index + 1}</span>
-                                        {item}
+                                {detail?.work_process.map((item) => (
+                                    <li key={item.id} className={s.processItem}>
+                                        <span className={s.processStep}>{item.step_number}</span>
+                                        {item.description}
                                     </li>
                                 ))}
                             </ul>
@@ -89,72 +142,68 @@ export const DetailService = () => {
                     </div>
 
                     <div className={s.sidebar}>
-                        <form className={s.consultationForm}>
+                        <form className={s.consultationForm} onSubmit={handleSubmit}>
                             <div className={s.costBlock}>
                                 <div className={s.costItem}>
                                     <img src={dollar} alt="Dollar Icon" className={s.costItemIcon} />
-                                    Стоимость <span className={s.value}>{consultationData.cost}</span>
+                                    Стоимость <span className={s.value}>{detail?.price}</span>
                                 </div>
                                 <div className={s.costItem}>
                                     <img src={time} alt="Time Icon" className={s.costItemIcon} />
-                                    Срок выполнения{" "}
-                                    <span className={s.value}>{consultationData.deadline}</span>
+                                    Срок выполнения <span className={s.value}>{detail?.term}</span>
                                 </div>
                             </div>
 
                             <div className={s.formGroup}>
-                                <label htmlFor="name" className={s.formLabel}>
-                                    Имя *
-                                </label>
+                                <label className={s.formLabel}>Имя *</label>
                                 <input
-                                    id="name"
                                     type="text"
                                     className={s.formInput}
-                                    placeholder="Введите ваше имя"
+                                    value={form.name}
+                                    onChange={(e) => setForm({ ...form, name: e.target.value })}
                                     required
                                 />
                             </div>
 
                             <div className={s.formGroup}>
-                                <label htmlFor="phone" className={s.formLabel}>
-                                    Телефон *
-                                </label>
+                                <label className={s.formLabel}>Телефон *</label>
                                 <input
-                                    id="phone"
                                     type="tel"
                                     className={s.formInput}
-                                    placeholder="+993 ХХ-ХХ-ХХ-ХХ"
+                                    value={form.phone}
+                                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
                                     required
                                 />
                             </div>
 
                             <div className={s.formGroup}>
-                                <label htmlFor="email" className={s.formLabel}>
-                                    Email
-                                </label>
+                                <label className={s.formLabel}>Email</label>
                                 <input
-                                    id="email"
                                     type="email"
                                     className={s.formInput}
-                                    placeholder="your@email.com"
+                                    value={form.email}
+                                    onChange={(e) => setForm({ ...form, email: e.target.value })}
                                 />
                             </div>
 
                             <div className={s.formGroup}>
-                                <label htmlFor="message" className={s.formLabel}>
-                                    Сообщение *
-                                </label>
+                                <label className={s.formLabel}>Сообщение *</label>
                                 <textarea
-                                    id="message"
                                     className={s.formTextarea}
-                                    placeholder="Опишите детали вашей заявки..."
+                                    value={form.comment}
+                                    onChange={(e) => setForm({ ...form, comment: e.target.value })}
                                     required
                                 />
                             </div>
 
                             <label className={s.checkboxLabel}>
-                                <input type="checkbox" className={s.checkboxInput} required />Я согласен на
-                                обработку персональных данных
+                                <input
+                                    type="checkbox"
+                                    className={s.checkboxInput}
+                                    checked={form.agree}
+                                    onChange={(e) => setForm({ ...form, agree: e.target.checked })}
+                                />
+                                Я согласен на обработку персональных данных
                             </label>
 
                             <button type="submit" className={s.submitButton}>

@@ -195,6 +195,7 @@ export interface IOrderRequestResponse {
     email: string;
     request_type?: string;
     cart: number | null;
+    service?: number | null;
 }
 
 export interface IOrderRequest {
@@ -228,12 +229,12 @@ export interface Product {
     slug: string;
     brand: Brand;
     categories: Category[];
-    price: string; // приходит как строка "1950.00"
-    currency: string; // "сом"
+    price: string;
+    currency: string;
     main_image: string;
     in_stock: boolean;
-    popularity_score: string; // тоже строка в твоём JSON
-    created_at: string; // ISO дата
+    popularity_score: string;
+    created_at: string;
 }
 
 export interface CartItem {
@@ -256,7 +257,6 @@ export interface AddToCartRequest {
     quantity: number;
 }
 
-// 2. Интерфейс ответа (на основе твоего JSON из прошлого сообщения)
 export interface AddToCartResponse {
     id: number;
     user: number;
@@ -289,4 +289,36 @@ export interface UpdateCartItemRequest {
 
 export interface RemoveCartItemRequest {
     item_id: number;
+}
+
+// услуги
+export interface Service {
+    id: number;
+    name: string;
+    icon: string;
+    description: string;
+}
+
+export interface IServiceOption {
+    id: number;
+    name: string;
+}
+
+export interface IServiceProcessStep {
+    id: number;
+    step_number: number;
+    description: string;
+}
+
+export interface IServiceDetail {
+    id: number;
+    icon: string;
+    name: string;
+    description: string;
+    price: string;
+    unit_of_measurement: string;
+    term: string;
+    possibilities: IServiceOption[];
+    advantages: IServiceOption[];
+    work_process: IServiceProcessStep[];
 }

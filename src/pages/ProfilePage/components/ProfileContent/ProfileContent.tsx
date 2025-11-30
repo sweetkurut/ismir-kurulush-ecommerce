@@ -1,3 +1,4 @@
+import { SkeletonProfileContent } from "@/components/SkeletonProfileContent/SkeletonProfileContent";
 import s from "./style.module.scss";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchUpdateProfile } from "@/store/slices/profileSlice";
@@ -9,7 +10,6 @@ export const ProfileContent = () => {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
-        phone: "", // Добавляем поле телефона если нужно
     });
 
     useEffect(() => {
@@ -17,7 +17,6 @@ export const ProfileContent = () => {
             setFormData({
                 name: profile.name || "",
                 email: profile.email || "",
-                phone: "", // Заполните если есть в профиле
             });
         }
     }, [profile]);
@@ -45,41 +44,36 @@ export const ProfileContent = () => {
 
     return (
         <div className={s.wrapper}>
-            <div className={s.tabContent}>
-                <h2>Личная информация</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className={s.formGroup}>
-                        <label>Имя</label>
-                        <input
-                            type="text"
-                            className={s.input}
-                            value={formData.name}
-                            onChange={(e) => handleChange("name", e.target.value)}
-                        />
-                    </div>
-                    <div className={s.formGroup}>
-                        <label>Email</label>
-                        <input
-                            type="email"
-                            className={s.input}
-                            value={formData.email}
-                            onChange={(e) => handleChange("email", e.target.value)}
-                        />
-                    </div>
-                    <div className={s.formGroup}>
-                        <label>Телефон</label>
-                        <input
-                            type="tel"
-                            className={s.input}
-                            value={formData.phone}
-                            onChange={(e) => handleChange("phone", e.target.value)}
-                        />
-                    </div>
-                    <button className={s.saveButton} type="submit" disabled={loading}>
-                        {loading ? "Сохранение..." : "Сохранить изменения"}
-                    </button>
-                </form>
-            </div>
+            {loading ? (
+                <SkeletonProfileContent />
+            ) : (
+                <div className={s.tabContent}>
+                    <h2>Личная информация</h2>
+                    <form onSubmit={handleSubmit}>
+                        <div className={s.formGroup}>
+                            <label>Имя</label>
+                            <input
+                                type="text"
+                                className={s.input}
+                                value={formData.name}
+                                onChange={(e) => handleChange("name", e.target.value)}
+                            />
+                        </div>
+                        <div className={s.formGroup}>
+                            <label>Email</label>
+                            <input
+                                type="email"
+                                className={s.input}
+                                value={formData.email}
+                                onChange={(e) => handleChange("email", e.target.value)}
+                            />
+                        </div>
+                        <button className={s.saveButton} type="submit" disabled={loading}>
+                            {loading ? "Сохранение..." : "Сохранить изменения"}
+                        </button>
+                    </form>
+                </div>
+            )}
         </div>
     );
 };

@@ -61,10 +61,10 @@ export const BasketPage = memo(() => {
     const nav = useNavigate();
     const dispatch = useAppDispatch();
     const { cart, loading, addLoading, error } = useAppSelector((state) => state.cart);
-    const subtotal = Number(cart.total_amount);
+    const subtotal = Number(cart?.total_amount);
     const delivery = 200;
     const total = subtotal + delivery;
-    const itemsCount = cart.items.length;
+    const itemsCount = cart?.items.length;
 
     const goToOrder = () => {
         nav("/feedback", { state: { cartId: cart?.id } });

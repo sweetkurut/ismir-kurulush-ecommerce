@@ -16,6 +16,7 @@ interface FormData {
     email: string;
     request_type?: string;
     cart: number | null;
+    service?: number | null;
 }
 
 export const FeedbackForm = ({ cartId }: { cartId: number | null }) => {
@@ -28,8 +29,9 @@ export const FeedbackForm = ({ cartId }: { cartId: number | null }) => {
         phone: "",
         comment: "",
         email: "",
-        request_type: "",
+        request_type: cartId ? "Заказ товара" : "Консультация",
         cart: cartId,
+        service: null,
     });
 
     useEffect(() => {
@@ -68,7 +70,8 @@ export const FeedbackForm = ({ cartId }: { cartId: number | null }) => {
                     comment: formData.comment.trim(),
                     email: formData.email.trim(),
                     request_type: formData.request_type,
-                    cart: cartId,
+                    cart: formData.cart,
+                    service: formData.service,
                 })
             ).unwrap();
 
@@ -81,6 +84,7 @@ export const FeedbackForm = ({ cartId }: { cartId: number | null }) => {
                 email: "",
                 request_type: "",
                 cart: cartId,
+                service: "",
             });
 
             setAgreed(false);
@@ -157,7 +161,7 @@ export const FeedbackForm = ({ cartId }: { cartId: number | null }) => {
                         />
                     </div>
 
-                    <div className={s.full_width}>
+                    {/* <div className={s.full_width}>
                         <FormGroup
                             label="Тип заявки"
                             isSelect
@@ -172,7 +176,7 @@ export const FeedbackForm = ({ cartId }: { cartId: number | null }) => {
                             }
                             onChange={handleInputChange}
                         />
-                    </div>
+                    </div> */}
 
                     <div className={s.full_width}>
                         <FormGroup

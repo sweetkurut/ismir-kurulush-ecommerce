@@ -1,5 +1,5 @@
 import { fetchAddFavorites, fetchFavorites } from "@/store/slices/favoritesSlice";
-import { fetchAddToCart } from "@/store/slices/cartSlice"; // ← добавь импорт
+import { fetchAddToCart } from "@/store/slices/cartSlice";
 import s from "./style.module.scss";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { LuShoppingCart } from "react-icons/lu";
@@ -24,7 +24,7 @@ export const Card = ({ product }: CardProps) => {
     const dispatch = useAppDispatch();
 
     const { favorites } = useAppSelector((state) => state.favorites);
-    const { cart } = useAppSelector((state) => state.cart); // ← берём корзину
+    const { cart } = useAppSelector((state) => state.cart);
 
     const isInStock = product.in_stock;
 
@@ -83,7 +83,6 @@ export const Card = ({ product }: CardProps) => {
                 )}
             </button>
 
-            {/* Фото */}
             <div className={s.image_wrap}>
                 <img
                     src={product.main_image}

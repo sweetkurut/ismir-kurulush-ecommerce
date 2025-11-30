@@ -32,7 +32,13 @@ export const FormGroup = ({
         </label>
 
         {isSelect ? (
-            <select className={s.form_input} name={name} value={value ?? ""} onChange={onChange} required={required}>
+            <select
+                className={s.form_input}
+                name={name}
+                value={value ?? ""}
+                onChange={onChange}
+                required={required}
+            >
                 <option value="" disabled>
                     Выберите тип заявки
                 </option>

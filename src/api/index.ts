@@ -133,4 +133,13 @@ export const storesApi = {
     updateCartItem: (data: UpdateCartItemRequest) => instance.patch("order/cart/update_item/", data),
 
     removeCartItem: (data: RemoveCartItemRequest) => instance.post("order/cart/remove_item/", data),
+
+    // услуги
+    getServices() {
+        return instance.get(`/service/services/`);
+    },
+
+    getServiceDetail(id: number) {
+        return instance.get(`/service/services/${id}/`);
+    },
 };

@@ -20,67 +20,55 @@ interface ProductQueryParams {
 
 export const CatalogPage = () => {
     const dispatch = useAppDispatch();
-    const { loading, error, products } = useAppSelector((state) => state.products);
+    const { loading, products } = useAppSelector((state) => state.products);
     const { sorting } = useAppSelector((state) => state.sorting);
+
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedSort, setSelectedSort] = useState("");
     const [activeFilters, setActiveFilters] = useState<FilterParams>({});
+    const [isFilterOpen, setIsFilterOpen] = useState(false); // ← мобильный фильтр
 
+    // Сортировка
     const sortOptions = useMemo(() => {
-        const optionsMap = sorting?.sorting_options;
-        if (!optionsMap) {
-            return [];
-        }
-        return Object.values(optionsMap).map((option) => ({
-            label: option.name,
-            value: option.value,
+        if (!sorting?.sorting_options) return [];
+        return Object.values(sorting.sorting_options).map((opt) => ({
+            label: opt.name,
+            value: opt.value,
         }));
     }, [sorting]);
 
-    const getCombinedParams = useCallback(
-        (page = 1): ProductQueryParams => {
-            const params: ProductQueryParams = {
-                page,
-            };
-
-            if (selectedSort) {
-                params.ordering = selectedSort;
-            }
-
-            if (activeFilters.category) {
-                params.category = activeFilters.category;
-            }
-
-            if (activeFilters.brand) {
-                params.brand = activeFilters.brand;
-            }
-
-            if (activeFilters.min_price !== undefined) {
-                params.min_price = activeFilters.min_price;
-            }
-
-            if (activeFilters.max_price !== undefined) {
-                params.max_price = activeFilters.max_price;
-            }
-
-            console.log("📦 Формируем параметры запроса:", params);
-            return params;
-        },
+    const getParams = useCallback(
+        (page = 1) => ({
+            page,
+            ordering: selectedSort || undefined,
+            ...activeFilters,
+        }),
         [selectedSort, activeFilters]
     );
 
     const loadProducts = useCallback(
         (params: ProductQueryParams) => {
-            console.log("🚀 Отправляем запрос с параметрами:", params);
             dispatch(fetchGetProducts(params));
         },
         [dispatch]
     );
 
     const handleFilterChange = (filters: FilterParams) => {
-        console.log("🎯 Получены новые фильтры:", filters);
         setActiveFilters(filters);
         setCurrentPage(1);
+        setIsFilterOpen(false); // закрываем после применения
+    };
+
+    const handleSortChange = (value: string) => {
+        const fixed = value.includes("highest_price") ? "-price" : value;
+        setSelectedSort(fixed);
+        setCurrentPage(1);
+    };
+
+    const handlePageChange = (_: any, page: number) => {
+        setCurrentPage(page);
+        loadProducts(getParams(page));
+        window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
     useEffect(() => {
@@ -88,97 +76,64 @@ export const CatalogPage = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (sortOptions.length > 0 && selectedSort === "") {
-            const defaultSortValue = sortOptions[0].value;
-            setSelectedSort(defaultSortValue);
-        }
-    }, [sortOptions, selectedSort]);
+        if (sortOptions.length && !selectedSort) setSelectedSort(sortOptions[0].value);
+    }, [sortOptions]);
 
     useEffect(() => {
-        console.log("🔄 useEffect: загружаем товары", {
-            selectedSort,
-            activeFilters,
-            hasFilters: Object.keys(activeFilters).length > 0,
-        });
+        loadProducts(getParams(1));
+    }, [selectedSort, activeFilters]);
 
-        loadProducts(getCombinedParams(1));
-    }, [selectedSort, activeFilters, loadProducts, getCombinedParams]);
-
-    const handleSortChange = (value: string) => {
-        let correctedValue = value;
-
-        if (
-            value === sorting?.sorting_options?.highest_price?.value &&
-            sorting?.sorting_options?.highest_price?.name === "Самая высокая цена"
-        ) {
-            correctedValue = "-price";
-            console.log("2. Обнаружена ошибка API, ключ ИСПРАВЛЕН на:", correctedValue);
-        } else {
-            console.log("2. Ключ не требовал исправления. Отправляем:", correctedValue);
-        }
-
-        setSelectedSort(correctedValue);
-    };
-
-    const handlePageChange = (_: unknown, page: number) => {
-        setCurrentPage(page);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        loadProducts(getCombinedParams(page));
-    };
-
-    const totalPages = Math.ceil((products?.length ?? 0) / ITEMS_PER_PAGE);
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    const currentProducts = products?.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+    const totalPages = Math.ceil((products?.length || 0) / ITEMS_PER_PAGE);
+    const currentProducts = products?.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
     return (
-        <div className={s.wrapper}>
-            <div className={s.container}>
-                <div className={s.filter_wrap}>
+        <>
+            {/* Кнопка "Фильтры" — только на мобильных */}
+            <div className={s.mobile_filter_btn} onClick={() => setIsFilterOpen(true)}>
+                <span className={s.filter_icon}>☰</span>
+                Фильтры
+            </div>
+
+            <div className={s.wrapper}>
+                {/* Десктоп: фильтр слева */}
+                <aside className={s.filter_desktop}>
                     <Filter onFilterChange={handleFilterChange} />
-                </div>
+                </aside>
 
-                <div className={s.catalog_wrap}>
-                    <div className={s.select_title_wrap}>
-                        <div>
-                            <h2 className={s.title}>Каталог товаров</h2>
-                            {/* Отображение активных фильтров с названиями */}
-                            {/* {(activeFilters.category || activeFilters.brand || activeFilters.max_price) && (
-                                <div className={s.activeFilters}>
-                                    Активные фильтры:
-                                    {activeFilters.category &&
-                                        ` Категория: ${getCategoryName(activeFilters.category)},`}
-                                    {activeFilters.brand && ` Бренд: ${getBrandName(activeFilters.brand)},`}
-                                    {activeFilters.min_price && ` Цена от ${activeFilters.min_price}`}
-                                    {activeFilters.max_price && ` до ${activeFilters.max_price}`}
-                                </div>
-                            )} */}
+                {/* Мобильный фильтр — выезжает слева */}
+                {isFilterOpen && (
+                    <>
+                        <div className={s.overlay} onClick={() => setIsFilterOpen(false)} />
+                        <div className={s.filter_mobile}>
+                            <Filter onFilterChange={handleFilterChange} />
                         </div>
+                    </>
+                )}
 
-                        <div>
-                            {sortOptions.length > 0 && selectedSort && (
+                {/* Каталог товаров */}
+                <div className={s.catalog_wrap}>
+                    <div className={s.header}>
+                        <h1 className={s.title}>Каталог товаров</h1>
+                        <div className={s.found}>Найдено {products?.length || 0} товаров</div>
+                        <div className={s.sort}>
+                            {sortOptions.length > 0 && (
                                 <CustomSelect
                                     options={sortOptions}
                                     defaultValue={selectedSort}
-                                    placeholder="Выберите сортировку"
+                                    placeholder="По популярности"
                                     onSelect={handleSortChange}
                                 />
                             )}
                         </div>
                     </div>
 
-                    {loading && (
+                    {loading ? (
                         <div className={s.cards_grid}>
                             {Array.from({ length: 8 }).map((_, i) => (
                                 <SkeletonCard key={i} />
                             ))}
                         </div>
-                    )}
-
-                    {error && <p>Ошибка загрузки</p>}
-
-                    {!loading && currentProducts?.length === 0 && <p>Нет товаров</p>}
-
-                    {!loading && (
+                    ) : (
                         <div className={s.cards_grid}>
                             {currentProducts?.map((product) => (
                                 <Card key={product.id} product={product} />
@@ -188,7 +143,11 @@ export const CatalogPage = () => {
                 </div>
             </div>
 
-            <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} />
-        </div>
+            {totalPages > 0 && (
+                <div className={s.pagination}>
+                    <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} />
+                </div>
+            )}
+        </>
     );
 };

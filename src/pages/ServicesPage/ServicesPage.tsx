@@ -11,6 +11,10 @@ import icon7 from "@/shared/assets/icons/service7.svg";
 import icon8 from "@/shared/assets/icons/service8.svg";
 import icon9 from "@/shared/assets/icons/service9.svg";
 import { Consultation } from "@/widgets/Consultation/Consultation";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useEffect } from "react";
+import { fetchGetServices } from "@/store/slices/serviceSlice";
+import { SkeletonServiceCard } from "@/components/SkeletonServiceCard/SkeletonServiceCard";
 
 const services = [
     {
@@ -61,6 +65,13 @@ const services = [
 ];
 
 export const ServicesPage = () => {
+    const dispatch = useAppDispatch();
+    const { service, loading } = useAppSelector((state) => state.service);
+
+    useEffect(() => {
+        dispatch(fetchGetServices());
+    }, [dispatch]);
+
     return (
         <div className={s.main_wrapper}>
             <div className={s.wrapper}>
@@ -77,9 +88,11 @@ export const ServicesPage = () => {
             </div>
             <div className={s.content}>
                 <div className={s.grid}>
-                    {services.map((item, i) => (
-                        <ServiceCard key={i} {...item} />
-                    ))}
+                    {loading
+                        ? Array.from({ length: service?.length || 3 }).map((_, i) => (
+                              <SkeletonServiceCard key={i} />
+                          ))
+                        : service?.map((item, i) => <ServiceCard key={i} {...item} />)}
                 </div>
             </div>
 

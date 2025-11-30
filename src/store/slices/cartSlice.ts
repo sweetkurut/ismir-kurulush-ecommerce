@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { storesApi } from "@/api";
 import type { Cart, AddToCartRequest, RemoveCartItemRequest, UpdateCartItemRequest } from "../types";
@@ -16,26 +17,21 @@ const initialState: CartState = {
     error: null,
 };
 
-// Получить корзину
-export const fetchGetCart = createAsyncThunk<Cart, void, { rejectValue: string }>(
-    "cart/fetchCart",
-    async (_, { rejectWithValue }) => {
-        try {
-            const res = await storesApi.getCartsList();
-            return res.data as Cart;
-        } catch (error: any) {
-            return rejectWithValue(error?.response?.data?.detail || "Ошибка загрузки корзины");
-        }
+export const fetchGetCart = createAsyncThunk<Cart, void, { rejectValue: string }>("cart/fetchCart", async (_, { rejectWithValue }) => {
+    try {
+        const res = await storesApi.getCartsList();
+        return res.data as Cart;
+    } catch (error: any) {
+        return rejectWithValue(error?.response?.data?.detail || "Ошибка загрузки корзины");
     }
-);
+});
 
-// Добавить товар в корзину
 export const fetchAddToCart = createAsyncThunk<Cart, AddToCartRequest, { rejectValue: string }>(
     "cart/addToCart",
     async (payload, { rejectWithValue }) => {
         try {
-            const res = await storesApi.addToCart(payload); // POST /add_item/
-            return res.data as Cart; // бэк возвращает обновлённую корзину
+            const res = await storesApi.addToCart(payload);
+            return res.data as Cart;
         } catch (error: any) {
             const msg = error?.response?.data?.detail || "Не удалось добавить в корзину";
             return rejectWithValue(msg);
@@ -43,7 +39,6 @@ export const fetchAddToCart = createAsyncThunk<Cart, AddToCartRequest, { rejectV
     }
 );
 
-// Обновить количество товара в корзине
 export const updateCartItem = createAsyncThunk<Cart, UpdateCartItemRequest, { rejectValue: string }>(
     "cart/updateCartItem",
     async (payload, { rejectWithValue }) => {
@@ -51,16 +46,12 @@ export const updateCartItem = createAsyncThunk<Cart, UpdateCartItemRequest, { re
             const res = await storesApi.updateCartItem(payload);
             return res.data as Cart;
         } catch (error: any) {
-            const msg =
-                error?.response?.data?.detail ||
-                error?.response?.data?.message ||
-                "Не удалось обновить количество";
+            const msg = error?.response?.data?.detail || error?.response?.data?.message || "Не удалось обновить количество";
             return rejectWithValue(msg);
         }
     }
 );
 
-// Удалить товар из корзины
 export const removeCartItem = createAsyncThunk<Cart, RemoveCartItemRequest, { rejectValue: string }>(
     "cart/removeCartItem",
     async (payload, { rejectWithValue }) => {
@@ -84,7 +75,6 @@ const CartSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            // === Получение корзины ===
             .addCase(fetchGetCart.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -98,7 +88,6 @@ const CartSlice = createSlice({
                 state.error = action.payload || null;
             })
 
-            // === Добавление в корзину ===
             .addCase(fetchAddToCart.pending, (state) => {
                 state.addLoading = true;
                 state.error = null;
@@ -112,7 +101,6 @@ const CartSlice = createSlice({
                 state.error = action.payload || null;
             })
 
-            // === Обновление количества ===
             .addCase(updateCartItem.pending, (state) => {
                 state.addLoading = true;
                 state.error = null;
@@ -126,7 +114,6 @@ const CartSlice = createSlice({
                 state.error = action.payload || null;
             })
 
-            // === Удаление товара ===
             .addCase(removeCartItem.pending, (state) => {
                 state.addLoading = true;
                 state.error = null;
@@ -134,7 +121,6 @@ const CartSlice = createSlice({
             .addCase(removeCartItem.fulfilled, (state, action) => {
                 state.addLoading = false;
                 state.cart = action.payload;
-                // Если корзина стала пустой — можно обнулить
                 if (action.payload.items.length === 0) {
                     state.cart = null;
                 }

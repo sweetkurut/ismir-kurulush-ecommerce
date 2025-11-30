@@ -1,7 +1,7 @@
-import React from 'react';
-import s from './DownloadButton.module.scss';
-import { classNames } from '@/shared/lib/classNames/classNames';
-import DownloadIcon from '@/shared/assets/icons/download.svg';
+import React from "react";
+import s from "./DownloadButton.module.scss";
+import { classNames } from "@/shared/lib/classNames/classNames";
+import DownloadIcon from "@/shared/assets/icons/download.svg";
 
 interface DownloadButtonProps {
     onClick: () => void;
@@ -19,4 +19,4 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({ onClick, classNa
             <span>Скачать таблицу</span>
         </button>
     );
-}; 
+};

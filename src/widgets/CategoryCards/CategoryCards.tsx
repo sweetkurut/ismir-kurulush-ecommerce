@@ -9,25 +9,22 @@ export const CategoryCards = () => {
     const dispatch = useAppDispatch();
     const skeletonCount = 6;
 
-    const { loading,  category } = useAppSelector((state) => state.category);
+    const { loading, category } = useAppSelector((state) => state.category);
 
-    console.log(category, 'категории');
-    
+    console.log(category, "категории");
 
     useEffect(() => {
         dispatch(fetchGetCategory());
     }, [dispatch]);
 
     return (
-         <div className={s.wrapper}>
+        <div className={s.wrapper}>
             <div className={s.container}>
                 <h2 className={s.title}>Категории товаров</h2>
 
                 <div className={s.cards}>
                     {loading
-                        ? [...Array(skeletonCount)].map((_, i) => (
-                              <SkeletonCategoryCard key={i} />
-                          ))
+                        ? [...Array(skeletonCount)].map((_, i) => <SkeletonCategoryCard key={i} />)
                         : category?.map((card) => (
                               <div key={card.id} className={s.card}>
                                   <div className={s.card_img_wrap}>

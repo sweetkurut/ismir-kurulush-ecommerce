@@ -72,10 +72,6 @@ export const FavouritePage = () => {
                         </div>
                     )}
 
-                    {/* {error && <p>Ошибка загрузки</p>} */}
-
-                    {/* {!loading && favorites?.length === 0 && <p>Нет товаров</p>} */}
-
                     {!loading && favorites && (
                         <div className={s.cards_grid}>
                             {favorites.results.map((item) => (

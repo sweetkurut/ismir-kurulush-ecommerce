@@ -41,10 +41,6 @@
                 &:hover {
                     background-color: darken(#f14f2717, 4%);
                 }
-
-
-                  
-
             }
         }
 
@@ -56,8 +52,7 @@
             padding-top: 32px;
             padding-bottom: 50px;
 
-
-             @media (max-width: 1024px) {
+            @media (max-width: 1024px) {
                 padding: 15px;
                 grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             }
@@ -68,7 +63,7 @@
             }
 
             @media (max-width: 480px) {
-                grid-template-columns: 1fr 1fr; 
+                grid-template-columns: 1fr 1fr;
                 gap: 8px;
             }
 

@@ -21,14 +21,10 @@ export const DetailCatalogPage = () => {
     const { cart, addLoading } = useAppSelector((state) => state.cart);
     const favorites = useAppSelector((state) => state.favorites.favorites?.results || []);
 
-    // Текущий товар в корзине
     const cartItem = cart?.items.find((item) => item.product.id === product?.id);
     const quantityInCart = cartItem?.quantity || 0;
 
-    // В избранном?
-    const isFavorite = product
-        ? favorites.some((item: any) => item.product?.id === product.id || item.id === product.id)
-        : false;
+    const isFavorite = product ? favorites.some((item: any) => item.product?.id === product.id || item.id === product.id) : false;
 
     useEffect(() => {
         if (id) dispatch(fetchGetDetailProducts(Number(id)));
@@ -36,7 +32,6 @@ export const DetailCatalogPage = () => {
 
     const handleBack = () => navigate("/catalog");
 
-    // +1 в корзине
     const handleIncrease = async () => {
         if (!product) return;
 
@@ -47,20 +42,17 @@ export const DetailCatalogPage = () => {
         }
     };
 
-    // -1 в корзине
     const handleDecrease = async () => {
         if (!product || quantityInCart <= 1) return;
 
         await dispatch(updateCartItem({ item_id: cartItem!.id, quantity: quantityInCart - 1 }));
     };
 
-    // Добавить в корзину (только если ещё нет)
     const handleAddToCart = async () => {
         if (!product || quantityInCart > 0) return;
         await dispatch(fetchAddToCart({ product: product.id, quantity: 1 }));
     };
 
-    // Переключить избранное
     const handleToggleFavorite = async () => {
         if (!product) return;
         await dispatch(fetchAddFavorites(product.id));
@@ -77,27 +69,15 @@ export const DetailCatalogPage = () => {
                 </span>
 
                 <div className={s.mainContent}>
-                    {/* Галерея */}
                     <div className={s.imageSection}>
-                        <img
-                            src={product.images?.[0]?.image || product.main_image}
-                            alt={product.name}
-                            className={s.mainImage}
-                        />
+                        <img src={product.images?.[0]?.image || product.main_image} alt={product.name} className={s.mainImage} />
                         <div className={s.thumbnails}>
                             {product.images?.map((img) => (
-                                <img
-                                    key={img.id}
-                                    src={img.image}
-                                    alt=""
-                                    className={s.thumbnail}
-                                    onClick={() => {}}
-                                />
+                                <img key={img.id} src={img.image} alt="" className={s.thumbnail} onClick={() => {}} />
                             ))}
                         </div>
                     </div>
 
-                    {/* Информация */}
                     <div className={s.infoSection}>
                         <div className={product.quantity > 0 ? s.badge : s.badge_out}>
                             {product.quantity > 0 ? "В наличии" : "Нет в наличии"}
@@ -111,34 +91,20 @@ export const DetailCatalogPage = () => {
                             </span>
                         </div>
 
-                        {/* Блок действий */}
                         <div className={s.actionBlock}>
                             {/* Количество */}
                             <div className={s.quantityControl}>
-                                <button
-                                    className={s.qtyButton}
-                                    onClick={handleDecrease}
-                                    disabled={addLoading || quantityInCart <= 1}
-                                >
+                                <button className={s.qtyButton} onClick={handleDecrease} disabled={addLoading || quantityInCart <= 1}>
                                     −
                                 </button>
                                 <input disabled className={s.qtyInput} value={quantityInCart} readOnly />
-                                <button
-                                    className={s.qtyButton}
-                                    onClick={handleIncrease}
-                                    disabled={addLoading}
-                                >
+                                <button className={s.qtyButton} onClick={handleIncrease} disabled={addLoading}>
                                     +
                                 </button>
                             </div>
 
-                            {/* Кнопка в корзину */}
                             {quantityInCart === 0 ? (
-                                <button
-                                    className={s.addButton}
-                                    onClick={handleAddToCart}
-                                    disabled={addLoading}
-                                >
+                                <button className={s.addButton} onClick={handleAddToCart} disabled={addLoading}>
                                     <FiShoppingCart />
                                     {addLoading ? "Добавляем..." : "Добавить в корзину"}
                                 </button>
@@ -156,13 +122,9 @@ export const DetailCatalogPage = () => {
                                 className={s.heartButton}
                                 onClick={handleToggleFavorite}
                                 title={isFavorite ? "Убрать из избранного" : "Добавить в избранное"}
-                                disabled={addLoading} // если есть
+                                disabled={addLoading}
                             >
-                                {isFavorite ? (
-                                    <FaHeart className={s.btn_heart_active} />
-                                ) : (
-                                    <FaRegHeart className={s.btn_heart} />
-                                )}
+                                {isFavorite ? <FaHeart className={s.btn_heart_active} /> : <FaRegHeart className={s.btn_heart} />}
                             </button>
                         </div>
 
@@ -174,7 +136,6 @@ export const DetailCatalogPage = () => {
                 </div>
             </div>
 
-            {/* Похожие товары */}
             {loading ? (
                 <div className={s.same_tovar}>
                     <h2 className={s.title_cards}>Похожие товары</h2>

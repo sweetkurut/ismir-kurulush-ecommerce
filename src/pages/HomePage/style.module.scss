@@ -5,7 +5,6 @@
     background-repeat: no-repeat;
     background-position: center;
     height: 600px;
-    // margin-top: 200px;
 
     @media (max-width: 1024px) {
         height: auto;
@@ -25,8 +24,7 @@
         color: var(--color-white);
         padding-top: 126px;
 
-
-         @media (max-width: 1024px) {
+        @media (max-width: 1024px) {
             padding-top: 80px;
         }
 
@@ -39,7 +37,6 @@
             font-size: 55px;
             line-height: 60px;
             margin-bottom: 24px;
-
 
             @media (max-width: 768px) {
                 font-size: 40px;
@@ -80,7 +77,6 @@
                 justify-content: center;
             }
 
-
             .catalog_btn {
                 padding: 15px 30px;
                 font-size: 16px;
@@ -106,9 +102,7 @@
                     gap: 5px;
                     align-items: center;
                 }
-
             }
-
 
             .feedback_btn {
                 padding: 15px 30px;
@@ -124,7 +118,6 @@
                 &:hover {
                     background: var(--color-btn);
                 }
-
 
                 @media (max-width: 768px) {
                     max-width: 300px;
@@ -143,7 +136,6 @@
         padding: 10px;
     }
 
-    
     .cards {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(274px, 1fr));
@@ -155,15 +147,12 @@
         align-items: center;
         justify-content: space-between;
 
-
-         @media (max-width: 1024px) {
-                 display: flex;
-                flex-wrap: wrap;
-                align-items: center;
-                justify-content: center;
-            }
-
-           
+        @media (max-width: 1024px) {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
 
         .card {
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -193,8 +182,7 @@
                     font-weight: 400;
                     margin-bottom: 12px;
 
-
-                     @media (max-width: 480px) {
+                    @media (max-width: 480px) {
                         font-size: 16px;
                     }
                 }

@@ -1,5 +1,4 @@
 .Burger {
-
     @media (min-width: 960px) {
         display: none;
     }
@@ -50,7 +49,7 @@
             .line {
                 fill: none;
                 transition: stroke-dasharray 400ms, stroke-dashoffset 400ms;
-                stroke: #E9961F;
+                stroke: #e9961f;
                 stroke-width: 3;
                 stroke-linecap: round;
             }

@@ -5,7 +5,6 @@ export const SkeletonDetail = () => {
         <div className={s.skeleton_page}>
             <div className={s.skeleton_container}>
                 <div className={s.skeleton_mainContent}>
-                    {/* Левая часть (картинки) */}
                     <div className={s.skeleton_imageSection}>
                         <div className={s.skeleton_mainImage}></div>
 
@@ -16,7 +15,6 @@ export const SkeletonDetail = () => {
                         </div>
                     </div>
 
-                    {/* Правая часть (информация) */}
                     <div className={s.skeleton_infoSection}>
                         <div className={s.skeleton_badge}></div>
 

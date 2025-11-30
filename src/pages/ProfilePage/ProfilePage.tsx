@@ -116,20 +116,6 @@ export const ProfilePage = () => {
         );
     }
 
-    // if (loading && !profile) {
-    //     return (
-    //         <div className={s.wrapper}>
-    //             <div className={s.container}>
-    //                 <div className={s.loading}>
-    //                     <SkeletonProfile />
-    //                     {/* <h2>загрузка</h2> */}
-
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     );
-    // }
-
     if (loading && !profile) {
         return <SkeletonProfile />;
     }
@@ -161,7 +147,6 @@ export const ProfilePage = () => {
         <div className={s.wrapper}>
             <div className={s.container}>
                 <div className={s.content}>
-                    {/* Боковая панель профиля */}
                     <div className={s.profileSection}>
                         <div className={s.profile}>
                             <div className={s.profileHeader}>
@@ -185,7 +170,6 @@ export const ProfilePage = () => {
                                 </div>
                             </div>
 
-                            {/* Навигация */}
                             <div className={s.profile_navs}>
                                 <div
                                     className={`${s.profile_nav} ${activeTab === "profile" ? s.active : ""}`}
@@ -231,7 +215,6 @@ export const ProfilePage = () => {
                                 </div>
                             </div>
 
-                            {/* Кнопка выхода */}
                             <div className={s.profile_btn}>
                                 <button className={s.logoutBtn} onClick={() => setShowLogoutModal(true)}>
                                     Выйти
@@ -240,7 +223,6 @@ export const ProfilePage = () => {
                         </div>
                     </div>
 
-                    {/* Основной контент */}
                     <div className={s.mainContent}>
                         <div className={s.tabs}>
                             <div
@@ -282,7 +264,6 @@ export const ProfilePage = () => {
                 </div>
             </div>
 
-            {/* Модальное окно подтверждения выхода */}
             <Modal
                 isOpen={showLogoutModal}
                 onClose={() => setShowLogoutModal(false)}
@@ -320,7 +301,6 @@ export const ProfilePage = () => {
                 </div>
             </Modal>
 
-            {/* Модальное окно подтверждения удаления */}
             <Modal
                 isOpen={showDeleteModal}
                 onClose={() => setShowDeleteModal(false)}

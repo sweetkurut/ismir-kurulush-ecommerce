@@ -103,7 +103,6 @@ export interface Products {
     created_at: string;
 }
 
-/** Изображения в детальном товаре */
 export interface ProductImage {
     id: number;
     image: string;
@@ -111,7 +110,6 @@ export interface ProductImage {
     order: number;
 }
 
-/** Детальная информация о товаре (страница товара) */
 export interface ProductDetail {
     id: number;
     images: ProductImage[];
@@ -132,7 +130,6 @@ export interface ProductDetail {
     popularity_score: string;
 }
 
-// категория
 export interface ICategory {
     id: number;
     name: string;

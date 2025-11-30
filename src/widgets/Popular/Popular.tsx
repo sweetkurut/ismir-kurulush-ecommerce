@@ -11,7 +11,7 @@ export const Popular = () => {
     const nav = useNavigate();
 
     const dispatch = useAppDispatch();
-    const { loading,  products } = useAppSelector((state) => state.products);
+    const { loading, products } = useAppSelector((state) => state.products);
 
     useEffect(() => {
         dispatch(fetchGetProducts());
@@ -34,9 +34,7 @@ export const Popular = () => {
                 <div className={s.cards_grid}>
                     {loading
                         ? [...Array(6)].map((_, i) => <SkeletonCard key={i} />)
-                        : products?.map((product) => (
-                              <Card key={product.id} product={product} />
-                          ))}
+                        : products?.map((product) => <Card key={product.id} product={product} />)}
                 </div>
             </div>
         </div>

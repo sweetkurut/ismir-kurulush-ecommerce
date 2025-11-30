@@ -44,22 +44,21 @@ export const fetchUpdateProfile = createAsyncThunk<IProfile, IProfileUpdate, { r
     }
 );
 
-export const fetchUpdateProfilePassword = createAsyncThunk<
-    void,
-    IProfileUpdatePassword,
-    { rejectValue: string }
->("profile/fetchUpdateProfilePassword", async (data, { rejectWithValue }) => {
-    try {
-        const res = await storesApi.updateProfilePassword(data);
-        if (res.status !== 200) {
-            return rejectWithValue(`Ошибка сервера: ${res.status}`);
+export const fetchUpdateProfilePassword = createAsyncThunk<void, IProfileUpdatePassword, { rejectValue: string }>(
+    "profile/fetchUpdateProfilePassword",
+    async (data, { rejectWithValue }) => {
+        try {
+            const res = await storesApi.updateProfilePassword(data);
+            if (res.status !== 200) {
+                return rejectWithValue(`Ошибка сервера: ${res.status}`);
+            }
+            return res.data as void;
+        } catch (error: unknown) {
+            console.error(error);
+            return rejectWithValue(`Ошибка: ${error}`);
         }
-        return res.data as void;
-    } catch (error: unknown) {
-        console.error(error);
-        return rejectWithValue(`Ошибка: ${error}`);
     }
-});
+);
 
 export const fetchDeleteProfile = createAsyncThunk<void, void, { rejectValue: string }>(
     "profile/fetchDeleteProfile",

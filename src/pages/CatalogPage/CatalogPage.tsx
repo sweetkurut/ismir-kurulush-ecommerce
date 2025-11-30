@@ -77,11 +77,10 @@ export const CatalogPage = () => {
         [dispatch]
     );
 
-    // Обработчик изменения фильтров
     const handleFilterChange = (filters: FilterParams) => {
         console.log("🎯 Получены новые фильтры:", filters);
         setActiveFilters(filters);
-        setCurrentPage(1); // Сбрасываем на первую страницу
+        setCurrentPage(1);
     };
 
     useEffect(() => {
@@ -95,7 +94,6 @@ export const CatalogPage = () => {
         }
     }, [sortOptions, selectedSort]);
 
-    // Загрузка товаров при изменении фильтров или сортировки
     useEffect(() => {
         console.log("🔄 useEffect: загружаем товары", {
             selectedSort,

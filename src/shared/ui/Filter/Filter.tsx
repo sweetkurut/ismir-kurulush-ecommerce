@@ -19,8 +19,6 @@ export const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
     const dispatch = useAppDispatch();
     const { category } = useAppSelector((state) => state.category);
     const { brand } = useAppSelector((state) => state.brand);
-
-    // Состояния фильтров
     const [priceRange, setPriceRange] = useState(100);
     const [selectedCategory, setSelectedCategory] = useState<string>("");
     const [selectedBrand, setSelectedBrand] = useState<number | "">("");
@@ -30,13 +28,11 @@ export const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
 
     const sliderRef = useRef<HTMLInputElement>(null);
 
-    // Загрузка категорий и брендов
     useEffect(() => {
         dispatch(fetchGetCategory());
         dispatch(fetchGetBrand());
     }, [dispatch]);
 
-    // Обновление слайдера
     const updateSliderTrack = (value: number) => {
         const percentage = ((value - minPrice) / (maxPrice - minPrice)) * 100;
         if (sliderRef.current) {
@@ -60,7 +56,6 @@ export const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
         setSelectedBrand(brandId);
     };
 
-    // Применение фильтров
     const handleApplyFilters = () => {
         const filters: FilterParams = {
             min_price: minPrice,
@@ -79,7 +74,6 @@ export const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
         onFilterChange(filters);
     };
 
-    // Сброс фильтров
     const handleResetFilters = () => {
         setPriceRange(100);
         setSelectedCategory("");
@@ -96,7 +90,6 @@ export const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
                     <h2>Фильтры</h2>
                 </div>
 
-                {/* Фильтр по цене */}
                 <div className={s.filterSection}>
                     <h3>Цена (сом)</h3>
                     <div className={s.priceValue}>{priceRange} сом</div>
@@ -117,7 +110,6 @@ export const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
                     </div>
                 </div>
 
-                {/* Фильтр по категориям - используем slug */}
                 <div className={s.filterSection}>
                     <h3>Категории</h3>
                     <form>
@@ -139,7 +131,6 @@ export const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
                     </form>
                 </div>
 
-                {/* Фильтр по брендам - используем id */}
                 <div className={s.filterSection}>
                     <h3>Бренды</h3>
                     <form>
@@ -161,7 +152,6 @@ export const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
                     </form>
                 </div>
 
-                {/* Кнопки действий */}
                 <div className={s.actionButtons}>
                     <button className={s.applyButton} onClick={handleApplyFilters}>
                         Применить

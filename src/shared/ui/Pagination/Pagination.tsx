@@ -5,12 +5,11 @@ import { motion } from "framer-motion";
 
 interface PaginationProps {
     className?: string;
-    count: number; // Общее количество страниц (обязательный)
-    page: number; // Текущая страница (обязательный)
+    count: number;
+    page: number;
     onChange: (event: React.MouseEvent<HTMLButtonElement> | null, page: number) => void;
 }
 
-// Вспомогательная функция для генерации номеров страниц (отображение 1, 2, 3...)
 const getPageNumbers = (currentPage: number, totalPages: number): (number | "...")[] => {
     if (totalPages <= 5) {
         return Array.from({ length: totalPages }, (_, i) => i + 1);

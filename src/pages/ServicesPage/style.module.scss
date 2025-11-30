@@ -41,8 +41,6 @@
     margin: 0 auto;
 
     .grid {
-        // max-width: var(--container-width);
-        // margin: 0 auto;
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(447px, 1fr));
         gap: 24px;

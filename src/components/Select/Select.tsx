@@ -14,12 +14,7 @@ interface CustomSelectProps {
     onSelect: (value: string) => void;
 }
 
-export const CustomSelect: React.FC<CustomSelectProps> = ({
-    options,
-    defaultValue,
-    placeholder = "Выберите опцию",
-    onSelect,
-}) => {
+export const CustomSelect: React.FC<CustomSelectProps> = ({ options, defaultValue, placeholder = "Выберите опцию", onSelect }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState<SelectOption | null>(() => {
         return defaultValue ? options.find((option) => option.value === defaultValue) || null : null;
@@ -62,9 +57,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
                     {options.map((option) => (
                         <li
                             key={option.value}
-                            className={`${s.optionItem} ${
-                                selectedOption?.value === option.value ? s.selected : ""
-                            }`}
+                            className={`${s.optionItem} ${selectedOption?.value === option.value ? s.selected : ""}`}
                             onClick={() => handleOptionClick(option)}
                         >
                             {option.label}

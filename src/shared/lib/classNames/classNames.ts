@@ -7,12 +7,5 @@ export function classNames(cls: string, mods: Mods = {}, additional: string[] = 
         ...Object.entries(mods)
             .filter(([_, value]) => Boolean(value))
             .map(([className]) => className),
-    ].join(' ');
+    ].join(" ");
 }
-
-
-
-// classNames('remove-btn', { hovered: false, selectable: true, red: false }, ['pdg'])
-
-
-// 'remove-btn hovered selectable pdg'

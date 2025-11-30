@@ -23,24 +23,21 @@ const navItems = [
 export const Header = ({ className }: HeaderProps) => {
     const [isHidden, setIsHidden] = useState(false);
     const { cart } = useAppSelector((state) => state.cart);
-    const {favorites} = useAppSelector((state) => state.favorites)
-    const totalFavorites = favorites?.results.length ?? 0
+    const { favorites } = useAppSelector((state) => state.favorites);
+    const totalFavorites = favorites?.results.length ?? 0;
     const totalItemsInCart = cart?.items.length ?? 0;
-
-
-
 
     useEffect(() => {
         let lastScrollY = 0;
-        const threshold = 90; 
+        const threshold = 90;
 
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
 
             if (currentScrollY > threshold && currentScrollY > lastScrollY) {
-                setIsHidden(true);  
+                setIsHidden(true);
             } else if (currentScrollY < lastScrollY) {
-                setIsHidden(false); 
+                setIsHidden(false);
             }
 
             lastScrollY = currentScrollY;
@@ -73,7 +70,7 @@ export const Header = ({ className }: HeaderProps) => {
                             <MobileMenu />
                         </div>
                         <AppLink to="/" className={s.logoLink}>
-                            <img src={logo} alt="ISMIR KURULUSH" className={s.logo_img}/>
+                            <img src={logo} alt="ISMIR KURULUSH" className={s.logo_img} />
                         </AppLink>
                     </div>
 
@@ -85,7 +82,7 @@ export const Header = ({ className }: HeaderProps) => {
                     <div className={s.actionIcons}>
                         <AppLink to="/favorites" className={s.actionIconLink}>
                             <CiHeart />
-                             {totalFavorites > 0 && (
+                            {totalFavorites > 0 && (
                                 <span className={s.badge}>
                                     {totalFavorites > 99 ? "99+" : totalFavorites}
                                 </span>

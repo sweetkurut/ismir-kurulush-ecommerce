@@ -104,9 +104,7 @@ export const BasketPage = memo(() => {
                         ))}
                     </div>
 
-                    {/* Итоги — лёгкий блок */}
                     <div className={s.summaryBlock}>
-                        {/* <SkeletonSummary /> */}
                         <div className={s.summaryTitle}>Итого</div>
 
                         <div className={s.totalTable}>

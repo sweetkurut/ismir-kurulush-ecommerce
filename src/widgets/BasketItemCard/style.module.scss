@@ -101,144 +101,143 @@
 
 // === Модалка удаления товара из корзины ===
 .deleteModalContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 16px 8px;
-  gap: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 16px 8px;
+    gap: 20px;
 }
 
 .warningIcon {
-  width: 64px;
-  height: 64px;
-  background: #fef2f2;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ef4444;
+    width: 64px;
+    height: 64px;
+    background: #fef2f2;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ef4444;
 
-  svg {
-    width: 36px;
-    height: 36px;
-  }
+    svg {
+        width: 36px;
+        height: 36px;
+    }
 }
 
 .warningText {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  color: #374151;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    color: #374151;
 
-  h4 {
-    font-size: 20px;
-    font-weight: 600;
-    margin: 0;
-    color: #1f2937;
-  }
-
-  p {
-    margin: 0;
-    font-size: 15px;
-    line-height: 1.5;
-    color: #6b7280;
-
-    strong {
-      color: #111827;
-      font-weight: 600;
+    h4 {
+        font-size: 20px;
+        font-weight: 600;
+        margin: 0;
+        color: #1f2937;
     }
-  }
+
+    p {
+        margin: 0;
+        font-size: 15px;
+        line-height: 1.5;
+        color: #6b7280;
+
+        strong {
+            color: #111827;
+            font-weight: 600;
+        }
+    }
 }
 
 .modalActions {
-  display: flex;
-  gap: 12px;
-  width: 100%;
-  margin-top: 8px;
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    margin-top: 8px;
 
-  button {
-    flex: 1;
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 15px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border: none;
+    button {
+        flex: 1;
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 15px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
 
-    &:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-  }
-
-  .confirmDeleteBtn {
-    background: #ef4444;
-    color: white;
-    font-family: var(--font-opensans-b);
-
-    &:hover:not(:disabled) {
-      background: #dc2626;
+        &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
     }
 
-    .spinnerSmall {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid transparent;
-      border-top-color: white;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin-right: 8px;
-    }
-  }
+    .confirmDeleteBtn {
+        background: #ef4444;
+        color: white;
+        font-family: var(--font-opensans-b);
 
-  .cancelDeleteBtn {
-    background: #f3f4f6;
-    color: #374151;
-    font-family: var(--font-opensans-b);
+        &:hover:not(:disabled) {
+            background: #dc2626;
+        }
 
-    &:hover:not(:disabled) {
-      background: #e5e7eb;
+        .spinnerSmall {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+        }
     }
-  }
+
+    .cancelDeleteBtn {
+        background: #f3f4f6;
+        color: #374151;
+        font-family: var(--font-opensans-b);
+
+        &:hover:not(:disabled) {
+            background: #e5e7eb;
+        }
+    }
 }
 
 // Анимация спиннера
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 // Улучшаем кнопку удаления в карточке
 .deleteButton {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 8px;
-  transition: background 0.2s ease;
-  align-self: flex-start;
-  
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+    align-self: flex-start;
 
-  &:hover {
-    background: #fee2e2;
-  }
+    &:hover {
+        background: #fee2e2;
+    }
 
-  &:active {
-    background: #fecaca;
-  }
+    &:active {
+        background: #fecaca;
+    }
 
-  .icon_delete {
-    color: #94a3b8;
-    width: 18px;
-    height: 18px;
-    transition: color 0.2s ease;
-  }
+    .icon_delete {
+        color: #94a3b8;
+        width: 18px;
+        height: 18px;
+        transition: color 0.2s ease;
+    }
 
-  &:hover .icon_delete {
-    color: #ef4444;
-  }
+    &:hover .icon_delete {
+        color: #ef4444;
+    }
 }

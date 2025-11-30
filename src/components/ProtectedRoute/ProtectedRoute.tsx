@@ -7,10 +7,7 @@ interface ProtectedRouteProps {
     fallback?: React.ReactNode;
 }
 
-export const ProtectedRoute = ({
-    children,
-    fallback = <div>Проверка авторизации...</div>,
-}: ProtectedRouteProps) => {
+export const ProtectedRoute = ({ children, fallback = <div>Проверка авторизации...</div> }: ProtectedRouteProps) => {
     const [isChecking, setIsChecking] = useState(true);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const { login } = useAppSelector((state) => state.auth);

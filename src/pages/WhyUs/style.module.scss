@@ -1,6 +1,5 @@
 .wrapper {
     padding: 80px 0;
-    // padding: 10px;
     background-color: var(--color-white);
 }
 
@@ -60,11 +59,6 @@
     transition: 0.2s all;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     width: 100%;
-
-    // &:hover {
-    //     transform: scale(1.03);
-    //     background: #f8f8f8;
-    // }
 
     @media (max-width: 480px) {
         padding: 10px;

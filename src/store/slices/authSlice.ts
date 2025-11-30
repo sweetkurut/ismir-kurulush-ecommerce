@@ -3,14 +3,7 @@ import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/tool
 import { removeTokens, saveTokens, getRefreshToken } from "@/utils/auth";
 import { handleApiError } from "@/utils/validation";
 import { storesApi } from "@/api";
-import type {
-    ILoginData,
-    ILoginResponse,
-    IResetPassword,
-    ISetPassword,
-    ISignUpEmail,
-    IVerifyCode,
-} from "../types";
+import type { ILoginData, ILoginResponse, IResetPassword, ISetPassword, ISignUpEmail, IVerifyCode } from "../types";
 
 type AuthState = {
     loading: boolean;
@@ -38,104 +31,82 @@ const initialState: AuthState = {
     isAuthenticated: checkAuthStatus(),
 };
 
-export const fetchLogin = createAsyncThunk(
-    "auth/fetchLogin",
-    async (data: ILoginData, { rejectWithValue }) => {
-        try {
-            const res = await storesApi.login(data);
-            // ВАЖНО: Сохраняем токены
+export const fetchLogin = createAsyncThunk("auth/fetchLogin", async (data: ILoginData, { rejectWithValue }) => {
+    try {
+        const res = await storesApi.login(data);
+        await saveTokens(res.data.access, res.data.refresh);
+        return res.data;
+    } catch (error: unknown) {
+        return rejectWithValue(handleApiError(error, "Ошибка при авторизации"));
+    }
+});
+
+export const fetchRefreshToken = createAsyncThunk("auth/fetchRefreshToken", async (_, { rejectWithValue }) => {
+    try {
+        const refreshToken = await getRefreshToken();
+        if (!refreshToken) {
+            throw new Error("No refresh token");
+        }
+
+        const res = await storesApi.refreshToken(refreshToken);
+        if (res.data && res.data.access && res.data.refresh) {
             await saveTokens(res.data.access, res.data.refresh);
-            return res.data;
-        } catch (error: unknown) {
-            return rejectWithValue(handleApiError(error, "Ошибка при авторизации"));
         }
+        return res.data;
+    } catch (error: unknown) {
+        await removeTokens();
+        return rejectWithValue(handleApiError(error, "Ошибка при обновлении токена"));
     }
-);
+});
 
-export const fetchRefreshToken = createAsyncThunk(
-    "auth/fetchRefreshToken",
-    async (_, { rejectWithValue }) => {
-        try {
-            const refreshToken = await getRefreshToken();
-            if (!refreshToken) {
-                throw new Error("No refresh token");
-            }
+export const fetchSignUp = createAsyncThunk("auth/fetchSignUp", async (data: ISignUpEmail, { rejectWithValue }) => {
+    try {
+        const res = await storesApi.signUp(data);
+        return res.data;
+    } catch (error: unknown) {
+        return rejectWithValue(handleApiError(error, "Ошибка при регистрации"));
+    }
+});
 
-            const res = await storesApi.refreshToken(refreshToken);
-            if (res.data && res.data.access && res.data.refresh) {
-                await saveTokens(res.data.access, res.data.refresh);
-            }
-            return res.data;
-        } catch (error: unknown) {
-            await removeTokens();
-            return rejectWithValue(handleApiError(error, "Ошибка при обновлении токена"));
+export const fetchVerifyCode = createAsyncThunk("auth/fetchVerifyCode", async (data: IVerifyCode, { rejectWithValue }) => {
+    try {
+        const res = await storesApi.verifyCode(data);
+        return res.data;
+    } catch (error: unknown) {
+        return rejectWithValue(handleApiError(error, "Ошибка при проверке кода"));
+    }
+});
+
+export const fetchSetPassword = createAsyncThunk("auth/fetchSetPassword", async (data: ISetPassword, { rejectWithValue }) => {
+    try {
+        const res = await storesApi.setPassword(data);
+        // Сохраняем токены после установки пароля
+        if (res.data.access && res.data.refresh) {
+            await saveTokens(res.data.access, res.data.refresh);
         }
+        return res.data;
+    } catch (error: unknown) {
+        return rejectWithValue(handleApiError(error, "Ошибка при установке пароля"));
     }
-);
+});
 
-export const fetchSignUp = createAsyncThunk(
-    "auth/fetchSignUp",
-    async (data: ISignUpEmail, { rejectWithValue }) => {
-        try {
-            const res = await storesApi.signUp(data);
-            return res.data;
-        } catch (error: unknown) {
-            return rejectWithValue(handleApiError(error, "Ошибка при регистрации"));
-        }
+export const fetchResetPassword = createAsyncThunk("auth/fetchResetPassword", async (data: IResetPassword, { rejectWithValue }) => {
+    try {
+        const res = await storesApi.resetPassword(data);
+        return res.data;
+    } catch (error: unknown) {
+        return rejectWithValue(handleApiError(error, "Ошибка при сбросе пароля"));
     }
-);
+});
 
-export const fetchVerifyCode = createAsyncThunk(
-    "auth/fetchVerifyCode",
-    async (data: IVerifyCode, { rejectWithValue }) => {
-        try {
-            const res = await storesApi.verifyCode(data);
-            return res.data;
-        } catch (error: unknown) {
-            return rejectWithValue(handleApiError(error, "Ошибка при проверке кода"));
-        }
+export const fetchForgotPassword = createAsyncThunk("auth/fetchForgotPassword", async (data: ISignUpEmail, { rejectWithValue }) => {
+    try {
+        const res = await storesApi.forgotPassword(data);
+        return res.data;
+    } catch (error: unknown) {
+        return rejectWithValue(handleApiError(error, "Ошибка при сбросе пароля"));
     }
-);
-
-export const fetchSetPassword = createAsyncThunk(
-    "auth/fetchSetPassword",
-    async (data: ISetPassword, { rejectWithValue }) => {
-        try {
-            const res = await storesApi.setPassword(data);
-            // Сохраняем токены после установки пароля
-            if (res.data.access && res.data.refresh) {
-                await saveTokens(res.data.access, res.data.refresh);
-            }
-            return res.data;
-        } catch (error: unknown) {
-            return rejectWithValue(handleApiError(error, "Ошибка при установке пароля"));
-        }
-    }
-);
-
-export const fetchResetPassword = createAsyncThunk(
-    "auth/fetchResetPassword",
-    async (data: IResetPassword, { rejectWithValue }) => {
-        try {
-            const res = await storesApi.resetPassword(data);
-            return res.data;
-        } catch (error: unknown) {
-            return rejectWithValue(handleApiError(error, "Ошибка при сбросе пароля"));
-        }
-    }
-);
-
-export const fetchForgotPassword = createAsyncThunk(
-    "auth/fetchForgotPassword",
-    async (data: ISignUpEmail, { rejectWithValue }) => {
-        try {
-            const res = await storesApi.forgotPassword(data);
-            return res.data;
-        } catch (error: unknown) {
-            return rejectWithValue(handleApiError(error, "Ошибка при сбросе пароля"));
-        }
-    }
-);
+});
 
 const authSlice = createSlice({
     name: "auth",
@@ -154,7 +125,6 @@ const authSlice = createSlice({
         clearError: (state) => {
             state.error = null;
         },
-        // Добавляем action для принудительной проверки авторизации
         checkAuth: (state) => {
             state.isAuthenticated = checkAuthStatus();
         },
@@ -260,9 +230,7 @@ const authSlice = createSlice({
             })
             .addCase(fetchForgotPassword.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.payload
-                    ? String(action.payload)
-                    : "Ошибка при отправке кода восстановления";
+                state.error = action.payload ? String(action.payload) : "Ошибка при отправке кода восстановления";
             })
 
             .addCase(fetchResetPassword.pending, (state) => {

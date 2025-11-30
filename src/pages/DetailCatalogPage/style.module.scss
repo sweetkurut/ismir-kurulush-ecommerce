@@ -1,6 +1,6 @@
 .page {
     background-color: var(--color-white);
-    padding: 30px 0 60px; /* Увеличим отступы */
+    padding: 30px 0 60px;
 }
 
 .container {
@@ -23,10 +23,9 @@
 
 .mainContent {
     display: flex;
-    gap: 50px; /* Увеличим расстояние между блоками */
+    gap: 50px;
 }
 
-/* --- Секция изображений --- */
 .imageSection {
     flex: 0 0 666px;
     max-width: 666px;
@@ -245,14 +244,9 @@
     cursor: pointer;
     font-size: 20px;
     color: var(--color-black);
-    // line-height: 1;
     font-weight: 700;
     transition: background-color 0.1s;
 }
-
-// .qtyButton:hover {
-//     background-color: var(--color-bg-secondary);
-// }
 
 .qtyInput {
     width: 50px;
@@ -291,9 +285,6 @@
 }
 
 .heartButton {
-    //   position: absolute;
-    //   top: 12px;
-    //   right: 12px;
     z-index: 10;
     width: 45px;
     height: 45px;
@@ -307,7 +298,6 @@
     transition: all 0.25s ease;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 
-    // По умолчанию — только красная обводка
     .btn_heart {
         color: #ef4444;
         width: 30px;
@@ -315,19 +305,14 @@
         transition: all 0.25s ease;
     }
 
-    // Когда в избранном — заливка красным
     .btn_heart_active {
         color: #ef4444;
         background: #fff;
         width: 22px;
         height: 22px;
-        // border-radius: 50%;
-        // padding: 4px;
-        // box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
         animation: heartBeat 0.6s ease;
     }
 
-    // Ховер-эффекты
     &:hover:not(:disabled) {
         transform: scale(1.1);
         box-shadow: 0 4px 16px rgba(239, 68, 68, 0.25);
@@ -348,7 +333,6 @@
     }
 }
 
-// Анимация "пульс" при добавлении в избранное
 @keyframes heartBeat {
     0% {
         transform: scale(1);
@@ -376,7 +360,6 @@
     gap: 10px;
 }
 
-/* Иконки с оранжевым акцентом */
 .deliveryInfo span::before {
     content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%23f15027" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>');
     line-height: 1;

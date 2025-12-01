@@ -95,13 +95,11 @@ export const BasketPage = memo(() => {
 
                 <div className={s.basketLayout}>
                     <div className={s.itemsList}>
-                        {cart.items.map((cartItem) => (
-                            <BasketItemCard
-                                key={cartItem.id}
-                                cartItem={cartItem}
-                                // isUpdating={addLoading}
-                            />
-                        ))}
+                        {[...cart.items]
+                            .sort((a, b) => a.id - b.id)
+                            .map((cartItem) => (
+                                <BasketItemCard key={cartItem.id} cartItem={cartItem} />
+                            ))}
                     </div>
 
                     <div className={s.summaryBlock}>

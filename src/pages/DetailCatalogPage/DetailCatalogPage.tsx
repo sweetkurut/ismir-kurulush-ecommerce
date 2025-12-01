@@ -11,6 +11,7 @@ import { fetchAddFavorites } from "@/store/slices/favoritesSlice";
 import { fetchAddToCart, updateCartItem } from "@/store/slices/cartSlice";
 import { SkeletonDetail } from "@/components/SkeletonDetail/SkeletonDetail";
 import { SkeletonSimilarCard } from "@/components/SkeletonSimilarCard/SkeletonSimilarCard";
+import { renderStars } from "@/utils/renderStars";
 
 export const DetailCatalogPage = () => {
     const { id } = useParams();
@@ -24,7 +25,9 @@ export const DetailCatalogPage = () => {
     const cartItem = cart?.items.find((item) => item.product.id === product?.id);
     const quantityInCart = cartItem?.quantity || 0;
 
-    const isFavorite = product ? favorites.some((item: any) => item.product?.id === product.id || item.id === product.id) : false;
+    const isFavorite = product
+        ? favorites.some((item: any) => item.product?.id === product.id || item.id === product.id)
+        : false;
 
     useEffect(() => {
         if (id) dispatch(fetchGetDetailProducts(Number(id)));
@@ -70,17 +73,30 @@ export const DetailCatalogPage = () => {
 
                 <div className={s.mainContent}>
                     <div className={s.imageSection}>
-                        <img src={product.images?.[0]?.image || product.main_image} alt={product.name} className={s.mainImage} />
+                        <img
+                            src={product.images?.[0]?.image || product.main_image}
+                            alt={product.name}
+                            className={s.mainImage}
+                        />
                         <div className={s.thumbnails}>
                             {product.images?.map((img) => (
-                                <img key={img.id} src={img.image} alt="" className={s.thumbnail} onClick={() => {}} />
+                                <img
+                                    key={img.id}
+                                    src={img.image}
+                                    alt=""
+                                    className={s.thumbnail}
+                                    onClick={() => {}}
+                                />
                             ))}
                         </div>
                     </div>
 
                     <div className={s.infoSection}>
-                        <div className={product.quantity > 0 ? s.badge : s.badge_out}>
-                            {product.quantity > 0 ? "В наличии" : "Нет в наличии"}
+                        <div className={s.topBadgeAndRating}>
+                            <div className={product.quantity > 0 ? s.badge : s.badge_out}>
+                                {product.quantity > 0 ? "В наличии" : "Нет в наличии"}
+                            </div>
+                            <div className={s.rating}>{renderStars(product.popularity_score)}</div>
                         </div>
 
                         <h1 className={s.productTitle}>{product.name}</h1>
@@ -94,17 +110,29 @@ export const DetailCatalogPage = () => {
                         <div className={s.actionBlock}>
                             {/* Количество */}
                             <div className={s.quantityControl}>
-                                <button className={s.qtyButton} onClick={handleDecrease} disabled={addLoading || quantityInCart <= 1}>
+                                <button
+                                    className={s.qtyButton}
+                                    onClick={handleDecrease}
+                                    disabled={addLoading || quantityInCart <= 1}
+                                >
                                     −
                                 </button>
                                 <input disabled className={s.qtyInput} value={quantityInCart} readOnly />
-                                <button className={s.qtyButton} onClick={handleIncrease} disabled={addLoading}>
+                                <button
+                                    className={s.qtyButton}
+                                    onClick={handleIncrease}
+                                    disabled={addLoading}
+                                >
                                     +
                                 </button>
                             </div>
 
                             {quantityInCart === 0 ? (
-                                <button className={s.addButton} onClick={handleAddToCart} disabled={addLoading}>
+                                <button
+                                    className={s.addButton}
+                                    onClick={handleAddToCart}
+                                    disabled={addLoading}
+                                >
                                     <FiShoppingCart />
                                     {addLoading ? "Добавляем..." : "Добавить в корзину"}
                                 </button>
@@ -124,7 +152,11 @@ export const DetailCatalogPage = () => {
                                 title={isFavorite ? "Убрать из избранного" : "Добавить в избранное"}
                                 disabled={addLoading}
                             >
-                                {isFavorite ? <FaHeart className={s.btn_heart_active} /> : <FaRegHeart className={s.btn_heart} />}
+                                {isFavorite ? (
+                                    <FaHeart className={s.btn_heart_active} />
+                                ) : (
+                                    <FaRegHeart className={s.btn_heart} />
+                                )}
                             </button>
                         </div>
 

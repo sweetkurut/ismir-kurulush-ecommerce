@@ -208,6 +208,20 @@
     }
 }
 
+.divider {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    // margin-bottom: 8px;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    gap: 2px;
+}
+
 /* АДАПТИВНОСТЬ — МОБИЛЬНАЯ ВЕРСИЯ */
 @media (max-width: 640px) {
     .card {

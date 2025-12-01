@@ -6,6 +6,7 @@ import { LuShoppingCart } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useEffect } from "react";
+import { renderStars } from "@/utils/renderStars";
 
 type CardProps = {
     product: {
@@ -95,9 +96,12 @@ export const Card = ({ product }: CardProps) => {
             <div className={contentClass}>
                 <span className={s.category}>{product.categories?.[0]?.name ?? "Без категории"}</span>
                 <h3 className={s.title}>{product.name}</h3>
-                <p className={s.price}>
-                    {parseFloat(product.price).toLocaleString("ru-RU")} {product.currency}
-                </p>
+                <div className={s.divider}>
+                    <p className={s.price}>
+                        {parseFloat(product.price).toLocaleString("ru-RU")} {product.currency}
+                    </p>
+                    <div className={s.rating}>{renderStars(product.popularity_score)}</div>
+                </div>
 
                 <button
                     className={cartButtonClass}

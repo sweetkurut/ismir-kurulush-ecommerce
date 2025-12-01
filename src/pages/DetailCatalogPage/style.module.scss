@@ -36,6 +36,12 @@
     gap: 15px;
 }
 
+.topBadgeAndRating {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .mainImage {
     object-fit: cover;
     width: 100%;

@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .wrapper {
     background: var(--color-bg-secondary);
 
@@ -39,7 +41,7 @@
                 }
 
                 &:hover {
-                    background-color: darken(#f14f2717, 4%);
+                    background-color: color.adjust(#f14f2717, $lightness: -4%);
                 }
             }
         }

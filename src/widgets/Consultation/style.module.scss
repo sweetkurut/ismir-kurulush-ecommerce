@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .wrapper {
     background: linear-gradient(to right, #2c313a 0%, rgba(44, 49, 58, 0.8) 100%);
     padding: 80px 0;
@@ -52,6 +54,6 @@
     transition: background-color 0.2s ease;
 
     &:hover {
-        background-color: darken(#f15027, 10%);
+        background-color: color.adjust(#f15027, $lightness: -10%);
     }
 }

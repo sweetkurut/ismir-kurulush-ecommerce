@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .wrapper {
     background-color: var(--color-white);
     padding: 60px 0 20px;
@@ -66,7 +68,7 @@
     transition: 0.2s;
 
     &:hover {
-        background-color: darken(#f15027, 10%);
+        background-color: color.adjust(#f15027, $lightness: -10%);
     }
 }
 

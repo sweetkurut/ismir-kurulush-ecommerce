@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .filtersContainer {
     width: 300px;
     border: 1px solid var(--border-category);
@@ -172,7 +174,7 @@
         color: white;
         border: none;
         &:hover {
-            background-color: darken(#f15027, 8%);
+            background-color: color.adjust(#f15027, $lightness: -8%);
         }
     }
 

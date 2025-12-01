@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .wrapper {
     background-color: var(--color-white);
     padding: 30px 0 60px;
@@ -227,7 +229,7 @@
 }
 
 .checkoutButton:hover {
-    background-color: darken(#f15027, 5%);
+    background-color: color.adjust(#f15027, $lightness: -5%);
 }
 
 .continueButton {

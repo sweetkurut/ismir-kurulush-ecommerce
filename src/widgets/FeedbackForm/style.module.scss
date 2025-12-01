@@ -1,3 +1,5 @@
+@use "sass:color";
+
 $color-black: var(--color-black);
 $color-orange-sum: var(--color-orange-sum);
 $border-category: var(--border-category);
@@ -199,7 +201,7 @@ $border-support: var(--border-support);
         font-family: var(--font-opensans-m);
 
         &:hover {
-            background-color: darken(#f15027, 8%);
+            background-color: color.adjust(#f15027, $lightness: -8%);
         }
     }
 }

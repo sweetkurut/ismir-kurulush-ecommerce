@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .banner {
     background: linear-gradient(90deg, rgba(248, 112, 23, 0.15) 0%, #eaeaea 50%, #2c313a4d 100%);
     padding: 80px 20px;
@@ -216,5 +218,5 @@
 }
 
 .submitButton:hover {
-    background-color: darken(#f15027, 5%);
+    background-color: color.adjust(#f15027, $lightness: -5%);
 }

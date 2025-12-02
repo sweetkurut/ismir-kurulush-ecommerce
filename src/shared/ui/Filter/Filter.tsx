@@ -119,7 +119,7 @@ export const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
                                     <input
                                         type="radio"
                                         name="category"
-                                        value={cat.slug}
+                                        value={cat.id}
                                         checked={selectedCategory === cat.slug}
                                         onChange={() => handleCategoryChange(cat.slug)}
                                     />

@@ -128,6 +128,7 @@ export interface ProductDetail {
     updated_at: string;
     search_vector: string;
     popularity_score: string;
+    main_image: string;
 }
 
 export interface ICategory {
@@ -198,6 +199,11 @@ export interface IOrderRequestResponse {
     service?: number | null;
 }
 
+export interface IOrderRequestTypes {
+    id: number;
+    name: string;
+}
+
 export interface IOrderRequest {
     id: number;
     name: string;
@@ -207,12 +213,6 @@ export interface IOrderRequest {
     updated_at: string;
     is_processed: boolean;
 }
-
-export interface IOrderRequestTypes {
-    id: number;
-    name: string;
-}
-
 // Добавьте интерфейс для пагинированного ответа
 export interface IOrderRequestList {
     count: number;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import s from "./style.module.scss";
 import { Card } from "@/widgets/Cards/Cards";
 import { SkeletonCard } from "@/components/SkeletonCard/SkeletonCard";
@@ -51,7 +52,7 @@ export const FavoritesContent = () => {
                 {!loading && favorites && (
                     <div>
                         <div className={s.cards_grid}>
-                            {currentFavorites.map((item) => (
+                            {currentFavorites?.map((item) => (
                                 <Card key={item.id} product={item.product} />
                             ))}
                         </div>

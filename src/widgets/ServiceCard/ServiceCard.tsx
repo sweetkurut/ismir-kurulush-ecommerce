@@ -1,7 +1,7 @@
 import { FiArrowRight } from "react-icons/fi";
 import s from "./style.module.scss";
 import { useNavigate } from "react-router-dom";
-import icon1 from "@/shared/assets/icons/service1.svg";
+// import icon1 from "@/shared/assets/icons/service1.svg";
 
 interface ServiceCardProps {
     id: number;
@@ -10,7 +10,7 @@ interface ServiceCardProps {
     description: string;
 }
 
-export const ServiceCard = ({ id, icon, name, description, onClick }: ServiceCardProps) => {
+export const ServiceCard = ({ id, icon, name, description }: ServiceCardProps) => {
     const nav = useNavigate();
 
     const handleNav = () => {

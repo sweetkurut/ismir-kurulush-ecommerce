@@ -16,7 +16,7 @@ const getPageNumbers = (currentPage: number, totalPages: number): (number | "...
     }
 
     const pages: (number | "...")[] = [];
-    const maxVisiblePages = 3;
+    // const maxVisiblePages = 3;
     const start = Math.max(1, currentPage - 1);
     const end = Math.min(totalPages, currentPage + 1);
 
@@ -29,13 +29,16 @@ const getPageNumbers = (currentPage: number, totalPages: number): (number | "...
 
 export const Pagination = ({ className, count, onChange, page }: PaginationProps) => {
     const paginationVariants = {
-        hidden: { opacity: 0, y: 20 },
+        hidden: {
+            opacity: 0,
+            y: 10,
+        },
         visible: {
             opacity: 1,
             y: 0,
             transition: {
-                duration: 0.5,
-                ease: [0, 0, 0.2, 1],
+                duration: 0.4,
+                ease: "easeOut",
             },
         },
     };
@@ -62,7 +65,7 @@ export const Pagination = ({ className, count, onChange, page }: PaginationProps
 
     return (
         <motion.div
-            className={classNames(s.pagination_wrapper, {}, [className])}
+            className={classNames(s.pagination_wrapper, {}, [className || ""])}
             variants={paginationVariants}
             initial="hidden"
             animate="visible"

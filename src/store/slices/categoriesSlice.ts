@@ -5,7 +5,7 @@ import { storesApi } from "@/api";
 type InfoState = {
     loading: boolean;
     error: null | string;
-    category: ICategory | null;
+    category: ICategory[] | null;
 };
 
 const initialState: InfoState = {
@@ -14,7 +14,7 @@ const initialState: InfoState = {
     category: null,
 };
 
-export const fetchGetCategory = createAsyncThunk<ICategory, void, { rejectValue: string }>(
+export const fetchGetCategory = createAsyncThunk<ICategory[], void, { rejectValue: string }>(
     "category/fetchGetCategory",
     async (_, { rejectWithValue }) => {
         try {
@@ -22,7 +22,7 @@ export const fetchGetCategory = createAsyncThunk<ICategory, void, { rejectValue:
             if (res.status !== 200) {
                 return rejectWithValue("Server Error");
             }
-            return res.data as ICategory;
+            return res.data as ICategory[];
         } catch (error) {
             return rejectWithValue(`Ошибка: ${error}`);
         }

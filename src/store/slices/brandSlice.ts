@@ -5,7 +5,7 @@ import { storesApi } from "@/api";
 type InfoState = {
     loading: boolean;
     error: null | string;
-    brand: Brand | null;
+    brand: Brand[] | null;
 };
 
 const initialState: InfoState = {
@@ -14,7 +14,7 @@ const initialState: InfoState = {
     brand: null,
 };
 
-export const fetchGetBrand = createAsyncThunk<Brand, void, { rejectValue: string }>(
+export const fetchGetBrand = createAsyncThunk<Brand[], void, { rejectValue: string }>(
     "brand/fetchGetBrand",
     async (_, { rejectWithValue }) => {
         try {
@@ -22,7 +22,7 @@ export const fetchGetBrand = createAsyncThunk<Brand, void, { rejectValue: string
             if (res.status !== 200) {
                 return rejectWithValue("Server Error");
             }
-            return res.data as Brand;
+            return res.data as Brand[];
         } catch (error) {
             return rejectWithValue(`Ошибка: ${error}`);
         }

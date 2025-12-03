@@ -10,7 +10,7 @@ export const RegisterForm = () => {
     const { loading, error } = useAppSelector((state) => state.auth);
     const nav = useNavigate();
     const [step, setStep] = useState<"initial" | "verify" | "password">("initial");
-    const [authMethod, setAuthMethod] = useState("email");
+    const [authMethod] = useState("email");
     const [formData, setFormData] = useState({
         name: "",
         email: "",

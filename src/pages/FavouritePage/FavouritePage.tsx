@@ -14,12 +14,11 @@ export const FavouritePage = () => {
     const { favorites, loading } = useAppSelector((state) => state.favorites);
     const [currentPage, setCurrentPage] = useState(1);
 
-    console.log(favorites, "избранные");
-
-    const totalPages = Math.ceil(favorites?.results.length / ITEMS_PER_PAGE);
+    const results = favorites?.results ?? [];
+    const totalPages = Math.max(1, Math.ceil(results.length / ITEMS_PER_PAGE));
 
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    const currentProducts = favorites?.results.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+    const currentProducts = results.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
     const handlePageChange = (_: unknown, page: number) => {
         setCurrentPage(page);
@@ -54,27 +53,25 @@ export const FavouritePage = () => {
         </div>
     ));
 
-    if (!favorites || favorites.results.length === 0) {
+    if (!results.length) {
         return <BasketEmptyState />;
     }
 
     return (
         <div className={s.wrapper}>
             <div className={s.container}>
-                <h2 className={s.title}>Избранные ({favorites?.results.length})</h2>
+                <h2 className={s.title}>Избранные ({results.length})</h2>
 
                 <div className={s.catalog_wrap}>
-                    {loading && (
+                    {loading ? (
                         <div className={s.cards_grid}>
                             {Array.from({ length: 8 }).map((_, i) => (
                                 <SkeletonCard key={i} />
                             ))}
                         </div>
-                    )}
-
-                    {!loading && favorites && (
+                    ) : (
                         <div className={s.cards_grid}>
-                            {favorites.results.map((item) => (
+                            {currentProducts.map((item) => (
                                 <Card key={item.id} product={item.product} />
                             ))}
                         </div>

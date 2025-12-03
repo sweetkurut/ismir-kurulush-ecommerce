@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from "react";
 import s from "./style.module.scss";
 import { TiArrowLeft } from "react-icons/ti";
@@ -74,7 +75,7 @@ export const DetailCatalogPage = () => {
                 <div className={s.mainContent}>
                     <div className={s.imageSection}>
                         <img
-                            src={product.images?.[0]?.image || product.main_image}
+                            src={product.images?.[0]?.image || product?.main_image}
                             alt={product.name}
                             className={s.mainImage}
                         />

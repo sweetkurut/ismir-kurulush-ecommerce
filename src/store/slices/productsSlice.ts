@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { ProductDetail, Products } from "../types";
 import { storesApi } from "@/api";
@@ -37,22 +38,20 @@ interface ProductQueryParams {
 //     }
 // );
 
-export const fetchGetProducts = createAsyncThunk<
-    Products[],
-    ProductQueryParams, 
-    { rejectValue: string }
->("products/fetchGetProducts", async (params, { rejectWithValue }) => {
-    try {
-        // ⬅️ Вызываем новый метод с параметрами
-        const res = await storesApi.getProducts(params);
-        if (res.status !== 200) {
-            return rejectWithValue("Server Error");
+export const fetchGetProducts = createAsyncThunk<Products[], ProductQueryParams, { rejectValue: string }>(
+    "products/fetchGetProducts",
+    async (params, { rejectWithValue }) => {
+        try {
+            const res = await storesApi.getProducts(params);
+            if (res.status !== 200) {
+                return rejectWithValue("Server Error");
+            }
+            return res.data as Products[];
+        } catch (error) {
+            return rejectWithValue(`Ошибка: ${error}`);
         }
-        return res.data as Products[];
-    } catch (error) {
-        return rejectWithValue(`Ошибка: ${error}`);
     }
-});
+);
 
 export const fetchGetDetailProducts = createAsyncThunk<ProductDetail, number, { rejectValue: string }>(
     "product/fetchGetDetailProducts",

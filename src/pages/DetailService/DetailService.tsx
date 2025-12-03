@@ -9,38 +9,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const serviceData = {
-    title: "Резка металла на заказ",
-    description:
-        "Наше предприятие оснащено современными станками лазерной и плазменной резки, что позволяет выполнять работы любой сложности с высокой точностью и скоростью.",
-    possibilities: [
-        "Толщина металла до 30 мм",
-        "Высокая точность резки (±0.1 мм)",
-        "Резка сложных контуров",
-        "Работа с различными металлами",
-        "Минимальные заусенцы",
-    ],
-    advantages: [
-        "Высокое качество кромки",
-        "Быстрое выполнение заказов",
-        "Возможность работы по чертежам",
-        "Экономия материала",
-    ],
-    process: [
-        "Получение чертежей или эскизов",
-        "Программирование станка",
-        "Резка металла",
-        "Контроль геометрии",
-        "Упаковка и выдача",
-    ],
-};
-
 export const DetailService = () => {
     const { id } = useParams();
 
     console.log("Service ID:", id);
     const dispatch = useAppDispatch();
-    const { detail, loading } = useAppSelector((s) => s.service);
+    const { detail } = useAppSelector((s) => s.service);
 
     const [form, setForm] = useState({
         name: "",

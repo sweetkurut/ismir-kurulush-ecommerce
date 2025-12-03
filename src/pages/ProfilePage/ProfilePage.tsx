@@ -4,12 +4,10 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { logout } from "@/store/slices/authSlice";
 import { fetchGetProfile, clearProfileError, fetchDeleteProfile } from "@/store/slices/profileSlice";
 import { FaExclamationTriangle, FaRegUser, FaTrashAlt } from "react-icons/fa";
-// import { BsBox } from "react-icons/bs";    
 import { FaRegHeart } from "react-icons/fa";
 import { GrDocumentText } from "react-icons/gr";
 import s from "./style.module.scss";
 import { ProfileContent } from "./components/ProfileContent/ProfileContent";
-// import { OrdersContent } from "./components/OrdersContent/OrdersContent";
 import { FavoritesContent } from "./components/Favorites/FavoritesContent";
 import { ApplicationsContent } from "./components/ApplicationsContent/ApplicationsContent";
 import { Modal } from "@/components/Modal/Modal";
@@ -31,16 +29,14 @@ export const ProfilePage = () => {
 
     const { orders_req } = useAppSelector((state) => state.orderRequest);
 
-    const renderTabContent = (activeTab: string, orders_req: IOrderRequest[] | null) => {
+    const renderTabContent = (activeTab: string, orders: IOrderRequest[]) => {
         switch (activeTab) {
             case "profile":
                 return <ProfileContent />;
-            // case "orders":
-            //     return <OrdersContent />;
             case "favorites":
                 return <FavoritesContent />;
             case "applications":
-                return <ApplicationsContent orders_req={orders_req} loading={loading} />;
+                return <ApplicationsContent orders_req={orders} loading={loading} />;
             default:
                 return <ProfileContent />;
         }
@@ -178,13 +174,7 @@ export const ProfilePage = () => {
                                     <FaRegUser />
                                     <span className={s.nav_link}>Профиль</span>
                                 </div>
-                                {/* <div
-                                    className={`${s.profile_nav} ${activeTab === "orders" ? s.active : ""}`}
-                                    onClick={() => setActiveTab("orders")}
-                                >
-                                    <BsBox />
-                                    <span className={s.nav_link}>Заказы</span>
-                                </div> */}
+
                                 <div
                                     className={`${s.profile_nav} ${
                                         activeTab === "favorites" ? s.active : ""
@@ -231,12 +221,7 @@ export const ProfilePage = () => {
                             >
                                 Профиль
                             </div>
-                            {/* <div
-                                className={`${s.tab} ${activeTab === "orders" ? s.active : ""}`}
-                                onClick={() => setActiveTab("orders")}
-                            >
-                                Заказы
-                            </div> */}
+
                             <div
                                 className={`${s.tab} ${activeTab === "favorites" ? s.active : ""}`}
                                 onClick={() => setActiveTab("favorites")}
@@ -258,7 +243,7 @@ export const ProfilePage = () => {
                                     <button onClick={handleRetry}>Обновить</button>
                                 </div>
                             )}
-                            {renderTabContent(activeTab, orders_req)}
+                            {renderTabContent(activeTab, orders_req?.results ?? [])}
                         </div>
                     </div>
                 </div>

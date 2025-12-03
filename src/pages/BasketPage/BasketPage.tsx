@@ -4,7 +4,7 @@ import { fetchGetCart } from "@/store/slices/cartSlice";
 import { BasketItemCard } from "@/widgets/BasketItemCard/BasketItemCard";
 import s from "./style.module.scss";
 import { GiCheckMark } from "react-icons/gi";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { SkeletonBasketItem } from "@/components/SkeletonBasketItem/SkeletonBasketItem";
 
@@ -58,17 +58,12 @@ const BasketEmptyState = memo(() => (
 ));
 
 export const BasketPage = memo(() => {
-    const nav = useNavigate();
     const dispatch = useAppDispatch();
-    const { cart, loading, addLoading, error } = useAppSelector((state) => state.cart);
+    const { cart, loading, error } = useAppSelector((state) => state.cart);
     const subtotal = Number(cart?.total_amount);
     const delivery = 200;
     const total = subtotal + delivery;
     const itemsCount = cart?.items.length;
-
-    const goToOrder = () => {
-        nav("/feedback", { state: { cartId: cart?.id } });
-    };
 
     useEffect(() => {
         if (!cart && !loading && !error) {

@@ -41,4 +41,4 @@ export const CategoryCards = () => {
     );
 };
 
-export default CategoryCards;
+export default CategoryCards;  

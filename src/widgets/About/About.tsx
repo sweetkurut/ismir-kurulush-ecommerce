@@ -53,7 +53,13 @@ export const About = () => {
                     {statsData.map((stat) => (
                         <div key={stat.id} className={s.stat_card}>
                             <div className={s.icon_wrap}>
-                                <img src={stat.icon} alt={stat.alt} className={s.icon} />
+                                <img
+                                    src={stat.icon}
+                                    alt={stat.alt}
+                                    className={s.icon}
+                                    loading="lazy"
+                                    decoding="async"
+                                />
                             </div>
                             <p className={s.stat_value}>{stat.value}</p>
                             <p className={s.stat_desc}>{stat.description}</p>

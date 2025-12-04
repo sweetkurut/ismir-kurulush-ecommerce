@@ -78,6 +78,8 @@ export const DetailCatalogPage = () => {
                             src={product.images?.[0]?.image || product?.main_image}
                             alt={product.name}
                             className={s.mainImage}
+                            loading="lazy"
+                            decoding="async"
                         />
                         <div className={s.thumbnails}>
                             {product.images?.map((img) => (
@@ -87,6 +89,8 @@ export const DetailCatalogPage = () => {
                                     alt=""
                                     className={s.thumbnail}
                                     onClick={() => {}}
+                                    loading="lazy"
+                                    decoding="async"
                                 />
                             ))}
                         </div>

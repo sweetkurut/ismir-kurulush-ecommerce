@@ -83,7 +83,12 @@ export const DetailService = () => {
                             <ul className={s.list}>
                                 {detail?.possibilities.map((item) => (
                                     <li key={item.id} className={s.listItem}>
-                                        <img src={check} className={s.checkIcon} />
+                                        <img
+                                            src={check}
+                                            className={s.checkIcon}
+                                            loading="lazy"
+                                            decoding="async"
+                                        />
                                         {item.name}
                                     </li>
                                 ))}
@@ -95,7 +100,12 @@ export const DetailService = () => {
                             <ul className={s.list}>
                                 {detail?.advantages.map((item) => (
                                     <li key={item.id} className={s.listItem}>
-                                        <img src={check} className={s.checkIcon} />
+                                        <img
+                                            src={check}
+                                            className={s.checkIcon}
+                                            loading="lazy"
+                                            decoding="async"
+                                        />
                                         {item.name}
                                     </li>
                                 ))}
@@ -119,11 +129,23 @@ export const DetailService = () => {
                         <form className={s.consultationForm} onSubmit={handleSubmit}>
                             <div className={s.costBlock}>
                                 <div className={s.costItem}>
-                                    <img src={dollar} alt="Dollar Icon" className={s.costItemIcon} />
+                                    <img
+                                        src={dollar}
+                                        alt="Dollar Icon"
+                                        className={s.costItemIcon}
+                                        loading="lazy"
+                                        decoding="async"
+                                    />
                                     Стоимость <span className={s.value}>{detail?.price}</span>
                                 </div>
                                 <div className={s.costItem}>
-                                    <img src={time} alt="Time Icon" className={s.costItemIcon} />
+                                    <img
+                                        src={time}
+                                        alt="Time Icon"
+                                        className={s.costItemIcon}
+                                        loading="lazy"
+                                        decoding="async"
+                                    />
                                     Срок выполнения <span className={s.value}>{detail?.term}</span>
                                 </div>
                             </div>

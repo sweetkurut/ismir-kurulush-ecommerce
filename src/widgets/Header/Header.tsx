@@ -70,7 +70,13 @@ export const Header = ({ className }: HeaderProps) => {
                             <MobileMenu />
                         </div>
                         <AppLink to="/" className={s.logoLink}>
-                            <img src={logo} alt="ISMIR KURULUSH" className={s.logo_img} />
+                            <img
+                                src={logo}
+                                alt="ISMIR KURULUSH"
+                                className={s.logo_img}
+                                loading="lazy"
+                                decoding="async"
+                            />
                         </AppLink>
                     </div>
 

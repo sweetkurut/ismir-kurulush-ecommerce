@@ -65,7 +65,13 @@ export const WhyUs = () => {
                     {reasonsData.map((reason) => (
                         <div key={reason.id} className={s.card}>
                             <div className={s.icon_wrap}>
-                                <img src={reason.icon} alt={reason.title} className={s.icon} />
+                                <img
+                                    src={reason.icon}
+                                    alt={reason.title}
+                                    className={s.icon}
+                                    loading="lazy"
+                                    decoding="async"
+                                />
                             </div>
                             <h3 className={s.card_title}>{reason.title}</h3>
                             <p className={s.card_desc}>{reason.description}</p>

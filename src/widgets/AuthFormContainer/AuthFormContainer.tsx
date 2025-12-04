@@ -7,7 +7,7 @@ const AuthFormContainer = () => {
 
     const activeTab = location.pathname === "/login" ? "login" : "register";
 
-    const handleTabChange = (mode) => {
+    const handleTabChange = (mode: unknown) => {
         if (mode === "login") {
             navigate("/login");
         } else if (mode === "register") {

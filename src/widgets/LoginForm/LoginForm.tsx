@@ -9,7 +9,7 @@ export const LoginForm = () => {
     const dispatch = useAppDispatch();
     const { loading, error } = useAppSelector((state) => state.auth);
     const nav = useNavigate();
-    const [authMethod, setAuthMethod] = useState("email");
+    const [authMethod] = useState("email");
     const [step, setStep] = useState<"login" | "forgot">("login");
     const [formData, setFormData] = useState({
         email: "",

@@ -20,7 +20,7 @@ export const ServiceCard = ({ id, icon, name, description }: ServiceCardProps) =
     return (
         <div className={s.card} onClick={handleNav}>
             <div className={s.icon_wrap}>
-                <img src={icon} alt={"услуги"} />
+                <img src={icon} alt={"услуги"} loading="lazy" decoding="async" />
             </div>
             <h3 className={s.title}>{name}</h3>
             <p className={s.desc}>{description}</p>

@@ -34,7 +34,7 @@ export const Footer = () => {
             <div className={s.container}>
                 <div className={s.main_content}>
                     <div className={s.col_logo}>
-                        <img src={logo} alt="logo" className={s.logo_title} />
+                        <img src={logo} alt="logo" className={s.logo_title} loading="lazy" decoding="async" />
                         <p className={s.logo_desc}>Надежный поставщик качественных строительных материалов</p>
 
                         <a href="#" target="_blank" aria-label="Instagram link" className={s.social_btn}>
@@ -69,7 +69,13 @@ export const Footer = () => {
                         <div className={s.contacts_list}>
                             {contactsData.map((item, index) => (
                                 <div key={index} className={s.contact_item}>
-                                    <img src={item.icon} alt="Icon" className={s.contact_icon} />
+                                    <img
+                                        src={item.icon}
+                                        alt="Icon"
+                                        className={s.contact_icon}
+                                        loading="lazy"
+                                        decoding="async"
+                                    />
                                     {item.isLink ? (
                                         <a href={item.href} className={s.contact_link}>
                                             {item.text}

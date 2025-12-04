@@ -153,6 +153,8 @@ export const ProfilePage = () => {
                                                 src={profile.avatar}
                                                 alt="Avatar"
                                                 className={s.avatarImage}
+                                                loading="lazy"
+                                                decoding="async"
                                             />
                                         ) : (
                                             <FaRegUser className={s.icon_profileHeader} />

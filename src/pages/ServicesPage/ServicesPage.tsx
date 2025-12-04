@@ -20,7 +20,7 @@ export const ServicesPage = () => {
             <div className={s.wrapper}>
                 <div className={s.container}>
                     <div className={s.icon_wrap}>
-                        <img src={settings} alt="icon service" />
+                        <img src={settings} alt="icon service" loading="lazy" decoding="async" />
                     </div>
 
                     <h2 className={s.title}>Наши услуги</h2>

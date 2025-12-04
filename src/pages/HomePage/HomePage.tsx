@@ -46,7 +46,7 @@ export const HomePage = () => {
                 <div className={s.cards}>
                     <div className={s.card}>
                         <div className={s.card_img_wrap}>
-                            <img src={auto} alt="icon" />
+                            <img src={auto} loading="lazy" decoding="async" alt="icon" />
                         </div>
                         <div className={s.card_desc}>
                             <h3 className={s.card_title}>Быстрая доставка</h3>
@@ -55,7 +55,7 @@ export const HomePage = () => {
                     </div>
                     <div className={s.card}>
                         <div className={s.card_img_wrap}>
-                            <img src={garanty} alt="icon" />
+                            <img src={garanty} alt="icon" loading="lazy" decoding="async" />
                         </div>
                         <div className={s.card_desc}>
                             <h3 className={s.card_title}>Гарантия качества</h3>
@@ -64,7 +64,7 @@ export const HomePage = () => {
                     </div>
                     <div className={s.card}>
                         <div className={s.card_img_wrap}>
-                            <img src={support} alt="icon" />
+                            <img src={support} alt="icon" loading="lazy" decoding="async" />
                         </div>
                         <div className={s.card_desc}>
                             <h3 className={s.card_title}>Поддержка 24/7</h3>

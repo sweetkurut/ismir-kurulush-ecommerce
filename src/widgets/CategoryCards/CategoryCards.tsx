@@ -28,7 +28,7 @@ export const CategoryCards = () => {
                         : category?.map((card) => (
                               <div key={card.id} className={s.card}>
                                   <div className={s.card_img_wrap}>
-                                      <img src={support} alt="Иконка" />
+                                      <img src={support} alt="Иконка" loading="lazy" decoding="async" />
                                   </div>
                                   <div className={s.card_desc}>
                                       <h3 className={s.card_title}>{card.name}</h3>

@@ -90,6 +90,8 @@ export const Card = ({ product }: CardProps) => {
                     alt={product.name}
                     className={s.image}
                     style={{ opacity: isInStock ? 1 : 0.6 }}
+                    loading="lazy"
+                    decoding="async"
                 />
             </div>
 

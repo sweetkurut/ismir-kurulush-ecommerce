@@ -74,7 +74,7 @@ export const Header = ({ className }: HeaderProps) => {
                                 src={logo}
                                 alt="ISMIR KURULUSH"
                                 className={s.logo_img}
-                                loading="lazy"
+                                loading="eager"
                                 decoding="async"
                             />
                         </AppLink>

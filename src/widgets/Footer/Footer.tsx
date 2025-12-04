@@ -34,7 +34,13 @@ export const Footer = () => {
             <div className={s.container}>
                 <div className={s.main_content}>
                     <div className={s.col_logo}>
-                        <img src={logo} alt="logo" className={s.logo_title} loading="lazy" decoding="async" />
+                        <img
+                            src={logo}
+                            alt="logo"
+                            className={s.logo_title}
+                            loading="eager"
+                            decoding="async"
+                        />
                         <p className={s.logo_desc}>Надежный поставщик качественных строительных материалов</p>
 
                         <a href="#" target="_blank" aria-label="Instagram link" className={s.social_btn}>
@@ -73,7 +79,7 @@ export const Footer = () => {
                                         src={item.icon}
                                         alt="Icon"
                                         className={s.contact_icon}
-                                        loading="lazy"
+                                        loading="eager"
                                         decoding="async"
                                     />
                                     {item.isLink ? (

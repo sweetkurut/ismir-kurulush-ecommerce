@@ -26,9 +26,8 @@ export const CatalogPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedSort, setSelectedSort] = useState("");
     const [activeFilters, setActiveFilters] = useState<FilterParams>({});
-    const [isFilterOpen, setIsFilterOpen] = useState(false); // ← мобильный фильтр
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-    // Сортировка
     const sortOptions = useMemo(() => {
         if (!sorting?.sorting_options) return [];
         return Object.values(sorting.sorting_options).map((opt) => ({
@@ -56,7 +55,7 @@ export const CatalogPage = () => {
     const handleFilterChange = (filters: FilterParams) => {
         setActiveFilters(filters);
         setCurrentPage(1);
-        setIsFilterOpen(false); // закрываем после применения
+        setIsFilterOpen(false);
     };
 
     const handleSortChange = (value: string) => {
@@ -77,11 +76,11 @@ export const CatalogPage = () => {
 
     useEffect(() => {
         if (sortOptions.length && !selectedSort) setSelectedSort(sortOptions[0].value);
-    }, [sortOptions]);
+    }, [sortOptions, selectedSort]);
 
     useEffect(() => {
         loadProducts(getParams(1));
-    }, [selectedSort, activeFilters]);
+    }, [loadProducts, getParams]);
 
     const totalPages = Math.ceil((products?.length || 0) / ITEMS_PER_PAGE);
     const currentProducts = products?.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);

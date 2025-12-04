@@ -198,3 +198,5 @@ export const DetailCatalogPage = () => {
         </div>
     );
 };
+
+export default DetailCatalogPage;

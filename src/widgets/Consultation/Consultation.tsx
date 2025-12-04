@@ -23,3 +23,5 @@ export const Consultation = () => {
         </div>
     );
 };
+
+export default Consultation;

@@ -145,3 +145,5 @@ export const BasketPage = memo(() => {
 });
 
 BasketPage.displayName = "BasketPage";
+
+export default BasketPage;

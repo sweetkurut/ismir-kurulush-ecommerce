@@ -3,12 +3,8 @@ import s from "./style.module.scss";
 import auto from "@/shared/assets/icons/card_icon1.svg";
 import garanty from "@/shared/assets/icons/garanty.svg";
 import support from "@/shared/assets/icons/support.svg";
-import { CategoryCards } from "@/widgets/CategoryCards/CategoryCards";
-import { About } from "@/widgets/About/About";
-import { Popular } from "@/widgets/Popular/Popular";
-import { WhyUs } from "../WhyUs/WhyUs";
-import { Consultation } from "@/widgets/Consultation/Consultation";
 import { useNavigate } from "react-router-dom";
+import { lazy, Suspense } from "react";
 
 export const HomePage = () => {
     const nav = useNavigate();
@@ -20,6 +16,12 @@ export const HomePage = () => {
     const goToCatalog = () => {
         nav("/catalog");
     };
+
+    const CategoryCardsLazy = lazy(() => import("@/widgets/CategoryCards/CategoryCards"));
+    const AboutLazy = lazy(() => import("@/widgets/About/About"));
+    const PopularLazy = lazy(() => import("@/widgets/Popular/Popular"));
+    const WhyUsLazy = lazy(() => import("../WhyUs/WhyUs"));
+    const ConsultationLazy = lazy(() => import("@/widgets/Consultation/Consultation"));
 
     return (
         <>
@@ -73,11 +75,15 @@ export const HomePage = () => {
                     </div>
                 </div>
             </div>
-            <CategoryCards />
-            <About />
-            <Popular />
-            <WhyUs />
-            <Consultation />
+            <Suspense fallback={<div>Загрузка...</div>}>
+                <CategoryCardsLazy />
+                <AboutLazy />
+                <PopularLazy />
+                <WhyUsLazy />
+                <ConsultationLazy />
+            </Suspense>
         </>
     );
 };
+
+export default HomePage;

@@ -40,3 +40,5 @@ export const CategoryCards = () => {
         </div>
     );
 };
+
+export default CategoryCards;

@@ -82,3 +82,5 @@ export const WhyUs = () => {
         </div>
     );
 };
+
+export default WhyUs;

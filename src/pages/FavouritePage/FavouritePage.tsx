@@ -88,3 +88,5 @@ export const FavouritePage = () => {
         </div>
     );
 };
+
+export default FavouritePage;

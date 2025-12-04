@@ -212,3 +212,5 @@ export const DetailService = () => {
         </>
     );
 };
+
+export default DetailService;

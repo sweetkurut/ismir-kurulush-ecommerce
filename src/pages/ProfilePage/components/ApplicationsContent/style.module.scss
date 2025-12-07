@@ -30,6 +30,10 @@
     font-weight: 500;
     transition: background 0.2s;
     font-family: var(--font-opensans-b);
+
+    @media (max-width: 560px) {
+        font-size: 14px;
+    }
 }
 
 .applicationCard {

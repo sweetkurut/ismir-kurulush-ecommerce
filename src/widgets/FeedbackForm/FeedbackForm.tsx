@@ -132,23 +132,27 @@ export const FeedbackForm = ({ cartId }: { cartId: number | null }) => {
                 {error && <div className={s.error_message}>Ошибка: {error}</div>}
 
                 <form className={s.feedback_form} onSubmit={handleSubmit}>
-                    <FormGroup
-                        label="Имя"
-                        placeholder="Введите ваше имя"
-                        required
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                    />
+                    <div>
+                        <FormGroup
+                            label="Имя"
+                            placeholder="Введите ваше имя"
+                            required
+                            name="name"
+                            value={formData.name}
+                            onChange={handleInputChange}
+                        />
+                    </div>
 
-                    <FormGroup
-                        label="Телефон"
-                        placeholder="+996 XXX XX-XX-XX"
-                        required
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                    />
+                    <div>
+                        <FormGroup
+                            label="Телефон"
+                            placeholder="+996 XXX XX-XX-XX"
+                            required
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleInputChange}
+                        />
+                    </div>
 
                     <div className={s.full_width}>
                         <FormGroup
@@ -160,23 +164,6 @@ export const FeedbackForm = ({ cartId }: { cartId: number | null }) => {
                             onChange={handleInputChange}
                         />
                     </div>
-
-                    {/* <div className={s.full_width}>
-                        <FormGroup
-                            label="Тип заявки"
-                            isSelect
-                            // required
-                            name="request_type"
-                            value={formData.request_type}
-                            options={
-                                type_req?.map((item) => ({
-                                    label: item.name,
-                                    value: item.id,
-                                })) ?? []
-                            }
-                            onChange={handleInputChange}
-                        />
-                    </div> */}
 
                     <div className={s.full_width}>
                         <FormGroup

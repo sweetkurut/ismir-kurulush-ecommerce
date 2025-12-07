@@ -23,6 +23,10 @@
             color: var(--color-black);
             font-weight: 600;
             margin-bottom: 24px;
+
+            @media (max-width: 480px) {
+                font-size: 32px !important;
+            }
         }
 
         .unauthorizedText {

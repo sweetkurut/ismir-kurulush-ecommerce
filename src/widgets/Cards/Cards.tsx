@@ -64,7 +64,7 @@ export const Card = ({ product }: CardProps) => {
         ? s.addToCart_btn_inCart
         : s.addToCart_btn;
 
-    const cartButtonText = !isInStock ? "Нет в наличии" : isInCart ? "В корзине" : "В корзину";
+    // const cartButtonText = !isInStock ? "Нет в наличии" : isInCart ? "В корзине" : "В корзину";
 
     return (
         <div
@@ -111,7 +111,7 @@ export const Card = ({ product }: CardProps) => {
                     disabled={!isInStock || isInCart}
                 >
                     <LuShoppingCart />
-                    {cartButtonText}
+                    {/* {cartButtonText} */}в корзину
                 </button>
             </div>
         </div>

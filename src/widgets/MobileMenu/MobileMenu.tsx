@@ -8,7 +8,7 @@ const navItems = [
     { title: "Главная", to: "/" },
     { title: "Каталог", to: "/catalog" },
     { title: "Услуги", to: "/service" },
-    { title: "Контакты", to: "/contacts" },
+    // { title: "Контакты", to: "/contacts" },
     { title: "Оставить заявку", to: "/feedback" },
 ];
 

@@ -6,7 +6,6 @@
     gap: 40px;
 }
 
-// Десктоп: фильтр слева
 .filter_desktop {
     flex: 0 0 300px;
     margin-top: 20px;
@@ -34,16 +33,36 @@
             font-size: 14px;
         }
     }
+
+    .cards_grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+        gap: 25px;
+        padding: 10px;
+        padding-top: 32px;
+        padding-bottom: 50px;
+
+        @media (max-width: 1024px) {
+            padding: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        }
+
+        @media (max-width: 768px) {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        @media (max-width: 480px) {
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        @media (max-width: 360px) {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
 }
 
-.cards_grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 24px;
-    padding-bottom: 40px;
-}
-
-// Мобильная кнопка "Фильтры" — как на скриншоте
 .mobile_filter_btn {
     display: none;
     position: sticky;
@@ -64,7 +83,6 @@
     }
 }
 
-// Мобильный фильтр — выезжает слева (использует твои стили!)
 .overlay {
     display: none;
 }
@@ -73,7 +91,6 @@
     display: none;
 }
 
-// Адаптив
 @media (max-width: 1024px) {
     .filter_desktop {
         display: none;
@@ -116,7 +133,7 @@
         grid-template-columns: 1fr;
     }
     .header {
-        flex-direction: column;
+        // flex-direction: column;
         align-items: flex-start;
     }
 }

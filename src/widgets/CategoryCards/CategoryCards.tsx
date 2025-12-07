@@ -11,8 +11,6 @@ export const CategoryCards = () => {
 
     const { loading, category } = useAppSelector((state) => state.category);
 
-    console.log(category, "категории");
-
     useEffect(() => {
         dispatch(fetchGetCategory());
     }, [dispatch]);
@@ -41,4 +39,4 @@ export const CategoryCards = () => {
     );
 };
 
-export default CategoryCards;  
+export default CategoryCards;

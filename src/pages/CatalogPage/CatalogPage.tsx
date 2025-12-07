@@ -87,19 +87,16 @@ export const CatalogPage = () => {
 
     return (
         <>
-            {/* Кнопка "Фильтры" — только на мобильных */}
             <div className={s.mobile_filter_btn} onClick={() => setIsFilterOpen(true)}>
                 <span className={s.filter_icon}>☰</span>
                 Фильтры
             </div>
 
             <div className={s.wrapper}>
-                {/* Десктоп: фильтр слева */}
                 <aside className={s.filter_desktop}>
                     <Filter onFilterChange={handleFilterChange} />
                 </aside>
 
-                {/* Мобильный фильтр — выезжает слева */}
                 {isFilterOpen && (
                     <>
                         <div className={s.overlay} onClick={() => setIsFilterOpen(false)} />
@@ -109,11 +106,10 @@ export const CatalogPage = () => {
                     </>
                 )}
 
-                {/* Каталог товаров */}
                 <div className={s.catalog_wrap}>
                     <div className={s.header}>
                         <h1 className={s.title}>Каталог товаров</h1>
-                        <div className={s.found}>Найдено {products?.length || 0} товаров</div>
+                        {/* <div className={s.found}>Найдено {products?.length || 0} товаров</div> */}
                         <div className={s.sort}>
                             {sortOptions.length > 0 && (
                                 <CustomSelect
@@ -127,7 +123,7 @@ export const CatalogPage = () => {
                     </div>
 
                     {loading ? (
-                        <div className={s.cards_grid}>
+                        <div>
                             {Array.from({ length: 8 }).map((_, i) => (
                                 <SkeletonCard key={i} />
                             ))}

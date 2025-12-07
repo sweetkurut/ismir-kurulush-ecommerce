@@ -1,5 +1,6 @@
 .wrapper {
     background: linear-gradient(90deg, rgba(248, 112, 23, 0.15) 0%, #eaeaea 50%, #2c313a4d 100%);
+
     .container {
         max-width: var(--container-width);
         margin: 0 auto;
@@ -24,6 +25,10 @@
             color: var(--color-black);
             font-weight: 600;
             margin-bottom: 24px;
+
+            @media (max-width: 480px) {
+                font-size: 32px !important;
+            }
         }
 
         .sub_title {
@@ -32,6 +37,10 @@
             font-size: 18px;
             font-weight: 400;
             line-height: 28px;
+
+            @media (max-width: 480px) {
+                font-size: 17px !important;
+            }
         }
     }
 }
@@ -40,6 +49,7 @@
     max-width: 590px;
     padding-top: 30px;
     margin: 0 auto;
+    padding: 12px;
     .authCard {
         .tabs {
         }

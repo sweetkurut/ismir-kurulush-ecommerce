@@ -12,6 +12,7 @@
   "dependencies": {
     "@mui/styled-engine": "^7.3.3",
     "@reduxjs/toolkit": "^2.9.0",
+    "antd": "^6.0.1",
     "axios": "^1.12.2",
     "framer-motion": "^12.23.22",
     "react": "^19.1.1",

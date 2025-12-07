@@ -204,22 +204,25 @@ export interface IOrderRequestTypes {
     name: string;
 }
 
-export interface IOrderRequest {
+export interface IOrderRequestList {
     id: number;
     name: string;
     phone: string;
     comment: string;
+    email: string;
+    request_type: string;
+    cart_detail: null;
+    service_detail: null;
     created_at: string;
-    updated_at: string;
-    is_processed: boolean;
 }
+
 // Добавьте интерфейс для пагинированного ответа
-export interface IOrderRequestList {
-    count: number;
-    next: string | null;
-    previous: string | null;
-    results: IOrderRequest[];
-}
+// export interface IOrderRequestList {
+//     count: number;
+//     next: string | null;
+//     previous: string | null;
+//     results: IOrderRequest[];
+// }
 
 // корзина
 

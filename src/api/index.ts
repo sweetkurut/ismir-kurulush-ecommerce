@@ -70,15 +70,12 @@ export const storesApi = {
         return instance.delete(`/users/profile/`);
     },
 
-    // продукты, категории, бренды
-    // getProducts() {
-    //     return instance.get(`/catalog/products/`);
-    // },
     getProducts(params: ProductQueryParams) {
         return instance.get(`/catalog/products/`, {
             params: params,
         });
     },
+
     getProductById(id: number) {
         return instance.get(`/catalog/products/${id}/`);
     },
@@ -92,11 +89,6 @@ export const storesApi = {
     getSortingOptions() {
         return instance.get(`/catalog/sorting-options/`);
     },
-
-    // избранные
-    // getFavorites(): Promise<IFavorites[]> {
-    //     return instance.get<IFavorites[]>(`favourites`).then((res) => res.data);
-    // },
 
     getFavorites(): Promise<IFavorites> {
         return instance.get<IFavorites>(`favourites`).then((res) => res.data);

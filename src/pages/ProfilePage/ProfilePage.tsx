@@ -12,7 +12,7 @@ import { FavoritesContent } from "./components/Favorites/FavoritesContent";
 import { ApplicationsContent } from "./components/ApplicationsContent/ApplicationsContent";
 import { Modal } from "@/components/Modal/Modal";
 import { fetchGetOrdersReq } from "@/store/slices/orderRequestSlice";
-import type { IOrderRequest } from "@/store/types";
+import type { IOrderRequestList } from "@/store/types";
 import { SkeletonProfile } from "@/components/SkeletonProfile/SkeletonProfile";
 
 export const ProfilePage = () => {
@@ -29,7 +29,13 @@ export const ProfilePage = () => {
 
     const { orders_req } = useAppSelector((state) => state.orderRequest);
 
-    const renderTabContent = (activeTab: string, orders: IOrderRequest[]) => {
+    console.log(orders_req, "zalupa");
+
+    useEffect(() => {
+        dispatch(fetchGetOrdersReq());
+    }, [dispatch]);
+
+    const renderTabContent = (activeTab: string, orders: IOrderRequestList[]) => {
         switch (activeTab) {
             case "profile":
                 return <ProfileContent />;
@@ -41,10 +47,6 @@ export const ProfilePage = () => {
                 return <ProfileContent />;
         }
     };
-
-    useEffect(() => {
-        dispatch(fetchGetOrdersReq());
-    }, [dispatch]);
 
     useEffect(() => {
         dispatch(clearProfileError());
@@ -245,7 +247,7 @@ export const ProfilePage = () => {
                                     <button onClick={handleRetry}>Обновить</button>
                                 </div>
                             )}
-                            {renderTabContent(activeTab, orders_req?.results ?? [])}
+                            {renderTabContent(activeTab, orders_req)}
                         </div>
                     </div>
                 </div>

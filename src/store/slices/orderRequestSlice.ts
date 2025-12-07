@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type { IOrderRequest, IOrderRequestList, IOrderRequestResponse, IOrderRequestTypes } from "../types";
+import type { IOrderRequestList, IOrderRequestResponse, IOrderRequestTypes } from "../types";
 import { storesApi } from "@/api";
 import { handleApiError } from "@/utils/validation";
 
@@ -39,14 +39,14 @@ export const fetchTypeReq = createAsyncThunk<IOrderRequestTypes[], void, { rejec
     async (_, { rejectWithValue }) => {
         try {
             const response = await storesApi.getTypeReqOrder();
-            return response.data; // это уже массив
+            return response.data;
         } catch (error: any) {
             return rejectWithValue(`Ошибка: ${error}`);
         }
     }
 );
 
-export const fetchGetOrdersReq = createAsyncThunk<IOrderRequest[], void, { rejectValue: string }>(
+export const fetchGetOrdersReq = createAsyncThunk<IOrderRequestList[], void, { rejectValue: string }>(
     "orders_req/fetchOrders",
     async (_, { rejectWithValue }) => {
         try {
@@ -93,9 +93,9 @@ const OrderRequestSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchCreateOrdersReq.fulfilled, (state, action) => {
-                state.orders_req = action.payload;
-                state.loading = false;
+                state.orders_req = [...(state.orders_req ?? []), action.payload];
             })
+
             .addCase(fetchCreateOrdersReq.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload ? String(action.payload) : "Ошибка при добавления данных";

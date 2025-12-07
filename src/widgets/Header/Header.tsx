@@ -8,6 +8,7 @@ import logo from "@/shared/assets/images/logo.svg";
 import { useAppSelector } from "@/store/hooks";
 import { MobileMenu } from "../MobileMenu/MobileMenu";
 import { useEffect, useState } from "react";
+import CategoryDrawer from "../Drawer/Drawer";
 
 interface HeaderProps {
     className?: string;
@@ -53,6 +54,7 @@ export const Header = ({ className }: HeaderProps) => {
             {/* TopBar */}
             <div className={s.TopBar}>
                 <div className={classNames(s.TopBarContent, {}, ["container"])}>
+                    <CategoryDrawer />
                     <div className={s.info}>
                         <p>Работаем: Пн-СБ 9:00-18:00</p>
                         <p>Доставка по всему Кыргызстану</p>

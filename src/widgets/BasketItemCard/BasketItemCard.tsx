@@ -14,10 +14,7 @@ interface BasketItemCardProps {
 export const BasketItemCard = memo(({ cartItem }: BasketItemCardProps) => {
     const dispatch = useAppDispatch();
     const { addLoading } = useAppSelector((state) => state.cart);
-
     const { product, quantity, total_price, id: cartItemId } = cartItem;
-
-    // Состояние модалки удаления
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [deleteLoading, setDeleteLoading] = useState(false);
 
@@ -26,11 +23,9 @@ export const BasketItemCard = memo(({ cartItem }: BasketItemCardProps) => {
         dispatch(updateCartItem({ item_id: cartItemId, quantity: newQuantity }));
     };
 
-    // Открыть модалку
     const openDeleteModal = () => setShowDeleteModal(true);
     const closeDeleteModal = () => !deleteLoading && setShowDeleteModal(false);
 
-    // Подтвердить удаление
     const handleConfirmDelete = async () => {
         setDeleteLoading(true);
         await dispatch(removeCartItem({ item_id: cartItemId }));
@@ -43,7 +38,6 @@ export const BasketItemCard = memo(({ cartItem }: BasketItemCardProps) => {
     return (
         <>
             <div className={s.basketItem}>
-                {/* Фото */}
                 <div className={s.itemImage}>
                     <img
                         src={product.main_image || "/placeholder.jpg"}
@@ -54,10 +48,8 @@ export const BasketItemCard = memo(({ cartItem }: BasketItemCardProps) => {
                 </div>
 
                 <div className={s.itemContent}>
-                    {/* Название */}
                     <div className={s.itemName}>{product.name}</div>
 
-                    {/* Количество + цена */}
                     <div className={s.controls}>
                         <div className={s.quantityControl}>
                             <button
@@ -81,12 +73,7 @@ export const BasketItemCard = memo(({ cartItem }: BasketItemCardProps) => {
                     </div>
                 </div>
 
-                <div
-                    onClick={openDeleteModal}
-                    className={s.icon_delete}
-                    // disabled={addLoading}
-                    // title="Удалить из корзины"
-                >
+                <div onClick={openDeleteModal} className={s.icon_delete}>
                     <FaRegTrashAlt className={s.icon_delete} />
                 </div>
             </div>

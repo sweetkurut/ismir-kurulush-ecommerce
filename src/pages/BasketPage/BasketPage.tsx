@@ -1,4 +1,3 @@
-// BasketPage.tsx
 import { useEffect, memo } from "react";
 import { fetchGetCart } from "@/store/slices/cartSlice";
 import { BasketItemCard } from "@/widgets/BasketItemCard/BasketItemCard";
@@ -8,7 +7,6 @@ import { Link, NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { SkeletonBasketItem } from "@/components/SkeletonBasketItem/SkeletonBasketItem";
 
-// Маленькие компоненты-состояния (чтобы не рендерилось всё заново)
 const BasketLoadingState = memo(() => (
     <div className={s.wrapper}>
         <div className={s.container}>
@@ -39,9 +37,6 @@ const BasketEmptyState = memo(() => (
         <div className={s.auth_container}>
             <div className={s.unauthorized}>
                 <div className={s.unauthorizedContent}>
-                    {/* <div className={s.icon_wrap}>
-                                <FaRegUser className={s.icon_auth} />
-                            </div> */}
                     <div>
                         <h3 className={s.unauthorizedTitle}>Корзина пуста</h3>
                     </div>
@@ -120,7 +115,6 @@ export const BasketPage = memo(() => {
                             to="/feedback"
                             state={{ cartId: cart.id }}
                             className={`${s.actionButton} ${s.checkoutButton}`}
-                            // onClick={goToOrder}
                         >
                             Оформить заказ
                         </Link>

@@ -1,0 +1,246 @@
+.catalog_dropdown {
+    translate: 0px;
+    font-family: var(--font-opensans-r);
+}
+
+.trigger {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 20px 0 20px;
+    background: transparent;
+    font-family: var(--font-opensans-r);
+    border: none;
+    border-radius: 14px;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.trigger:hover {
+    transform: translateY(-2px);
+}
+
+.chevron {
+    margin-left: auto;
+    transition: transform 0.4s ease;
+}
+
+.chevron.rotated {
+    transform: rotate(180deg);
+}
+
+.menu {
+    position: absolute;
+    top: 20px;
+    left: -4px;
+    font-family: var(--font-opensans-r);
+    right: -4px;
+    height: auto;
+    padding-top: 76px;
+    padding-bottom: 4px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    pointer-events: none;
+}
+
+.catalog_dropdown.open .menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+    height: 200px;
+    font-family: var(--font-opensans-r) !important;
+}
+
+.catalog_dropdown.open .has_sub:hover ~ .menu,
+.catalog_dropdown.open .has_sub:active ~ .menu {
+    height: 380px;
+}
+
+.menu_inner {
+    position: absolute;
+    width: 800px;
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    left: 0;
+    top: 0;
+}
+
+.main_menu,
+.sub_menu_wrapper {
+    width: 400px;
+    flex-shrink: 0;
+    padding: 12px 0;
+}
+
+.main_menu label,
+.sub_menu button,
+.sub_menu label {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: #444;
+    font-size: 16px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    font-family: var(--font-opensans-r);
+}
+
+.main_menu label::before,
+.sub_menu button::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    background: #f8f5ff;
+    border-radius: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+}
+
+.main_menu label:hover::before,
+.sub_menu button:hover::before {
+    opacity: 1;
+}
+
+.main_menu label > *,
+.sub_menu button > * {
+    position: relative;
+    z-index: 2;
+}
+
+.main_menu p,
+.sub_menu p {
+    flex: 1;
+    text-align: left;
+    margin: 0;
+    font-weight: 500;
+}
+
+.chevron_right {
+    font-size: 16px;
+    color: #f15027;
+    transition: transform 0.3s ease;
+}
+
+.main_menu label:hover .chevron_right {
+    transform: translateX(6px);
+}
+
+.back {
+    color: #f15027 !important;
+    font-weight: 600;
+    padding-left: 20px;
+}
+
+.icon {
+    font-size: 22px;
+    color: #f15027;
+}
+
+// 🚨 МОБИЛЬНЫЕ И ПЛАНШЕТЫ
+@media (max-width: 1024px) {
+    .catalog_dropdown {
+        position: static;
+        margin: 0;
+        padding: 0;
+    }
+
+    // 2. Стили триггера, чтобы он выглядел как navItem
+    .trigger {
+        padding: 16px 30px;
+        width: 100%;
+        justify-content: space-between;
+        font-weight: 500;
+        border-bottom: 1px solid #f0f0f0;
+        border-radius: 0;
+        transform: none;
+    }
+
+    .chevron {
+        // Убедитесь, что стрелка смотрит вправо, когда закрыто, и вниз/вверх, когда открыто
+        transform: rotate(90deg);
+        &.rotated {
+            transform: rotate(270deg);
+        }
+    }
+
+    // 3. Меню становится встроенным (в поток)
+    .menu {
+        position: static;
+        top: auto;
+        left: auto;
+        right: auto;
+        padding: 0;
+        background: transparent;
+        box-shadow: none;
+
+        // Логика открытия/закрытия через max-height
+        max-height: 0;
+        opacity: 0;
+        visibility: hidden;
+        transition: max-height 0.4s ease-out, opacity 0.3s ease;
+        pointer-events: none;
+        overflow: hidden;
+    }
+
+    .catalog_dropdown.open .menu {
+        max-height: 500px; /* Должно быть достаточно, чтобы показать все категории */
+        opacity: 1;
+        visibility: visible;
+        pointer-events: all;
+        height: auto;
+        transition: max-height 0.6s ease-in-out, opacity 0.3s ease;
+    }
+
+    // 4. Отключение многоколоночной логики
+    // 4. Отключение многоколоночной логики
+    .menu_inner {
+        position: static;
+        width: 100%;
+        display: block; // Отображаем как один столбец
+        transform: none !important; // ОТМЕНЯЕМ translateX
+        left: auto;
+        top: auto;
+    }
+
+    .main_menu,
+    .sub_menu_wrapper {
+        width: 100%; // Ширина 100%
+        padding: 0;
+        flex-shrink: 0;
+    }
+
+    .main_menu label,
+    .sub_menu button {
+        padding: 10px 30px 10px 45px; /* Отступ для вложенности */
+        background: #fcfcfc;
+        border-bottom: 1px solid #eee;
+        border-radius: 0;
+        font-size: 14px;
+
+        // Убираем hover-эффекты с подложки
+        &::before {
+            display: none;
+        }
+        &:hover {
+            background: #f9f9f9;
+        }
+    }
+
+    .back {
+        padding: 16px 30px;
+        border-top: 1px solid #eee;
+        border-bottom: 1px solid #f0f0f0;
+    }
+}

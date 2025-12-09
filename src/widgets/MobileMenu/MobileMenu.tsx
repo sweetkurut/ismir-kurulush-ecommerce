@@ -1,32 +1,30 @@
 import { useEffect, useState } from "react";
-import s from "./MobileMenu.module.scss";
+import s from "./MobileMenu.module.scss"; // s - это стили MobileMenu
 import { classNames } from "@/shared/lib/classNames/classNames";
 import { AppLink } from "@/shared/ui/AppLink/AppLink";
 import { FaArrowRight } from "react-icons/fa";
+import { CatalogDropdown } from "@/shared/ui/CatalogDropdown/CatalogDropdown";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { fetchGetCatalogCategories } from "@/store/slices/categoriesSlice";
 
 const navItems = [
     { title: "Главная", to: "/" },
-    { title: "Каталог", to: "/catalog" },
+    // { title: "Каталог", to: "/catalog" }, // Удаляем, так как CatalogDropdown заменит этот пункт
     { title: "Услуги", to: "/service" },
-    // { title: "Контакты", to: "/contacts" },
     { title: "Оставить заявку", to: "/feedback" },
 ];
 
 export const MobileMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
-
+    const { catalog_category } = useAppSelector((state) => state.category);
     const toggleMenu = () => setIsOpen(!isOpen);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (isOpen) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "";
-        }
-        return () => {
-            document.body.style.overflow = "";
-        };
-    }, [isOpen]);
+        dispatch(fetchGetCatalogCategories());
+    }, [dispatch]);
+
+    // ... [useEffect для блокировки скролла]
 
     return (
         <>
@@ -52,6 +50,11 @@ export const MobileMenu = () => {
                             <FaArrowRight />
                         </AppLink>
                     ))}
+
+                    <CatalogDropdown
+                        categories={catalog_category}
+                        onNavigateAndClose={() => setIsOpen(false)}
+                    />
                 </nav>
             </div>
         </>

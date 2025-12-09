@@ -89,6 +89,13 @@ export interface Category {
     slug: string;
 }
 
+export interface CategoryCatalog {
+    id: number;
+    name: string;
+    parent: number;
+    subcategories: CategoryCatalog[];
+}
+
 export interface Products {
     id: number;
     name: string;

@@ -263,6 +263,28 @@
     }
 }
 
+.dropdownWrapper {
+    position: relative;
+}
+
+.dropdownTrigger {
+    padding: 5px 0;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--color-black);
+
+    &:hover {
+        color: #0056b3;
+    }
+}
+
+.dropdownTrigger:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    border-radius: 6px;
+    padding: 5px 10px;
+}
+
 .dropdownLoading,
 .dropdownEmpty {
     padding: 40px 20px;

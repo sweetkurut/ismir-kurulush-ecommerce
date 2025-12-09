@@ -1,17 +1,16 @@
 import type { RouteProps } from "react-router-dom";
-import { lazy } from "react";
 
-const HomePage = lazy(() => import("@/pages/HomePage/HomePage"));
-const CatalogPage = lazy(() => import("@/pages/CatalogPage/CatalogPage"));
-const DetailCatalogPage = lazy(() => import("@/pages/DetailCatalogPage/DetailCatalogPage"));
-const DetailService = lazy(() => import("@/pages/DetailService/DetailService"));
-const BasketPage = lazy(() => import("@/pages/BasketPage/BasketPage"));
-const FeedBackPage = lazy(() => import("@/pages/FeedBackPage/FeedBackPage"));
-const FavouritePage = lazy(() => import("@/pages/FavouritePage/FavouritePage"));
-const ProfilePage = lazy(() => import("@/pages/ProfilePage/ProfilePage"));
-const ServicesPage = lazy(() => import("@/pages/ServicesPage/ServicesPage"));
-const NotFoundPage = lazy(() => import("@/pages/NotFoundPage/NotFoundPage"));
-const AuthFormContainer = lazy(() => import("@/widgets/AuthFormContainer/AuthFormContainer"));
+import HomePage from "@/pages/HomePage/HomePage";
+import CatalogPage from "@/pages/CatalogPage/CatalogPage";
+import DetailCatalogPage from "@/pages/DetailCatalogPage/DetailCatalogPage";
+import DetailService from "@/pages/DetailService/DetailService";
+import BasketPage from "@/pages/BasketPage/BasketPage";
+import FeedBackPage from "@/pages/FeedBackPage/FeedBackPage";
+import FavouritePage from "@/pages/FavouritePage/FavouritePage";
+import ProfilePage from "@/pages/ProfilePage/ProfilePage";
+import ServicesPage from "@/pages/ServicesPage/ServicesPage";
+import NotFoundPage from "@/pages/NotFoundPage/NotFoundPage";
+import AuthFormContainer from "@/widgets/AuthFormContainer/AuthFormContainer";
 
 export enum AppRoutes {
     MAIN = "main",

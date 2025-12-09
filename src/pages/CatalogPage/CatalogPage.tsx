@@ -9,6 +9,7 @@ import { fetchGetProducts } from "@/store/slices/productsSlice";
 import { CustomSelect } from "@/components/Select/Select";
 import { fetchGetSorting } from "@/store/slices/sortingSlice";
 import { SkeletonCard } from "@/components/SkeletonCard/SkeletonCard";
+import { useSearchParams } from "react-router-dom";
 
 const ITEMS_PER_PAGE = 8;
 
@@ -28,6 +29,9 @@ export const CatalogPage = () => {
     const [activeFilters, setActiveFilters] = useState<FilterParams>({});
     const [isFilterOpen, setIsFilterOpen] = useState(false);
 
+    const [searchParams] = useSearchParams();
+    const urlCategoryId = searchParams.get("category"); // ← вот тут читаем
+
     const sortOptions = useMemo(() => {
         if (!sorting?.sorting_options) return [];
         return Object.values(sorting.sorting_options).map((opt) => ({
@@ -40,6 +44,7 @@ export const CatalogPage = () => {
         (page = 1) => ({
             page,
             ordering: selectedSort || undefined,
+            category: urlCategoryId ? Number(urlCategoryId) : undefined,
             ...activeFilters,
         }),
         [selectedSort, activeFilters]
@@ -69,6 +74,17 @@ export const CatalogPage = () => {
         loadProducts(getParams(page));
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
+
+    // При смене category в URL — сбрасываем страницу и фильтры
+    useEffect(() => {
+        setCurrentPage(1);
+        setActiveFilters({});
+    }, [urlCategoryId]);
+
+    // Загружаем товары при изменении параметров
+    useEffect(() => {
+        loadProducts(getParams(currentPage));
+    }, [getParams, currentPage, loadProducts]);
 
     useEffect(() => {
         dispatch(fetchGetSorting());

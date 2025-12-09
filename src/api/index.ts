@@ -20,6 +20,8 @@ import instance from "./axiosInstance";
 interface ProductQueryParams {
     page?: number;
     ordering?: string;
+    category_id?: number;
+    root_only?: boolean;
     [key: string]: any;
 }
 
@@ -84,6 +86,21 @@ export const storesApi = {
     },
     getBrands() {
         return instance.get(`/catalog/brands/`);
+    },
+
+    // getCategoryCatalog() {
+    //     return (
+    //         instance.get(`/catalog/categories/`),
+    //         {
+    //             params: params,
+    //         }
+    //     );
+    // },
+
+    getCategoryCatalog(params: ProductQueryParams) {
+        return instance.get(`/catalog/categories/`, {
+            params: params,
+        });
     },
 
     getSortingOptions() {

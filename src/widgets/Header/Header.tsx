@@ -5,28 +5,31 @@ import { FaSearch } from "react-icons/fa";
 import { CiHeart, CiUser } from "react-icons/ci";
 import { SlBasket } from "react-icons/sl";
 import logo from "@/shared/assets/images/logo.svg";
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { MobileMenu } from "../MobileMenu/MobileMenu";
 import { useEffect, useState } from "react";
-import CategoryDrawer from "../Drawer/Drawer";
+
+import { fetchGetCatalogCategories } from "@/store/slices/categoriesSlice";
+import { CatalogDropdown } from "@/shared/ui/CatalogDropdown/CatalogDropdown";
 
 interface HeaderProps {
     className?: string;
 }
 
-const navItems = [
-    { title: "Главная", to: "/" },
-    { title: "Каталог", to: "/catalog" },
-    { title: "Услуги", to: "/service" },
-    { title: "Оставить заявку", to: "/feedback" },
-];
-
 export const Header = ({ className }: HeaderProps) => {
     const [isHidden, setIsHidden] = useState(false);
     const { cart } = useAppSelector((state) => state.cart);
     const { favorites } = useAppSelector((state) => state.favorites);
+    const dispatch = useAppDispatch();
+
+    const { catalog_category } = useAppSelector((state) => state.category);
+
     const totalFavorites = favorites?.results.length ?? 0;
     const totalItemsInCart = cart?.items.length ?? 0;
+
+    useEffect(() => {
+        dispatch(fetchGetCatalogCategories());
+    }, [dispatch]);
 
     useEffect(() => {
         let lastScrollY = 0;
@@ -54,7 +57,7 @@ export const Header = ({ className }: HeaderProps) => {
             {/* TopBar */}
             <div className={s.TopBar}>
                 <div className={classNames(s.TopBarContent, {}, ["container"])}>
-                    <CategoryDrawer />
+                    {/* <CategoryDrawer /> */}
                     <div className={s.info}>
                         <p>Работаем: Пн-СБ 9:00-18:00</p>
                         <p>Доставка по всему Кыргызстану</p>
@@ -114,17 +117,27 @@ export const Header = ({ className }: HeaderProps) => {
             <nav className={s.MenuBar}>
                 <div className={classNames(s.MenuContent, {}, ["container"])}>
                     <ul className={s.navigationList}>
-                        {navItems.map((item) => (
-                            <li key={item.title}>
-                                <AppLink
-                                    className={s.menuItem}
-                                    activeClassName={s.menuItem__active}
-                                    to={item.to}
-                                >
-                                    {item.title}
-                                </AppLink>
-                            </li>
-                        ))}
+                        <li key="Главная">
+                            <AppLink className={s.menuItem} to="/">
+                                Главная
+                            </AppLink>
+                        </li>
+
+                        <li key="Каталог" className={s.dropdownWrapper}>
+                            <CatalogDropdown categories={catalog_category} />
+                        </li>
+
+                        <li key="Услуги">
+                            <AppLink className={s.menuItem} to="/service">
+                                Услуги
+                            </AppLink>
+                        </li>
+
+                        <li key="Оставить заявку">
+                            <AppLink className={s.menuItem} to="/feedback">
+                                Оставить заявку
+                            </AppLink>
+                        </li>
                     </ul>
                 </div>
             </nav>

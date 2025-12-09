@@ -6,10 +6,10 @@ import { storesApi } from "@/api";
 type InfoState = {
     loading: boolean;
     error: null | string;
-    products: Products[] | null;
+    // 🎯 ИСПРАВЛЕНИЕ: Храним объект Products (содержащий results), а не массив.
+    products: Products | null;
     product: ProductDetail | null;
 
-    // Добавляем сюда дерево категорий
     categoryTree: CategoryNode[];
     categoryTreeLoading: boolean;
 };
@@ -17,6 +17,7 @@ type InfoState = {
 const initialState: InfoState = {
     error: null,
     loading: false,
+    // 🎯 ИСПРАВЛЕНИЕ: Инициализируем как null.
     products: null,
     product: null,
     categoryTree: [],
@@ -36,7 +37,7 @@ export interface CategoryNode {
     children?: CategoryNode[];
 }
 
-export const fetchGetProducts = createAsyncThunk<Products[], ProductQueryParams, { rejectValue: string }>(
+export const fetchGetProducts = createAsyncThunk<Products, ProductQueryParams, { rejectValue: string }>(
     "products/fetchGetProducts",
     async (params, { rejectWithValue }) => {
         try {
@@ -44,7 +45,8 @@ export const fetchGetProducts = createAsyncThunk<Products[], ProductQueryParams,
             if (res.status !== 200) {
                 return rejectWithValue("Server Error");
             }
-            return res.data as Products[];
+            // 🎯 ИСПРАВЛЕНИЕ: Возвращаем объект целиком (res.data)
+            return res.data as Products;
         } catch (error) {
             return rejectWithValue(`Ошибка: ${error}`);
         }

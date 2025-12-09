@@ -1,7 +1,6 @@
 import { classNames } from "@/shared/lib/classNames/classNames";
 import s from "./style.module.scss";
 import { AppLink } from "@/shared/ui/AppLink/AppLink";
-import { FaSearch } from "react-icons/fa";
 import { CiHeart, CiUser } from "react-icons/ci";
 import { SlBasket } from "react-icons/sl";
 import logo from "@/shared/assets/images/logo.svg";
@@ -11,16 +10,19 @@ import { useEffect, useState } from "react";
 
 import { fetchGetCatalogCategories } from "@/store/slices/categoriesSlice";
 import { CatalogDropdown } from "@/shared/ui/CatalogDropdown/CatalogDropdown";
+import { SearchDropdown } from "@/shared/ui/SearchDropdown/SearchDropdown";
 
 interface HeaderProps {
     className?: string;
 }
 
 export const Header = ({ className }: HeaderProps) => {
+    const dispatch = useAppDispatch();
     const [isHidden, setIsHidden] = useState(false);
     const { cart } = useAppSelector((state) => state.cart);
     const { favorites } = useAppSelector((state) => state.favorites);
-    const dispatch = useAppDispatch();
+    const { products } = useAppSelector((state) => state.products);
+    const { catogory } = useAppSelector((state) => state.category);
 
     const { catalog_category } = useAppSelector((state) => state.category);
 
@@ -30,6 +32,8 @@ export const Header = ({ className }: HeaderProps) => {
     useEffect(() => {
         dispatch(fetchGetCatalogCategories());
     }, [dispatch]);
+
+    
 
     useEffect(() => {
         let lastScrollY = 0;
@@ -85,10 +89,7 @@ export const Header = ({ className }: HeaderProps) => {
                         </AppLink>
                     </div>
 
-                    <div className={s.searchContainer}>
-                        <FaSearch className={s.searchIcon} />
-                        <input type="text" placeholder="Поиск товаров..." className={s.searchInput} />
-                    </div>
+                    <SearchDropdown />
 
                     <div className={s.actionIcons}>
                         <AppLink to="/favorites" className={s.actionIconLink}>

@@ -1,0 +1,93 @@
+/* src/shared/ui/SearchDropdown/SearchDropdown.module.scss */
+
+// 1. Стили контейнера поиска (из вашего предыдущего запроса)
+.searchContainer {
+    position: relative; // Важно для позиционирования дропдауна
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    max-width: 600px;
+    height: 40px;
+    background-color: var(--color-white, #fff);
+    border: 1px solid var(--border-support, #e0e0e0);
+    border-radius: 10px;
+    padding: 0 10px;
+
+    @media (max-width: 960px) {
+        display: none;
+    }
+}
+
+.searchIcon {
+    color: #6b7280;
+    font-size: 12px;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.searchInput {
+    flex-grow: 1;
+    height: 100%;
+    padding: 0;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #333;
+    font-family: var(--font-opensans-r, sans-serif);
+
+    &::placeholder {
+        color: #999;
+    }
+}
+
+// 2. Стили для рабочего дропдауна
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: -1px; // Перекрываем рамку контейнера
+    right: -1px;
+    z-index: 1000;
+    background: var(--color-white, #fff);
+    border: 1px solid var(--border-support, #e0e0e0);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 8px 0;
+}
+
+.sectionTitle {
+    font-size: 12px;
+    color: #888;
+    margin: 8px 15px 4px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.dropdownItem {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    &:hover {
+        background-color: #f0f8ff;
+    }
+}
+
+.seeAll {
+    display: block;
+    padding: 10px 15px;
+    text-align: center;
+    color: var(--primary-color, #007bff);
+    border-top: 1px solid #eee;
+    font-size: 14px;
+}
+
+.noResults {
+    padding: 15px;
+    color: #888;
+    font-size: 14px;
+    text-align: center;
+}

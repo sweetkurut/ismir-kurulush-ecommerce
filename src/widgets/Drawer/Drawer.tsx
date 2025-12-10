@@ -1,4 +1,4 @@
-// components/CategoryDrawer.tsx
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import { Drawer, Tree, Card, Image, Typography, Row, Col } from "antd";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
@@ -45,6 +45,7 @@ const CategoryDrawer: React.FC = () => {
             const res = await dispatch(fetchGetProducts({ category: categoryId, limit: 8 })).unwrap();
             setPreviewProducts(res.slice(0, 8));
         } catch (err) {
+            console.error(err);
             setPreviewProducts([]);
         } finally {
             setIsLoadingPreview(false);

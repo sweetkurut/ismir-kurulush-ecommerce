@@ -35,7 +35,7 @@ export const fetchGetCatalogCategories = createAsyncThunk<CategoryCatalog[], voi
     "catalog_category/fetchGetCatalogCategories",
     async (_, { rejectWithValue }) => {
         try {
-            const res = await storesApi.getCategoryCatalog();
+            const res = await storesApi.getCategoryCatalog({});
             if (res.status !== 200) {
                 return rejectWithValue("Server Error");
             }

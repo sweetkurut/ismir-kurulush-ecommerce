@@ -21,8 +21,6 @@ export const Header = ({ className }: HeaderProps) => {
     const [isHidden, setIsHidden] = useState(false);
     const { cart } = useAppSelector((state) => state.cart);
     const { favorites } = useAppSelector((state) => state.favorites);
-    const { products } = useAppSelector((state) => state.products);
-    const { catogory } = useAppSelector((state) => state.category);
 
     const { catalog_category } = useAppSelector((state) => state.category);
 
@@ -32,8 +30,6 @@ export const Header = ({ className }: HeaderProps) => {
     useEffect(() => {
         dispatch(fetchGetCatalogCategories());
     }, [dispatch]);
-
-    
 
     useEffect(() => {
         let lastScrollY = 0;
@@ -57,11 +53,9 @@ export const Header = ({ className }: HeaderProps) => {
     }, []);
 
     return (
-        <header className={classNames(s.Header, { [s.hidden]: isHidden }, [className])}>
-            {/* TopBar */}
+        <header className={classNames(s.Header, { [s.hidden]: isHidden }, [className || ""])}>
             <div className={s.TopBar}>
                 <div className={classNames(s.TopBarContent, {}, ["container"])}>
-                    {/* <CategoryDrawer /> */}
                     <div className={s.info}>
                         <p>Работаем: Пн-СБ 9:00-18:00</p>
                         <p>Доставка по всему Кыргызстану</p>
@@ -125,7 +119,7 @@ export const Header = ({ className }: HeaderProps) => {
                         </li>
 
                         <li key="Каталог" className={s.dropdownWrapper}>
-                            <CatalogDropdown categories={catalog_category} />
+                            <CatalogDropdown categories={catalog_category || []} />
                         </li>
 
                         <li key="Услуги">

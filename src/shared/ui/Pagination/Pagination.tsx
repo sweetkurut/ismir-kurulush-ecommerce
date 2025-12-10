@@ -1,7 +1,7 @@
 import React from "react";
 import s from "./Pagination.module.scss";
 import { classNames } from "@/shared/lib/classNames/classNames";
-import { motion } from "framer-motion";
+import { circInOut, motion } from "framer-motion";
 
 interface PaginationProps {
     className?: string;
@@ -38,7 +38,7 @@ export const Pagination = ({ className, count, onChange, page }: PaginationProps
             y: 0,
             transition: {
                 duration: 0.4,
-                ease: "easeOut",
+                ease: circInOut,
             },
         },
     };

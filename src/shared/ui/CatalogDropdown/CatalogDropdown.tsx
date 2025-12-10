@@ -38,6 +38,7 @@ export const CatalogDropdown = ({
             setOpen(!open);
             setActiveSub(null);
         } else if (!activeSub) {
+            // На десктопе: клик переходит на /catalog
             navigate("/catalog");
             setOpen(false);
         }

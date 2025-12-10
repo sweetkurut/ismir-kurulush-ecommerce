@@ -7,7 +7,7 @@ type InfoState = {
     loading: boolean;
     error: null | string;
     // 🎯 ИСПРАВЛЕНИЕ: Храним объект Products (содержащий results), а не массив.
-    products: Products | null;
+    products: Products[] | null;
     product: ProductDetail | null;
 
     categoryTree: CategoryNode[];
@@ -37,7 +37,7 @@ export interface CategoryNode {
     children?: CategoryNode[];
 }
 
-export const fetchGetProducts = createAsyncThunk<Products, ProductQueryParams, { rejectValue: string }>(
+export const fetchGetProducts = createAsyncThunk<Products[], ProductQueryParams, { rejectValue: string }>(
     "products/fetchGetProducts",
     async (params, { rejectWithValue }) => {
         try {
@@ -46,7 +46,7 @@ export const fetchGetProducts = createAsyncThunk<Products, ProductQueryParams, {
                 return rejectWithValue("Server Error");
             }
             // 🎯 ИСПРАВЛЕНИЕ: Возвращаем объект целиком (res.data)
-            return res.data as Products;
+            return res.data as Products[];
         } catch (error) {
             return rejectWithValue(`Ошибка: ${error}`);
         }

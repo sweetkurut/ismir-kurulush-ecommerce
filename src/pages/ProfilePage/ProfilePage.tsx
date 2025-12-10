@@ -247,7 +247,7 @@ export const ProfilePage = () => {
                                     <button onClick={handleRetry}>Обновить</button>
                                 </div>
                             )}
-                            {renderTabContent(activeTab, orders_req)}
+                            {renderTabContent(activeTab, orders_req ?? [])}
                         </div>
                     </div>
                 </div>

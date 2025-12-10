@@ -16,12 +16,12 @@ interface FormData {
     email: string;
     request_type?: string;
     cart: number | null;
-    service?: number | null;
+    service?: string | null;
 }
 
 export const FeedbackForm = ({ cartId }: { cartId: number | null }) => {
     const dispatch = useAppDispatch();
-    const { loading, error, type_req } = useAppSelector((state) => state.orderRequest);
+    const { loading, error } = useAppSelector((state) => state.orderRequest);
 
     const [agreed, setAgreed] = useState(false);
     const [formData, setFormData] = useState<FormData>({
@@ -49,7 +49,7 @@ export const FeedbackForm = ({ cartId }: { cartId: number | null }) => {
         }));
     };
 
-    const handleSubmit = async (e: FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (!agreed) {
@@ -71,7 +71,8 @@ export const FeedbackForm = ({ cartId }: { cartId: number | null }) => {
                     email: formData.email.trim(),
                     request_type: formData.request_type,
                     cart: formData.cart,
-                    service: formData.service,
+                    // service: formData.service,
+                    service: formData.service ? Number(formData.service) : undefined,
                 })
             ).unwrap();
 

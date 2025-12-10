@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { fetchAddFavorites, fetchFavorites } from "@/store/slices/favoritesSlice";
 import { fetchAddToCart } from "@/store/slices/cartSlice";
 import s from "./style.module.scss";
@@ -17,6 +18,7 @@ type CardProps = {
         categories: { id: number; name: string; slug: string }[];
         main_image: string;
         in_stock: boolean;
+        popularity_score: string;
     };
 };
 
@@ -102,7 +104,7 @@ export const Card = ({ product }: CardProps) => {
                     <p className={s.price}>
                         {parseFloat(product.price).toLocaleString("ru-RU")} {product.currency}
                     </p>
-                    <div className={s.rating}>{renderStars(product.popularity_score)}</div>
+                    <div className={s.rating}>{renderStars(product?.popularity_score)}</div>
                 </div>
 
                 <button

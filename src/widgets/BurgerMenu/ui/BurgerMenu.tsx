@@ -15,7 +15,7 @@ export const BurgerMenu = () => {
         if (isClosed) {
             document.body.style.overflow = "hidden";
             window.history.pushState(null, "", window.location.href);
-            window.onpopstate = (e) => {
+            window.onpopstate = () => {
                 handleClick();
             };
         } else {

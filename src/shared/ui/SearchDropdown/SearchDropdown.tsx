@@ -1,26 +1,11 @@
-// src/shared/ui/SearchDropdown/SearchDropdown.jsx
-
 import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { FaSearch } from "react-icons/fa";
 import { AppLink } from "@/shared/ui/AppLink/AppLink";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import styles from "./SearchDropdown.module.scss";
-// Предполагаем, что эти экшены импортируются из соответствующих слайсов
 import { fetchGetCategory } from "@/store/slices/categoriesSlice";
 import { fetchGetProducts } from "@/store/slices/productsSlice";
-
-// 🚨 ВАЖНО: Определите ваши типы Product и Category (они должны соответствовать тому, что лежит в products?.results)
-interface Product {
-    id: number;
-    name: string;
-    slug: string; // Для ссылки на товар
-    // Добавьте другие поля, если они нужны для отображения (например, price, image)
-}
-interface Category {
-    id: number;
-    name: string;
-    // ...
-}
+import type { ICategory, Products } from "@/store/types";
 
 export const SearchDropdown = () => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -29,63 +14,45 @@ export const SearchDropdown = () => {
 
     const dispatch = useAppDispatch();
 
-    // 🎯 Получаем данные и статус загрузки из Redux-стейта
     const { products, loading: productsLoading } = useAppSelector((state) => state.products);
-    // 💡 Предполагаем, что ваш слайс 'category' имеет поле 'catogory'
-    const { catogory, loading: categoryLoading } = useAppSelector((state) => state.category);
+    const { category, loading: categoryLoading } = useAppSelector((state) => state.category);
 
-    // Инициируем загрузку данных при монтировании компонента
     useEffect(() => {
         dispatch(fetchGetCategory());
-        // Загружаем все продукты или достаточно большой лимит для поиска
         dispatch(fetchGetProducts({ limit: 500 }));
     }, [dispatch]);
 
-    // 🎯 КЛЮЧЕВОЕ: Фильтрация результатов
+    // 🔥 СТРУКТУРА ТЕПЕРЬ ПРАВИЛЬНАЯ:
     const filteredResults = useMemo(() => {
-        // Убедитесь, что products и catogory имеют структуру { results: [] }
-        const productList: Product[] = products?.results || [];
-        const categoryList: Category[] = catogory?.results || [];
+        const productList: Products[] = products ?? [];
+        const categoryList: ICategory[] = category ?? [];
 
         const isLoading = productsLoading || categoryLoading;
 
-        // 1. Состояние загрузки
-        if (isLoading) {
-            return { productResults: [], categoryResults: [], isLoading: true };
-        }
+        if (isLoading) return { productResults: [], categoryResults: [], isLoading: true };
 
-        // 2. Условие минимальной длины запроса (>= 2 символов)
         if (searchTerm.length < 2) return { productResults: [], categoryResults: [], isLoading: false };
 
-        const query = searchTerm.toLowerCase();
+        const q = searchTerm.toLowerCase();
 
-        // 3. Фильтрация
-        const productResults = productList
-            .filter((product) => product.name.toLowerCase().includes(query))
-            .slice(0, 5); // Ограничение результатов
+        const productResults = productList.filter((p) => p.name.toLowerCase().includes(q)).slice(0, 5);
 
-        const categoryResults = categoryList
-            .filter((cat) => cat.name.toLowerCase().includes(query))
-            .slice(0, 3);
+        const categoryResults = categoryList.filter((c) => c.name.toLowerCase().includes(q)).slice(0, 3);
 
-        // 4. Возвращаем объект результатов
         return { productResults, categoryResults, isLoading: false };
-    }, [searchTerm, products, catogory, productsLoading, categoryLoading]);
+    }, [searchTerm, products, category, productsLoading, categoryLoading]);
 
-    // Обработчик для скрытия выпадающего списка при клике вне
     useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
                 setIsFocused(false);
             }
         };
-
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
     const handleSelectResult = useCallback(() => {
-        // Сбрасываем запрос и скрываем список после выбора/перехода
         setSearchTerm("");
         setIsFocused(false);
     }, []);
@@ -93,12 +60,12 @@ export const SearchDropdown = () => {
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter" && searchTerm.trim() !== "") {
             handleSelectResult();
-            // 💡 В реальном приложении: window.location.href = `/search?q=${searchTerm}`;
         }
     };
 
     const hasResults =
         filteredResults.productResults.length > 0 || filteredResults.categoryResults.length > 0;
+
     const isVisible = isFocused && searchTerm.length >= 2 && hasResults;
 
     return (
@@ -114,17 +81,14 @@ export const SearchDropdown = () => {
                 onKeyDown={handleKeyDown}
             />
 
-            {/* 1. Индикатор загрузки */}
             {filteredResults.isLoading && isFocused && (
                 <div className={styles.dropdown}>
-                    <p className={styles.noResults}>Загрузка данных для поиска...</p>
+                    <p className={styles.noResults}>Загрузка данных...</p>
                 </div>
             )}
 
-            {/* 2. Отображение результатов */}
             {isVisible && (
                 <div className={styles.dropdown}>
-                    {/* Результаты категорий */}
                     {filteredResults.categoryResults.length > 0 && (
                         <>
                             <h4 className={styles.sectionTitle}>Категории</h4>
@@ -141,7 +105,6 @@ export const SearchDropdown = () => {
                         </>
                     )}
 
-                    {/* Результаты продуктов */}
                     {filteredResults.productResults.length > 0 && (
                         <>
                             <h4 className={styles.sectionTitle}>Товары</h4>
@@ -158,7 +121,6 @@ export const SearchDropdown = () => {
                         </>
                     )}
 
-                    {/* Ссылка на страницу поиска */}
                     <AppLink
                         to={`/search?q=${searchTerm}`}
                         className={styles.seeAll}
@@ -169,7 +131,6 @@ export const SearchDropdown = () => {
                 </div>
             )}
 
-            {/* 3. Сообщение об отсутствии результатов */}
             {isFocused && searchTerm.length >= 2 && !hasResults && !filteredResults.isLoading && (
                 <div className={styles.dropdown}>
                     <p className={styles.noResults}>По запросу "{searchTerm}" ничего не найдено.</p>

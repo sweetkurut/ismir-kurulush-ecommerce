@@ -52,7 +52,7 @@ export const MobileMenu = () => {
                     ))}
 
                     <CatalogDropdown
-                        categories={catalog_category}
+                        categories={catalog_category || []}
                         onNavigateAndClose={() => setIsOpen(false)}
                     />
                 </nav>

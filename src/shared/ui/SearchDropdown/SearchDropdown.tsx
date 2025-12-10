@@ -1,18 +1,26 @@
-import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
-import { AppLink } from "@/shared/ui/AppLink/AppLink";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useNavigate } from "react-router-dom";
 import styles from "./SearchDropdown.module.scss";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchGetCategory } from "@/store/slices/categoriesSlice";
 import { fetchGetProducts } from "@/store/slices/productsSlice";
 import type { ICategory, Products } from "@/store/types";
 
+interface SearchItem {
+    type: "category" | "product";
+    id: number;
+    name: string;
+}
+
 export const SearchDropdown = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [isFocused, setIsFocused] = useState(false);
+    const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
     const searchRef = useRef<HTMLDivElement>(null);
 
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const { products, loading: productsLoading } = useAppSelector((state) => state.products);
     const { category, loading: categoryLoading } = useAppSelector((state) => state.category);
@@ -22,24 +30,27 @@ export const SearchDropdown = () => {
         dispatch(fetchGetProducts({ limit: 500 }));
     }, [dispatch]);
 
-    // 🔥 СТРУКТУРА ТЕПЕРЬ ПРАВИЛЬНАЯ:
     const filteredResults = useMemo(() => {
         const productList: Products[] = products ?? [];
         const categoryList: ICategory[] = category ?? [];
-
         const isLoading = productsLoading || categoryLoading;
 
-        if (isLoading) return { productResults: [], categoryResults: [], isLoading: true };
-
-        if (searchTerm.length < 2) return { productResults: [], categoryResults: [], isLoading: false };
+        if (isLoading) return { items: [], isLoading: true };
+        if (searchTerm.length < 2) return { items: [], isLoading: false };
 
         const q = searchTerm.toLowerCase();
 
-        const productResults = productList.filter((p) => p.name.toLowerCase().includes(q)).slice(0, 5);
+        const categoryResults: SearchItem[] = categoryList
+            .filter((c) => c.name.toLowerCase().includes(q))
+            .slice(0, 3)
+            .map((c) => ({ type: "category", id: c.id, name: c.name }));
 
-        const categoryResults = categoryList.filter((c) => c.name.toLowerCase().includes(q)).slice(0, 3);
+        const productResults: SearchItem[] = productList
+            .filter((p) => p.name.toLowerCase().includes(q))
+            .slice(0, 5)
+            .map((p) => ({ type: "product", id: p.id, name: p.name }));
 
-        return { productResults, categoryResults, isLoading: false };
+        return { items: [...categoryResults, ...productResults], isLoading: false };
     }, [searchTerm, products, category, productsLoading, categoryLoading]);
 
     useEffect(() => {
@@ -52,21 +63,46 @@ export const SearchDropdown = () => {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    const handleSelectResult = useCallback(() => {
+    const handleSelect = (item: SearchItem) => {
         setSearchTerm("");
         setIsFocused(false);
-    }, []);
+        if (item.type === "category") navigate(`/catalog/${item.id}`);
+        if (item.type === "product") navigate(`/catalog/${item.id}`);
+    };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter" && searchTerm.trim() !== "") {
-            handleSelectResult();
+        if (!filteredResults.items.length) return;
+
+        if (e.key === "ArrowDown") {
+            e.preventDefault();
+            setHighlightedIndex((prev) => (prev + 1) % filteredResults.items.length);
+        } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            setHighlightedIndex(
+                (prev) => (prev - 1 + filteredResults.items.length) % filteredResults.items.length
+            );
+        } else if (e.key === "Enter") {
+            if (highlightedIndex >= 0) {
+                handleSelect(filteredResults.items[highlightedIndex]);
+            } else if (filteredResults.items.length === 1) {
+                handleSelect(filteredResults.items[0]);
+            }
         }
     };
 
-    const hasResults =
-        filteredResults.productResults.length > 0 || filteredResults.categoryResults.length > 0;
+    const highlightMatch = (name: string) => {
+        const idx = name.toLowerCase().indexOf(searchTerm.toLowerCase());
+        if (idx === -1) return name;
+        return (
+            <>
+                {name.slice(0, idx)}
+                <strong>{name.slice(idx, idx + searchTerm.length)}</strong>
+                {name.slice(idx + searchTerm.length)}
+            </>
+        );
+    };
 
-    const isVisible = isFocused && searchTerm.length >= 2 && hasResults;
+    const isVisible = isFocused && searchTerm.length >= 2;
 
     return (
         <div className={styles.searchContainer} ref={searchRef}>
@@ -76,7 +112,10 @@ export const SearchDropdown = () => {
                 placeholder="Поиск товаров..."
                 className={styles.searchInput}
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => {
+                    setSearchTerm(e.target.value);
+                    setHighlightedIndex(-1);
+                }}
                 onFocus={() => setIsFocused(true)}
                 onKeyDown={handleKeyDown}
             />
@@ -89,51 +128,22 @@ export const SearchDropdown = () => {
 
             {isVisible && (
                 <div className={styles.dropdown}>
-                    {filteredResults.categoryResults.length > 0 && (
-                        <>
-                            <h4 className={styles.sectionTitle}>Категории</h4>
-                            {filteredResults.categoryResults.map((cat) => (
-                                <AppLink
-                                    key={`cat-${cat.id}`}
-                                    to={`/catalog?category=${cat.id}`}
-                                    className={styles.dropdownItem}
-                                    onClick={handleSelectResult}
-                                >
-                                    {cat.name}
-                                </AppLink>
-                            ))}
-                        </>
+                    {filteredResults.items.length > 0 ? (
+                        filteredResults.items.map((item, idx) => (
+                            <div
+                                key={`${item.type}-${item.id}`}
+                                className={`${styles.dropdownItem} ${
+                                    highlightedIndex === idx ? styles.highlighted : ""
+                                }`}
+                                onClick={() => handleSelect(item)}
+                                onMouseEnter={() => setHighlightedIndex(idx)}
+                            >
+                                {highlightMatch(item.name)}
+                            </div>
+                        ))
+                    ) : (
+                        <p className={styles.noResults}>По запросу "{searchTerm}" ничего не найдено.</p>
                     )}
-
-                    {filteredResults.productResults.length > 0 && (
-                        <>
-                            <h4 className={styles.sectionTitle}>Товары</h4>
-                            {filteredResults.productResults.map((product) => (
-                                <AppLink
-                                    key={`prod-${product.id}`}
-                                    to={`/product/${product.slug}`}
-                                    className={styles.dropdownItem}
-                                    onClick={handleSelectResult}
-                                >
-                                    {product.name}
-                                </AppLink>
-                            ))}
-                        </>
-                    )}
-
-                    <AppLink
-                        to={`/search?q=${searchTerm}`}
-                        className={styles.seeAll}
-                        onClick={handleSelectResult}
-                    >
-                        Показать все результаты
-                    </AppLink>
-                </div>
-            )}
-
-            {isFocused && searchTerm.length >= 2 && !hasResults && !filteredResults.isLoading && (
-                <div className={styles.dropdown}>
-                    <p className={styles.noResults}>По запросу "{searchTerm}" ничего не найдено.</p>
                 </div>
             )}
         </div>

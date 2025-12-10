@@ -9,7 +9,7 @@ import Favorites from "./slices/favoritesSlice";
 import OrderRequestSlice from "./slices/orderRequestSlice";
 import CartSlice from "./slices/cartSlice";
 import BrandSlice from "./slices/brandSlice";
-import FilterSlice from "./slices/filterSlice";
+// import FilterSlice from "./slices/filterSlice";
 import ServiceSlice from "./slices/serviceSlice";
 
 export const store = configureStore({
@@ -23,7 +23,7 @@ export const store = configureStore({
         orderRequest: OrderRequestSlice,
         cart: CartSlice,
         brand: BrandSlice,
-        filters: FilterSlice,
+        // filters: FilterSlice,
         service: ServiceSlice,
     },
     middleware: (getDefaultMiddleware) =>

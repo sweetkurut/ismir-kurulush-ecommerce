@@ -35,10 +35,25 @@ export const CatalogDropdown = ({
 
     const handleTriggerClick = () => {
         if (isMobile) {
-            setOpen(!open);
-            setActiveSub(null);
-        } else if (!activeSub) {
-            // На десктопе: клик переходит на /catalog
+            if (!open) {
+                // 1-е нажатие: открыть меню
+                setOpen(true);
+                setActiveSub(null);
+            } else {
+                // 2-е нажатие: переход в каталог
+                navigate("/catalog");
+                setOpen(false);
+                setActiveSub(null);
+
+                if (onNavigateAndClose) {
+                    onNavigateAndClose();
+                }
+            }
+            return;
+        }
+
+        // ДЕСКТОП
+        if (!activeSub) {
             navigate("/catalog");
             setOpen(false);
         }

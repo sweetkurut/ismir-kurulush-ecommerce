@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import s from "./style.module.scss";
 import { TiArrowLeft } from "react-icons/ti";
 import { FiShoppingCart } from "react-icons/fi";
@@ -26,9 +26,19 @@ export const DetailCatalogPage = () => {
     const cartItem = cart?.items.find((item) => item.product.id === product?.id);
     const quantityInCart = cartItem?.quantity || 0;
 
+    const [selectedImage, setSelectedImage] = useState<string>(
+        product?.images?.[0]?.image || product?.main_image || ""
+    );
+
     const isFavorite = product
         ? favorites.some((item: any) => item.product?.id === product.id || item.id === product.id)
         : false;
+
+    useEffect(() => {
+        if (product) {
+            setSelectedImage(product.images?.[0]?.image || product.main_image || "");
+        }
+    }, [product]);
 
     useEffect(() => {
         if (id) dispatch(fetchGetDetailProducts(Number(id)));
@@ -74,21 +84,43 @@ export const DetailCatalogPage = () => {
 
                 <div className={s.mainContent}>
                     <div className={s.imageSection}>
+                        {/* Главное фото теперь берёт selectedImage */}
                         <img
-                            src={product.images?.[0]?.image || product?.main_image}
+                            src={selectedImage}
                             alt={product.name}
                             className={s.mainImage}
                             loading="lazy"
                             decoding="async"
                         />
+
+                        {/* Превьюшки с кликом и активным классом */}
                         <div className={s.thumbnails}>
+                            {/* Сначала главная картинка (если она не в images) */}
+                            {product.main_image &&
+                                !product.images?.some((img) => img.image === product.main_image) && (
+                                    <img
+                                        key="main"
+                                        src={product.main_image}
+                                        alt=""
+                                        className={`${s.thumbnail} ${
+                                            selectedImage === product.main_image ? s.activeThumbnail : ""
+                                        }`}
+                                        onClick={() => setSelectedImage(product.main_image)}
+                                        loading="lazy"
+                                        decoding="async"
+                                    />
+                                )}
+
+                            {/* Потом все из images */}
                             {product.images?.map((img) => (
                                 <img
                                     key={img.id}
                                     src={img.image}
                                     alt=""
-                                    className={s.thumbnail}
-                                    onClick={() => {}}
+                                    className={`${s.thumbnail} ${
+                                        selectedImage === img.image ? s.activeThumbnail : ""
+                                    }`}
+                                    onClick={() => setSelectedImage(img.image)}
                                     loading="lazy"
                                     decoding="async"
                                 />

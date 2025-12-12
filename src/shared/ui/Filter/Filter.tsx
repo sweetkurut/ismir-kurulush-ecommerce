@@ -1,16 +1,18 @@
-import { useState, useEffect, useRef } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState, useEffect } from "react";
 import s from "./style.module.scss";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchGetCategory } from "@/store/slices/categoriesSlice";
 import { fetchGetBrand } from "@/store/slices/brandSlice";
+import { fetchGetProducts } from "@/store/slices/productsSlice";
 
 interface FilterProps {
     onFilterChange: (filters: FilterParams) => void;
 }
 
 export interface FilterParams {
-    category?: string; // slug категории
-    brand?: number; // id бренда
+    category?: string;
+    brand?: number;
     min_price?: number;
     max_price?: number;
 }
@@ -19,65 +21,69 @@ export const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
     const dispatch = useAppDispatch();
     const { category } = useAppSelector((state) => state.category);
     const { brand } = useAppSelector((state) => state.brand);
-    const [priceRange, setPriceRange] = useState(100);
+    const { products } = useAppSelector((state) => state.products);
+
+    const [minPriceFromApi, setMinPriceFromApi] = useState<number>(0);
+    const [maxPriceFromApi, setMaxPriceFromApi] = useState<number>(0);
+
+    const [minPrice, setMinPrice] = useState<number>(0);
+    const [maxPrice, setMaxPrice] = useState<number>(0);
+
     const [selectedCategory, setSelectedCategory] = useState<string>("");
     const [selectedBrand, setSelectedBrand] = useState<number | "">("");
 
-    const minPrice = 0;
-    const maxPrice = 1000;
-
-    const sliderRef = useRef<HTMLInputElement>(null);
-
+    /** Первичная загрузка */
     useEffect(() => {
+        dispatch(fetchGetProducts({}));
         dispatch(fetchGetCategory());
         dispatch(fetchGetBrand());
     }, [dispatch]);
 
-    const updateSliderTrack = (value: number) => {
-        const percentage = ((value - minPrice) / (maxPrice - minPrice)) * 100;
-        if (sliderRef.current) {
-            sliderRef.current.style.background = `linear-gradient(to right, ${s.primaryOrange} 0%, ${s.primaryOrange} ${percentage}%, ${s.borderGray} ${percentage}%, ${s.borderGray} 100%)`;
-        }
-    };
-
+    /** Получаем min/max */
     useEffect(() => {
-        updateSliderTrack(priceRange);
-    }, [priceRange]);
+        if (!products?.length) return;
 
-    const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPriceRange(Number(event.target.value));
-    };
+        // Преобразуем в числа и фильтруем некорректные значения
+        const prices = products.map((p) => Number(p.price)).filter((price) => !isNaN(price));
 
-    const handleCategoryChange = (categoryId: string) => {
-        setSelectedCategory(categoryId);
-    };
+        const min = Math.min(...prices);
+        const max = Math.max(...prices);
 
-    const handleBrandChange = (brandId: number) => {
-        setSelectedBrand(brandId);
-    };
+        setMinPriceFromApi(min);
+        setMaxPriceFromApi(max);
+        setMinPrice(min);
+        setMaxPrice(max);
+    }, [products]);
+
+    // const handleApplyFilters = () => {
+    //     const fixedMin = Math.max(minPriceFromApi, minPrice);
+    //     const fixedMax = Math.min(maxPriceFromApi, maxPrice);
+
+    //     onFilterChange({
+    //         min_price: fixedMin,
+    //         max_price: fixedMax,
+    //         category: selectedCategory || undefined,
+    //         brand: selectedBrand || undefined,
+    //     });
+    // };
 
     const handleApplyFilters = () => {
-        const filters: FilterParams = {
-            min_price: minPrice,
-            max_price: priceRange,
-        };
+        const fixedMin = Math.max(0, minPrice); // просто проверка на отрицательные значения
+        const fixedMax = Math.max(fixedMin, maxPrice); // max >= min
 
-        if (selectedCategory) {
-            filters.category = selectedCategory;
-        }
-
-        if (selectedBrand) {
-            filters.brand = selectedBrand;
-        }
-
-        console.log("Применяемые фильтры:", filters);
-        onFilterChange(filters);
+        onFilterChange({
+            min_price: fixedMin || undefined,
+            max_price: fixedMax || undefined,
+            category: selectedCategory || undefined,
+            brand: selectedBrand || undefined,
+        });
     };
 
     const handleResetFilters = () => {
-        setPriceRange(100);
         setSelectedCategory("");
         setSelectedBrand("");
+        setMinPrice(minPriceFromApi);
+        setMaxPrice(maxPriceFromApi);
 
         onFilterChange({});
     };
@@ -90,68 +96,78 @@ export const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
                     <h2>Фильтры</h2>
                 </div>
 
+                {/* PRICE */}
                 <div className={s.filterSection}>
                     <h3>Цена (сом)</h3>
-                    <div className={s.priceValue}>{priceRange} сом</div>
-                    <div className={s.priceSliderContainer}>
-                        <input
-                            type="range"
-                            min={minPrice}
-                            max={maxPrice}
-                            value={priceRange}
-                            onChange={handlePriceChange}
-                            ref={sliderRef}
-                            className={s.priceRangeSlider}
-                        />
-                        <div className={s.priceLabels}>
-                            <span>{minPrice} сом</span>
-                            <span>{maxPrice} сом</span>
+
+                    <div className={s.priceValue}>
+                        {minPrice} — {maxPrice} сом
+                    </div>
+
+                    <div className={s.priceInputsContainer}>
+                        <div className={s.priceInputItem}>
+                            <label>Мин:</label>
+                            <input
+                                type="number"
+                                value={minPrice}
+                                onChange={(e) => setMinPrice(Number(e.target.value))}
+                            />
+                        </div>
+
+                        <div className={s.priceInputItem}>
+                            <label>Макс:</label>
+                            <input
+                                type="number"
+                                value={maxPrice}
+                                onChange={(e) => setMaxPrice(Number(e.target.value))}
+                            />
                         </div>
                     </div>
                 </div>
 
+                {/* CATEGORY */}
                 <div className={s.filterSection}>
                     <h3>Категории</h3>
-                    <form>
-                        {category?.map((cat) => (
-                            <div className={s.categoryItem} key={cat.id}>
-                                <label className={s.customRadio}>
-                                    <input
-                                        type="radio"
-                                        name="category"
-                                        value={cat.id}
-                                        checked={selectedCategory === cat.slug}
-                                        onChange={() => handleCategoryChange(cat.slug)}
-                                    />
-                                    <span className={s.radioCheckmark}></span>
-                                    {cat.name}
-                                </label>
-                            </div>
-                        ))}
-                    </form>
+
+                    {category?.map((cat) => (
+                        <div key={cat.id} className={s.categoryItem}>
+                            <label className={s.customRadio}>
+                                <input
+                                    type="radio"
+                                    name="category"
+                                    value={cat.id}
+                                    checked={selectedCategory === String(cat.id)}
+                                    onChange={() => setSelectedCategory(String(cat.id))}
+                                />
+                                <span className={s.radioCheckmark}></span>
+                                {cat.name}
+                            </label>
+                        </div>
+                    ))}
                 </div>
 
+                {/* BRAND */}
                 <div className={s.filterSection}>
                     <h3>Бренды</h3>
-                    <form>
-                        {brand?.map((br) => (
-                            <div className={s.categoryItem} key={br.id}>
-                                <label className={s.customRadio}>
-                                    <input
-                                        type="radio"
-                                        name="brand"
-                                        value={br.id}
-                                        checked={selectedBrand === br.id}
-                                        onChange={() => handleBrandChange(br.id)}
-                                    />
-                                    <span className={s.radioCheckmark}></span>
-                                    {br.name}
-                                </label>
-                            </div>
-                        ))}
-                    </form>
+
+                    {brand?.map((br) => (
+                        <div key={br.id} className={s.categoryItem}>
+                            <label className={s.customRadio}>
+                                <input
+                                    type="radio"
+                                    name="brand"
+                                    value={br.id}
+                                    checked={selectedBrand === br.id}
+                                    onChange={() => setSelectedBrand(br.id)}
+                                />
+                                <span className={s.radioCheckmark}></span>
+                                {br.name}
+                            </label>
+                        </div>
+                    ))}
                 </div>
 
+                {/* ACTIONS */}
                 <div className={s.actionButtons}>
                     <button className={s.applyButton} onClick={handleApplyFilters}>
                         Применить
@@ -164,3 +180,5 @@ export const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
         </div>
     );
 };
+
+export default Filter;

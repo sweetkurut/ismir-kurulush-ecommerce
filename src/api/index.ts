@@ -23,6 +23,8 @@ interface ProductQueryParams {
     category_id?: number;
     root_only?: boolean;
     [key: string]: any;
+    price_max?: number;
+    price_min?: number;
 }
 
 export const storesApi = {

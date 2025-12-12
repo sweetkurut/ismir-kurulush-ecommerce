@@ -51,8 +51,23 @@
     margin-bottom: 15px;
 }
 
-.priceSliderContainer {
-    margin-bottom: 10px;
+.priceInputsContainer {
+    display: flex;
+    gap: 12px;
+}
+
+.priceInputItem {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    input {
+        padding: 6px 8px;
+        border: 1px solid #dcdcdc;
+        border-radius: 6px;
+        width: 120px;
+        font-family: var(--font-opensans-m);
+    }
 }
 
 .priceRangeSlider {

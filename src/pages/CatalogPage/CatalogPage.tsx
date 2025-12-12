@@ -16,7 +16,10 @@ const ITEMS_PER_PAGE = 8;
 interface ProductQueryParams {
     page?: number;
     ordering?: string;
-    [key: string]: any;
+    category?: number;
+    brand?: number;
+    min_price?: number;
+    max_price?: number;
 }
 
 export const CatalogPage = () => {
@@ -30,8 +33,9 @@ export const CatalogPage = () => {
     const [isFilterOpen, setIsFilterOpen] = useState(false);
 
     const [searchParams] = useSearchParams();
-    const urlCategoryId = searchParams.get("category"); // ← вот тут читаем
+    const urlCategoryId = searchParams.get("category");
 
+    /** Сортировки */
     const sortOptions = useMemo(() => {
         if (!sorting?.sorting_options) return [];
         return Object.values(sorting.sorting_options).map((opt) => ({
@@ -40,16 +44,30 @@ export const CatalogPage = () => {
         }));
     }, [sorting]);
 
+    /** Подготавливаем параметры запроса */
     const getParams = useCallback(
-        (page = 1) => ({
-            page,
-            ordering: selectedSort || undefined,
-            category: urlCategoryId ? Number(urlCategoryId) : undefined,
-            ...activeFilters,
-        }),
-        [selectedSort, activeFilters]
+        (page = 1): ProductQueryParams => {
+            const filters: ProductQueryParams = {
+                page,
+                ordering: selectedSort || undefined,
+                category: undefined,
+                brand: activeFilters.brand,
+                min_price: activeFilters.min_price,
+                max_price: activeFilters.max_price,
+            };
+
+            if (urlCategoryId) {
+                filters.category = Number(urlCategoryId);
+            } else if (activeFilters.category) {
+                filters.category = Number(activeFilters.category);
+            }
+
+            return filters;
+        },
+        [selectedSort, activeFilters, urlCategoryId]
     );
 
+    /** Глобальная загрузка товаров */
     const loadProducts = useCallback(
         (params: ProductQueryParams) => {
             dispatch(fetchGetProducts(params));
@@ -57,47 +75,49 @@ export const CatalogPage = () => {
         [dispatch]
     );
 
+    /** Меняем фильтры */
     const handleFilterChange = (filters: FilterParams) => {
         setActiveFilters(filters);
         setCurrentPage(1);
-        setIsFilterOpen(false);
     };
 
+    /** Меняем сортировку */
     const handleSortChange = (value: string) => {
         const fixed = value.includes("highest_price") ? "-price" : value;
         setSelectedSort(fixed);
         setCurrentPage(1);
     };
 
+    /** Пагинация */
     const handlePageChange = (_: any, page: number) => {
         setCurrentPage(page);
-        loadProducts(getParams(page));
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
-    // При смене category в URL — сбрасываем страницу и фильтры
+    /** Если сменили категорию в URL — сброс фильтров */
     useEffect(() => {
-        setCurrentPage(1);
         setActiveFilters({});
+        setCurrentPage(1);
     }, [urlCategoryId]);
 
-    // Загружаем товары при изменении параметров
+    /** Загрузка товаров при любых изменениях */
     useEffect(() => {
         loadProducts(getParams(currentPage));
-    }, [getParams, currentPage, loadProducts]);
+    }, [currentPage, selectedSort, activeFilters, urlCategoryId]);
 
+    /** Загружаем варианты сортировки */
     useEffect(() => {
         dispatch(fetchGetSorting());
     }, [dispatch]);
 
+    /** Устанавливаем сортировку по умолчанию */
     useEffect(() => {
-        if (sortOptions.length && !selectedSort) setSelectedSort(sortOptions[0].value);
-    }, [sortOptions, selectedSort]);
+        if (sortOptions.length && !selectedSort) {
+            setSelectedSort(sortOptions[0].value);
+        }
+    }, [sortOptions]);
 
-    useEffect(() => {
-        loadProducts(getParams(1));
-    }, [loadProducts, getParams]);
-
+    /** Рендер продуктов */
     const totalPages = Math.ceil((products?.length || 0) / ITEMS_PER_PAGE);
     const currentProducts = products?.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
@@ -125,7 +145,7 @@ export const CatalogPage = () => {
                 <div className={s.catalog_wrap}>
                     <div className={s.header}>
                         <h1 className={s.title}>Каталог товаров</h1>
-                        {/* <div className={s.found}>Найдено {products?.length || 0} товаров</div> */}
+
                         <div className={s.sort}>
                             {sortOptions.length > 0 && (
                                 <CustomSelect
@@ -139,7 +159,7 @@ export const CatalogPage = () => {
                     </div>
 
                     {loading ? (
-                        <div>
+                        <div className={s.cards_grid}>
                             {Array.from({ length: 8 }).map((_, i) => (
                                 <SkeletonCard key={i} />
                             ))}

@@ -45,7 +45,6 @@ export const fetchGetProducts = createAsyncThunk<Products[], ProductQueryParams,
             if (res.status !== 200) {
                 return rejectWithValue("Server Error");
             }
-            // 🎯 ИСПРАВЛЕНИЕ: Возвращаем объект целиком (res.data)
             return res.data as Products[];
         } catch (error) {
             return rejectWithValue(`Ошибка: ${error}`);

@@ -48,13 +48,19 @@ export const ProfilePage = () => {
         }
     };
 
-    useEffect(() => {
-        dispatch(clearProfileError());
+    // useEffect(() => {
+    //     dispatch(clearProfileError());
 
-        if (isAuthenticated && login?.access) {
+    //     if (isAuthenticated && login?.access) {
+    //         dispatch(fetchGetProfile());
+    //     }
+    // }, [dispatch, isAuthenticated, login]);
+
+    useEffect(() => {
+        if (isAuthenticated) {
             dispatch(fetchGetProfile());
         }
-    }, [dispatch, isAuthenticated, login]);
+    }, [dispatch, isAuthenticated]);
 
     const handleLogin = () => {
         navigate("/login");

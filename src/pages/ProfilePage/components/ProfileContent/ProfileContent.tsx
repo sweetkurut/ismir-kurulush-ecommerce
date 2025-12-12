@@ -44,7 +44,7 @@ export const ProfileContent = () => {
 
     return (
         <div className={s.wrapper}>
-            {loading ? (
+            {loading || !profile ? (
                 <SkeletonProfileContent />
             ) : (
                 <div className={s.tabContent}>

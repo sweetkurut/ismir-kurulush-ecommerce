@@ -85,7 +85,7 @@ export const BasketPage = memo(() => {
         return <BasketEmptyState />;
     }
 
-    const handlePageChange = (event: React.MouseEvent<HTMLButtonElement> | null, page: number) => {
+    const handlePageChange = (_event: React.MouseEvent<HTMLButtonElement> | null, page: number) => {
         setCurrentPage(page);
     };
 
